@@ -31,12 +31,20 @@
 Accuracy · Precision · Recall · F1 · Rule Compliance · Human Agreement
 (계산 정의는 PRD 부록 A 참조. Micro/Macro 및 per-type 모두 제공.)
 
-## UI 레이아웃 (SPA 4분할)
+## UI 아키텍처 (2페이지 분리)
 
-- Left: Prompt Editor (v1/v2)
-- Center: Evaluation Progress (실시간 PASS/FAIL/사유)
-- Right: Metrics Dashboard (지표 실시간 갱신)
-- Bottom: Failure Explorer (실패 케이스 심층 분석)
+운영(프롬프트 엔지니어링)과 실사용을 **별도 라우트로 분리**한다 — 섞으면 UX가 어색해짐.
+
+- **`/` 평가 랩 (운영)** — 정답지 100건 채점. Run bar(v1/v2·케이스 수·Mock·채점·배포), 결과 요약(punchy), 케이스 클릭 시 **문서 뷰어 모달**(정답 대비 TP/FP/FN 하이라이트), Metrics rail(혼동행렬·유형별 F1·배포 결정). 프롬프트 편집은 **드로어**(버튼)로 숨김. "이 버전 배포"로 확정.
+- **`/review` 리뷰어 (실사용)** — 현업용. **Word(.docx)/텍스트 업로드** 또는 예시 문서 → 확정 프롬프트로 리뷰 → 문제 구간 하이라이트 + verdict/이슈 칩. 정답지·지표 없음.
+- 확정 프롬프트는 랩→리뷰어로 `lib/confirmed.ts`(localStorage)로 전달.
+- 공용: `app/components/DocumentViewer.tsx`(워드 스타일+하이라이트), `lib/deviation.ts`(초안→섹션 파서). `.docx`는 `mammoth` 브라우저 빌드로 클라이언트 파싱.
+- API: `/api/run`(SSE 채점), `/api/review`(단건 리뷰), `/api/dataset`(요약+샘플).
+
+## 폰트
+
+- 한글 UI라 DS의 serif(영문용)를 헤딩에 쓰면 시스템 명조로 떨어져 촌스럽다.
+  **Pretendard**(`--app-font-sans`)를 헤딩·본문에 사용. 색·간격·컴포넌트 토큰은 공유 DS 그대로.
 
 ## 프롬프트 라이프사이클
 
