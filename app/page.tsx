@@ -75,6 +75,7 @@ export default function Page() {
   const [selected, setSelected] = useState<string | null>(null);
   const [failFilter, setFailFilter] = useState<IssueType | "all">("all");
   const [theme, setTheme] = useState<"system" | "light" | "dark">("system");
+  const [forceMock, setForceMock] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -107,7 +108,12 @@ export default function Page() {
     const res = await fetch("/api/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ system: prompts[active], promptId: active, limit }),
+      body: JSON.stringify({
+        system: prompts[active],
+        promptId: active,
+        limit,
+        useMock: forceMock || undefined,
+      }),
       signal: controller.signal,
     });
     if (!res.body) return;
@@ -197,9 +203,13 @@ export default function Page() {
             </div>
           </div>
           <div className="header-right">
-            <span className={`badge ${mode === "mock" ? "mock" : ""}`}>
+            <span className={`badge ${forceMock || mode === "mock" ? "mock" : ""}`}>
               <span className="dot" />
-              {mode === "mock" ? "MOCK (API 키 없음)" : "Claude 실행"}
+              {forceMock
+                ? "MOCK (강제)"
+                : mode === "mock"
+                ? "MOCK (API 키 없음)"
+                : "Claude 실행"}
             </span>
             <button
               className="toggle"
@@ -259,13 +269,23 @@ export default function Page() {
                 초기화
               </button>
             </div>
+            <label className="row" style={{ cursor: "pointer", gap: 8 }}>
+              <input
+                type="checkbox"
+                checked={forceMock}
+                onChange={(e) => setForceMock(e.target.checked)}
+              />
+              <span className="hint">
+                Mock 모드로 실행 (API 비용 없음 · 크레딧 부족 시 사용)
+              </span>
+            </label>
             <button className="btn btn-primary" onClick={runEvaluation} disabled={running}>
               {running ? `실행 중… ${run.done}/${run.total}` : `▶ ${active.toUpperCase()} 평가 실행`}
             </button>
             <div className="hint">
-              {mode === "mock"
-                ? "API 키가 없어 결정적 Mock 리뷰어로 실행됩니다. v1은 의도적으로 노이즈가 있어 v2보다 지표가 낮습니다."
-                : "Claude가 각 초안을 구조화 JSON으로 리뷰합니다."}
+              {forceMock || mode === "mock"
+                ? "결정적 Mock 리뷰어로 실행됩니다. v1은 의도적으로 노이즈가 있어 v2보다 지표가 낮습니다."
+                : "Claude가 각 초안을 구조화 JSON으로 리뷰합니다. (Anthropic 크레딧 필요)"}
             </div>
           </div>
         </div>
