@@ -21,8 +21,8 @@ export function Nav() {
   const iconName = theme === "system" ? "monitor" : theme === "light" ? "sun" : "moon";
 
   const tabs = [
-    { href: "/", label: "평가 랩 · 운영" },
-    { href: "/review", label: "리뷰어 · 실사용" },
+    { href: "/", label: "Operation" },
+    { href: "/review", label: "Review" },
   ];
 
   return (

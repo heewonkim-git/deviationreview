@@ -601,14 +601,15 @@ input[type="checkbox"] {
   height: 6px;
   border-radius: 50%;
 }
+/* 혼동행렬 도트: 알록달록 대신 민트→뉴트럴 단색 그라데이션. */
 .cell.tp .k::before {
-  background: var(--ds-success);
+  background: var(--ds-brand);
 }
 .cell.fp .k::before {
-  background: var(--ds-danger);
+  background: color-mix(in srgb, var(--ds-brand) 72%, var(--ds-text-subtle));
 }
 .cell.fn .k::before {
-  background: var(--ds-warning);
+  background: color-mix(in srgb, var(--ds-brand) 44%, var(--ds-text-subtle));
 }
 .cell.tn .k::before {
   background: var(--ds-text-subtle);
