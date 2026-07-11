@@ -19,6 +19,8 @@
   --ds-brand-active: #0b8a7d;
   --ds-brand-fg: #ffffff;
   --ds-brand-subtle: #d9faf5;
+  --ds-danger: #9e2b3a; /* 얌전하고 무거운 빈티지 루즈 레드 */
+  --ds-danger-bg: #f4e0e3;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -27,14 +29,18 @@
     --ds-brand-active: #98f0df;
     --ds-brand-fg: #06251f;
     --ds-brand-subtle: rgba(200, 252, 243, 0.14);
+    --ds-danger: #c85361;
+    --ds-danger-bg: rgba(200, 83, 97, 0.14);
   }
 }
 :root[data-theme="dark"] {
-  --ds-brand: #2dd4bf;
-  --ds-brand-hover: #45dccb;
-  --ds-brand-active: #63e4d6;
-  --ds-brand-fg: #04201c;
-  --ds-brand-subtle: rgba(45, 212, 191, 0.16);
+  --ds-brand: #c8fcf3;
+  --ds-brand-hover: #b0f7ea;
+  --ds-brand-active: #98f0df;
+  --ds-brand-fg: #06251f;
+  --ds-brand-subtle: rgba(200, 252, 243, 0.14);
+  --ds-danger: #c85361;
+  --ds-danger-bg: rgba(200, 83, 97, 0.14);
 }
 :root[data-theme="light"] {
   --ds-brand: #0eb5a4;
@@ -42,6 +48,8 @@
   --ds-brand-active: #0b8a7d;
   --ds-brand-fg: #ffffff;
   --ds-brand-subtle: #d9faf5;
+  --ds-danger: #9e2b3a;
+  --ds-danger-bg: #f4e0e3;
 }
 
 * {
@@ -601,18 +609,9 @@ input[type="checkbox"] {
   height: 6px;
   border-radius: 50%;
 }
-/* 혼동행렬 도트: 알록달록 대신 민트→뉴트럴 단색 그라데이션. */
-.cell.tp .k::before {
+/* 혼동행렬 도트: 전부 민트 단색으로 통일. */
+.cell .k::before {
   background: var(--ds-brand);
-}
-.cell.fp .k::before {
-  background: color-mix(in srgb, var(--ds-brand) 72%, var(--ds-text-subtle));
-}
-.cell.fn .k::before {
-  background: color-mix(in srgb, var(--ds-brand) 44%, var(--ds-text-subtle));
-}
-.cell.tn .k::before {
-  background: var(--ds-text-subtle);
 }
 .cell .v {
   font-size: var(--ds-text-xl);
