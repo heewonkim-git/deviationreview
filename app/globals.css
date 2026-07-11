@@ -14,19 +14,19 @@
 /* 이 앱의 포인트 색은 민트 단색. 공유 DS 브랜드 토큰을 앱 스코프로 민트 오버라이드.
    (모든 --ds-brand 사용처가 자동으로 민트가 됨.) 테마별로 각각 지정해 소스 순서상 우선. */
 :root {
-  --ds-brand: #0aa6c4;
-  --ds-brand-hover: #0993ae;
-  --ds-brand-active: #077e96;
+  --ds-brand: #0eb5a4;
+  --ds-brand-hover: #0da192;
+  --ds-brand-active: #0b8a7d;
   --ds-brand-fg: #ffffff;
-  --ds-brand-subtle: #d5eff6;
+  --ds-brand-subtle: #d9faf5;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --ds-brand: #38cfe6;
-    --ds-brand-hover: #56d9ec;
-    --ds-brand-active: #74e2f1;
-    --ds-brand-fg: #04222c;
-    --ds-brand-subtle: rgba(56, 207, 230, 0.16);
+    --ds-brand: #c8fcf3;
+    --ds-brand-hover: #b0f7ea;
+    --ds-brand-active: #98f0df;
+    --ds-brand-fg: #06251f;
+    --ds-brand-subtle: rgba(200, 252, 243, 0.14);
   }
 }
 :root[data-theme="dark"] {
@@ -37,11 +37,11 @@
   --ds-brand-subtle: rgba(45, 212, 191, 0.16);
 }
 :root[data-theme="light"] {
-  --ds-brand: #0aa6c4;
-  --ds-brand-hover: #0993ae;
-  --ds-brand-active: #077e96;
+  --ds-brand: #0eb5a4;
+  --ds-brand-hover: #0da192;
+  --ds-brand-active: #0b8a7d;
   --ds-brand-fg: #ffffff;
-  --ds-brand-subtle: #d5eff6;
+  --ds-brand-subtle: #d9faf5;
 }
 
 * {
