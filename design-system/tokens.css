@@ -1,0 +1,92 @@
+/* ============================================================================
+   Shared Design System tokens — v1.1.0 (Samsung Blue)
+   Golden Batch Multi-Agent × Deviation Review 공용.
+   제품은 var(--ds-*) 역할만 참조하고 색을 하드코딩하지 않는다.
+   변경 시: 두 제품 모두 이득일 때만, tokens.css + --ds-version을 함께 올린다.
+   ========================================================================== */
+:root {
+  --ds-version: "1.1.0";
+  --ds-brand: #1428a0; --ds-brand-hover: #0f1f80; --ds-brand-active: #0a1660;
+  --ds-brand-fg: #ffffff; --ds-brand-subtle: #eaeefb;
+  --ds-bg: #fbfcfe; --ds-surface: #ffffff; --ds-surface-2: #f2f5fa;
+  --ds-border: #e4e8f0; --ds-border-strong: #c9d0de;
+  --ds-text: #0c1017; --ds-text-muted: #4c5568; --ds-text-subtle: #8a93a5;
+  --ds-success: #16a34a; --ds-success-bg: #f0fdf4;
+  --ds-warning: #d97706; --ds-warning-bg: #fffbeb;
+  --ds-danger: #dc2626; --ds-danger-bg: #fef2f2;
+  --ds-info: #2a5bd7; --ds-info-bg: #eaf0fc;
+  --ds-accent-1: #1428a0; --ds-accent-1-bg: rgba(20,40,160,0.06);
+  --ds-accent-2: #7c3aed; --ds-accent-2-bg: rgba(124,58,237,0.06);
+  --ds-accent-3: #0d9488; --ds-accent-3-bg: rgba(13,148,136,0.06);
+  --ds-accent-4: #d97706; --ds-accent-4-bg: rgba(217,119,6,0.06);
+  --ds-font-sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  --ds-font-serif: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --ds-font-mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+  --ds-text-xs: 0.75rem; --ds-text-sm: 0.8125rem; --ds-text-base: 0.875rem;
+  --ds-text-md: 0.9375rem; --ds-text-lg: 1.125rem; --ds-text-xl: 1.375rem; --ds-text-2xl: 1.75rem;
+  --ds-radius-sm: 4px; --ds-radius-md: 8px; --ds-radius-lg: 12px; --ds-radius-full: 9999px;
+  --ds-shadow-sm: 0 1px 2px rgba(12,16,23,0.06);
+  --ds-shadow-md: 0 4px 12px rgba(12,16,23,0.08);
+  --ds-shadow-lg: 0 10px 30px rgba(12,16,23,0.12);
+  --ds-space-1: 4px; --ds-space-2: 8px; --ds-space-3: 12px;
+  --ds-space-4: 16px; --ds-space-6: 24px; --ds-space-8: 32px;
+  --ds-focus-ring: 0 0 0 2px var(--ds-surface), 0 0 0 4px rgba(20,40,160,0.5);
+  --ds-transition: 150ms ease;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ds-brand: #6c8ff5; --ds-brand-hover: #89a6f8; --ds-brand-active: #a9bffb;
+    --ds-brand-fg: #0a0c12; --ds-brand-subtle: rgba(108,143,245,0.16);
+    --ds-bg: #090b10; --ds-surface: #12151c; --ds-surface-2: #1b1f28;
+    --ds-border: #232936; --ds-border-strong: #333b4a;
+    --ds-text: #eaedf3; --ds-text-muted: #98a2b3; --ds-text-subtle: #6b7484;
+    --ds-success: #22c55e; --ds-success-bg: rgba(34,197,94,0.12);
+    --ds-warning: #f59e0b; --ds-warning-bg: rgba(245,158,11,0.12);
+    --ds-danger: #f87171; --ds-danger-bg: rgba(248,113,113,0.12);
+    --ds-info: #6c93f5; --ds-info-bg: rgba(108,147,245,0.14);
+    --ds-accent-1: #6c8ff5; --ds-accent-1-bg: rgba(108,143,245,0.14);
+    --ds-accent-2: #a78bfa; --ds-accent-2-bg: rgba(167,139,250,0.14);
+    --ds-accent-3: #2dd4bf; --ds-accent-3-bg: rgba(45,212,191,0.14);
+    --ds-accent-4: #fbbf24; --ds-accent-4-bg: rgba(251,191,36,0.14);
+    --ds-shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+    --ds-shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+    --ds-shadow-lg: 0 10px 30px rgba(0,0,0,0.6);
+    --ds-focus-ring: 0 0 0 2px var(--ds-surface), 0 0 0 4px rgba(108,143,245,0.6);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ds-brand: #6c8ff5; --ds-brand-hover: #89a6f8; --ds-brand-active: #a9bffb;
+  --ds-brand-fg: #0a0c12; --ds-brand-subtle: rgba(108,143,245,0.16);
+  --ds-bg: #090b10; --ds-surface: #12151c; --ds-surface-2: #1b1f28;
+  --ds-border: #232936; --ds-border-strong: #333b4a;
+  --ds-text: #eaedf3; --ds-text-muted: #98a2b3; --ds-text-subtle: #6b7484;
+  --ds-success: #22c55e; --ds-success-bg: rgba(34,197,94,0.12);
+  --ds-warning: #f59e0b; --ds-warning-bg: rgba(245,158,11,0.12);
+  --ds-danger: #f87171; --ds-danger-bg: rgba(248,113,113,0.12);
+  --ds-info: #6c93f5; --ds-info-bg: rgba(108,147,245,0.14);
+  --ds-accent-1: #6c8ff5; --ds-accent-1-bg: rgba(108,143,245,0.14);
+  --ds-accent-2: #a78bfa; --ds-accent-2-bg: rgba(167,139,250,0.14);
+  --ds-accent-3: #2dd4bf; --ds-accent-3-bg: rgba(45,212,191,0.14);
+  --ds-accent-4: #fbbf24; --ds-accent-4-bg: rgba(251,191,36,0.14);
+  --ds-shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --ds-shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+  --ds-shadow-lg: 0 10px 30px rgba(0,0,0,0.6);
+  --ds-focus-ring: 0 0 0 2px var(--ds-surface), 0 0 0 4px rgba(108,143,245,0.6);
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --ds-brand: #1428a0; --ds-brand-hover: #0f1f80; --ds-brand-active: #0a1660;
+  --ds-brand-fg: #ffffff; --ds-brand-subtle: #eaeefb;
+  --ds-bg: #fbfcfe; --ds-surface: #ffffff; --ds-surface-2: #f2f5fa;
+  --ds-border: #e4e8f0; --ds-border-strong: #c9d0de;
+  --ds-text: #0c1017; --ds-text-muted: #4c5568; --ds-text-subtle: #8a93a5;
+  --ds-success: #16a34a; --ds-success-bg: #f0fdf4;
+  --ds-warning: #d97706; --ds-warning-bg: #fffbeb;
+  --ds-danger: #dc2626; --ds-danger-bg: #fef2f2;
+  --ds-info: #2a5bd7; --ds-info-bg: #eaf0fc;
+  --ds-accent-1: #1428a0; --ds-accent-1-bg: rgba(20,40,160,0.06);
+  --ds-accent-2: #7c3aed; --ds-accent-2-bg: rgba(124,58,237,0.06);
+  --ds-accent-3: #0d9488; --ds-accent-3-bg: rgba(13,148,136,0.06);
+  --ds-accent-4: #d97706; --ds-accent-4-bg: rgba(217,119,6,0.06);
+}

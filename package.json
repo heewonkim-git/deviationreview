@@ -1,0 +1,28 @@
+{
+  "name": "deviation-review-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deviation Review Agent Evaluation Lab — LLM 검증 교육용 SPA",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "gen:data": "tsx scripts/generate-dataset.ts",
+    "check:data": "tsx scripts/validate-dataset.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "next": "15.5.7",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

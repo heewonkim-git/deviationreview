@@ -1,0 +1,2448 @@
+[
+  {
+    "id": "DEV-0001",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0001\n구역: 무균 충전실 | 설비: 충전기 FL-204 | 배치: P-3325-1\n[사건 개요]\n충전 공정 중 온도 일탈. 제품 온도 측정값 12.4°C (규격 2–8°C).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 제품 온도이(가) 규격(2–8°C)을 벗어났는가? → 충전기 FL-204의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 충전기 FL-204 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(P-3325-1)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-P-3325-1).\n\n[CAPA]\n- 시정조치(Corrective): 충전기 FL-204 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": []
+  },
+  {
+    "id": "DEV-0002",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0002\n구역: 고형제 3라인 | 설비: 타정기 TP-11 | 배치: P-3325-2\n[사건 개요]\n타정 공정 중 경도 규격 미달. 정제 경도 측정값 5.9 kp (규격 8–12 kp).\n\n[근본원인 분석]\n정제 경도이(가) 규격(8–12 kp)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 타정기 TP-11를 재가동하였다.\n\n[결론]\n5.9 kp 측정으로 규격(8–12 kp)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0003",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0003\n구역: 칭량실 | 설비: 자동칭량기 WS-7 | 배치: T-4417-3\n[사건 개요]\n칭량 편차 발생. 충전 중량 측정값 512 mg (규격 500±5 mg).\n\n[근본원인 분석]\n충전 중량이(가) 규격(500±5 mg)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 자동칭량기 WS-7 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 자동칭량기 WS-7 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n512 mg 측정으로 규격(500±5 mg)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0004",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0004\n구역: 제조 2호기 | 설비: CIP 스킨 C-3 | 배치: C-1180-4\n[사건 개요]\n세정 밸리데이션 잔류물 초과. 잔류 세정제 측정값 18 ppm (규격 ≤10 ppm).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 잔류 세정제이(가) 규격(≤10 ppm)을 벗어났는가? → CIP 스킨 C-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 CIP 스킨 C-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(C-1180-4)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-C-1180-4).\n\n[CAPA]\n- 시정조치(Corrective): CIP 스킨 C-3 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": []
+  },
+  {
+    "id": "DEV-0005",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0005\n구역: 포장 1라인 | 설비: 라벨러 LB-2 | 배치: P-3325-5\n[사건 개요]\n라벨 혼입 의심. 라벨 버전 측정값 Rev. B (규격 Rev. C).\n\n[근본원인 분석]\n라벨 버전이(가) 규격(Rev. C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 라벨러 LB-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(P-3325-5)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-P-3325-5).\n\n[CAPA]\n- 시정조치(Corrective): 라벨러 LB-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0006",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0006\n구역: Grade C 구역 | 설비: 공조기 AHU-5 | 배치: U-7740-6\n[사건 개요]\nHVAC 차압 이탈. 실간 차압 측정값 6 Pa (규격 10–15 Pa).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 실간 차압이(가) 규격(10–15 Pa)을 벗어났는가? → 공조기 AHU-5의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 공조기 AHU-5 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 공조기 AHU-5 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n6 Pa 측정으로 규격(10–15 Pa)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0007",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0007\n구역: 유틸리티 | 설비: 정제수 시스템 PW-1 | 배치: L-2213-7\n[사건 개요]\n정제수 전도도 상승. 전도도 측정값 2.1 µS/cm (규격 ≤1.3 µS/cm).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 전도도이(가) 규격(≤1.3 µS/cm)을 벗어났는가? → 정제수 시스템 PW-1의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(L-2213-7)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-L-2213-7).\n\n[CAPA]\n- 시정조치(Corrective): 정제수 시스템 PW-1를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0008",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0008\n구역: QC 미생물 | 설비: 아이솔레이터 IS-2 | 배치: H-5561-8\n[사건 개요]\n무균 시험 중 오염 의심. 환경 모니터링 CFU 측정값 4 CFU (규격 ≤1 CFU).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 환경 모니터링 CFU이(가) 규격(≤1 CFU)을 벗어났는가? → 아이솔레이터 IS-2의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 아이솔레이터 IS-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(H-5561-8)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-H-5561-8).\n\n[CAPA]\n- 시정조치(Corrective): 아이솔레이터 IS-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n4 CFU 측정으로 규격(≤1 CFU)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0009",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0009\n구역: 제조 1호기 | 설비: MES 단말 M-12 | 배치: H-5561-9\n[사건 개요]\n배치 기록서 기재 누락. 공정 기록 측정값 3개 항목 공란 (규격 전 항목 기재).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 공정 기록이(가) 규격(전 항목 기재)을 벗어났는가? → MES 단말 M-12의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(H-5561-9)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-H-5561-9).\n\n[CAPA]\n- 시정조치(Corrective): MES 단말 M-12를 재가동하였다.\n\n[결론]\n3개 항목 공란 측정으로 규격(전 항목 기재)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0010",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0010\n구역: 동결건조실 | 설비: 동결건조기 LY-3 | 배치: U-7740-10\n[사건 개요]\n정전으로 인한 공정 중단. 동결건조 온도 측정값 -22°C 상승 (규격 -40°C 유지).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 동결건조 온도이(가) 규격(-40°C 유지)을 벗어났는가? → 동결건조기 LY-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 동결건조기 LY-3 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n-22°C 상승 측정으로 규격(-40°C 유지)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0011",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0011\n구역: 무균 충전실 | 설비: 충전기 FL-204 | 배치: U-7740-11\n[사건 개요]\n충전 공정 중 온도 일탈. 제품 온도 측정값 12.4°C (규격 2–8°C).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 제품 온도이(가) 규격(2–8°C)을 벗어났는가? → 충전기 FL-204의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 충전기 FL-204 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(U-7740-11)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-U-7740-11).\n\n[CAPA]\n- 시정조치(Corrective): 충전기 FL-204를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0012",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0012\n구역: 고형제 3라인 | 설비: 타정기 TP-11 | 배치: W-9902-12\n[사건 개요]\n타정 공정 중 경도 규격 미달. 정제 경도 측정값 5.9 kp (규격 8–12 kp).\n\n[근본원인 분석]\n정제 경도이(가) 규격(8–12 kp)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 타정기 TP-11 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0013",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0013\n구역: 칭량실 | 설비: 자동칭량기 WS-7 | 배치: C-1180-13\n[사건 개요]\n칭량 편차 발생. 충전 중량 측정값 512 mg (규격 500±5 mg).\n\n[근본원인 분석]\n충전 중량이(가) 규격(500±5 mg)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 자동칭량기 WS-7 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(C-1180-13)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-C-1180-13).\n\n[CAPA]\n- 시정조치(Corrective): 자동칭량기 WS-7 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n512 mg 측정으로 규격(500±5 mg)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0014",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0014\n구역: 제조 2호기 | 설비: CIP 스킨 C-3 | 배치: L-2213-14\n[사건 개요]\n세정 밸리데이션 잔류물 초과. 잔류 세정제 측정값 18 ppm (규격 ≤10 ppm).\n\n[근본원인 분석]\n잔류 세정제이(가) 규격(≤10 ppm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 CIP 스킨 C-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(L-2213-14)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-L-2213-14).\n\n[CAPA]\n- 시정조치(Corrective): CIP 스킨 C-3를 재가동하였다.\n\n[결론]\n18 ppm 측정으로 규격(≤10 ppm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0015",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0015\n구역: 포장 1라인 | 설비: 라벨러 LB-2 | 배치: W-9902-15\n[사건 개요]\n라벨 혼입 의심. 라벨 버전 측정값 Rev. B (규격 Rev. C).\n\n[근본원인 분석]\n라벨 버전이(가) 규격(Rev. C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(W-9902-15)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-W-9902-15).\n\n[CAPA]\n- 시정조치(Corrective): 라벨러 LB-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\nRev. B 측정으로 규격(Rev. C)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0016",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0016\n구역: Grade C 구역 | 설비: 공조기 AHU-5 | 배치: B-2381-16\n[사건 개요]\nHVAC 차압 이탈. 실간 차압 측정값 6 Pa (규격 10–15 Pa).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 실간 차압이(가) 규격(10–15 Pa)을 벗어났는가? → 공조기 AHU-5의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 공조기 AHU-5를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0017",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0017\n구역: 유틸리티 | 설비: 정제수 시스템 PW-1 | 배치: B-2381-17\n[사건 개요]\n정제수 전도도 상승. 전도도 측정값 2.1 µS/cm (규격 ≤1.3 µS/cm).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 전도도이(가) 규격(≤1.3 µS/cm)을 벗어났는가? → 정제수 시스템 PW-1의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(B-2381-17)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-B-2381-17).\n\n[CAPA]\n- 시정조치(Corrective): 정제수 시스템 PW-1 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n2.1 µS/cm 측정으로 규격(≤1.3 µS/cm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0018",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0018\n구역: QC 미생물 | 설비: 아이솔레이터 IS-2 | 배치: H-5561-18\n[사건 개요]\n무균 시험 중 오염 의심. 환경 모니터링 CFU 측정값 4 CFU (규격 ≤1 CFU).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 환경 모니터링 CFU이(가) 규격(≤1 CFU)을 벗어났는가? → 아이솔레이터 IS-2의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(H-5561-18)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-H-5561-18).\n\n[CAPA]\n- 시정조치(Corrective): 아이솔레이터 IS-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0019",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0019\n구역: 제조 1호기 | 설비: MES 단말 M-12 | 배치: T-4417-19\n[사건 개요]\n배치 기록서 기재 누락. 공정 기록 측정값 3개 항목 공란 (규격 전 항목 기재).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 공정 기록이(가) 규격(전 항목 기재)을 벗어났는가? → MES 단말 M-12의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 MES 단말 M-12 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(T-4417-19)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-T-4417-19).\n\n[CAPA]\n- 시정조치(Corrective): MES 단말 M-12 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": []
+  },
+  {
+    "id": "DEV-0020",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0020\n구역: 동결건조실 | 설비: 동결건조기 LY-3 | 배치: C-1180-20\n[사건 개요]\n정전으로 인한 공정 중단. 동결건조 온도 측정값 -22°C 상승 (규격 -40°C 유지).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 동결건조 온도이(가) 규격(-40°C 유지)을 벗어났는가? → 동결건조기 LY-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 동결건조기 LY-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(C-1180-20)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-C-1180-20).\n\n[CAPA]\n- 시정조치(Corrective): 동결건조기 LY-3를 재가동하였다.\n\n[결론]\n-22°C 상승 측정으로 규격(-40°C 유지)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0021",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0021\n구역: 무균 충전실 | 설비: 충전기 FL-204 | 배치: S-6604-21\n[사건 개요]\n충전 공정 중 온도 일탈. 제품 온도 측정값 12.4°C (규격 2–8°C).\n\n[근본원인 분석]\n제품 온도이(가) 규격(2–8°C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 충전기 FL-204 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 충전기 FL-204를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0022",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0022\n구역: 고형제 3라인 | 설비: 타정기 TP-11 | 배치: W-9902-22\n[사건 개요]\n타정 공정 중 경도 규격 미달. 정제 경도 측정값 5.9 kp (규격 8–12 kp).\n\n[근본원인 분석]\n정제 경도이(가) 규격(8–12 kp)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 타정기 TP-11 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(W-9902-22)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-W-9902-22).\n\n[CAPA]\n- 시정조치(Corrective): 타정기 TP-11를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0023",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0023\n구역: 칭량실 | 설비: 자동칭량기 WS-7 | 배치: L-2213-23\n[사건 개요]\n칭량 편차 발생. 충전 중량 측정값 512 mg (규격 500±5 mg).\n\n[근본원인 분석]\n충전 중량이(가) 규격(500±5 mg)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 자동칭량기 WS-7를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0024",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0024\n구역: 제조 2호기 | 설비: CIP 스킨 C-3 | 배치: H-5561-24\n[사건 개요]\n세정 밸리데이션 잔류물 초과. 잔류 세정제 측정값 18 ppm (규격 ≤10 ppm).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 잔류 세정제이(가) 규격(≤10 ppm)을 벗어났는가? → CIP 스킨 C-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 CIP 스킨 C-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(H-5561-24)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-H-5561-24).\n\n[CAPA]\n- 시정조치(Corrective): CIP 스킨 C-3 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n18 ppm 측정으로 규격(≤10 ppm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0025",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0025\n구역: 포장 1라인 | 설비: 라벨러 LB-2 | 배치: P-3325-25\n[사건 개요]\n라벨 혼입 의심. 라벨 버전 측정값 Rev. B (규격 Rev. C).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 라벨 버전이(가) 규격(Rev. C)을 벗어났는가? → 라벨러 LB-2의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 라벨러 LB-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(P-3325-25)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-P-3325-25).\n\n[CAPA]\n- 시정조치(Corrective): 라벨러 LB-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\nRev. B 측정으로 규격(Rev. C)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0026",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0026\n구역: Grade C 구역 | 설비: 공조기 AHU-5 | 배치: L-2213-26\n[사건 개요]\nHVAC 차압 이탈. 실간 차압 측정값 6 Pa (규격 10–15 Pa).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 실간 차압이(가) 규격(10–15 Pa)을 벗어났는가? → 공조기 AHU-5의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 공조기 AHU-5 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(L-2213-26)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-L-2213-26).\n\n[CAPA]\n- 시정조치(Corrective): 공조기 AHU-5 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": []
+  },
+  {
+    "id": "DEV-0027",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0027\n구역: 유틸리티 | 설비: 정제수 시스템 PW-1 | 배치: U-7740-27\n[사건 개요]\n정제수 전도도 상승. 전도도 측정값 2.1 µS/cm (규격 ≤1.3 µS/cm).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 전도도이(가) 규격(≤1.3 µS/cm)을 벗어났는가? → 정제수 시스템 PW-1의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 정제수 시스템 PW-1 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(U-7740-27)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-U-7740-27).\n\n[CAPA]\n- 시정조치(Corrective): 정제수 시스템 PW-1를 재가동하였다.\n\n[결론]\n2.1 µS/cm 측정으로 규격(≤1.3 µS/cm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0028",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0028\n구역: QC 미생물 | 설비: 아이솔레이터 IS-2 | 배치: L-2213-28\n[사건 개요]\n무균 시험 중 오염 의심. 환경 모니터링 CFU 측정값 4 CFU (규격 ≤1 CFU).\n\n[근본원인 분석]\n환경 모니터링 CFU이(가) 규격(≤1 CFU)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 아이솔레이터 IS-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 아이솔레이터 IS-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0029",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0029\n구역: 제조 1호기 | 설비: MES 단말 M-12 | 배치: U-7740-29\n[사건 개요]\n배치 기록서 기재 누락. 공정 기록 측정값 3개 항목 공란 (규격 전 항목 기재).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 공정 기록이(가) 규격(전 항목 기재)을 벗어났는가? → MES 단말 M-12의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): MES 단말 M-12를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0030",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0030\n구역: 동결건조실 | 설비: 동결건조기 LY-3 | 배치: B-2381-30\n[사건 개요]\n정전으로 인한 공정 중단. 동결건조 온도 측정값 -22°C 상승 (규격 -40°C 유지).\n\n[근본원인 분석]\n동결건조 온도이(가) 규격(-40°C 유지)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 동결건조기 LY-3를 재가동하였다.\n\n[결론]\n-22°C 상승 측정으로 규격(-40°C 유지)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0031",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0031\n구역: 무균 충전실 | 설비: 충전기 FL-204 | 배치: L-2213-31\n[사건 개요]\n충전 공정 중 온도 일탈. 제품 온도 측정값 12.4°C (규격 2–8°C).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 제품 온도이(가) 규격(2–8°C)을 벗어났는가? → 충전기 FL-204의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(L-2213-31)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-L-2213-31).\n\n[CAPA]\n- 시정조치(Corrective): 충전기 FL-204 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0032",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0032\n구역: 고형제 3라인 | 설비: 타정기 TP-11 | 배치: W-9902-32\n[사건 개요]\n타정 공정 중 경도 규격 미달. 정제 경도 측정값 5.9 kp (규격 8–12 kp).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 정제 경도이(가) 규격(8–12 kp)을 벗어났는가? → 타정기 TP-11의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 타정기 TP-11 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 타정기 TP-11 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n5.9 kp 측정으로 규격(8–12 kp)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0033",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0033\n구역: 칭량실 | 설비: 자동칭량기 WS-7 | 배치: P-3325-33\n[사건 개요]\n칭량 편차 발생. 충전 중량 측정값 512 mg (규격 500±5 mg).\n\n[근본원인 분석]\n충전 중량이(가) 규격(500±5 mg)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 자동칭량기 WS-7 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 자동칭량기 WS-7 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n512 mg 측정으로 규격(500±5 mg)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0034",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0034\n구역: 제조 2호기 | 설비: CIP 스킨 C-3 | 배치: S-6604-34\n[사건 개요]\n세정 밸리데이션 잔류물 초과. 잔류 세정제 측정값 18 ppm (규격 ≤10 ppm).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 잔류 세정제이(가) 규격(≤10 ppm)을 벗어났는가? → CIP 스킨 C-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 CIP 스킨 C-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): CIP 스킨 C-3 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0035",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0035\n구역: 포장 1라인 | 설비: 라벨러 LB-2 | 배치: H-5561-35\n[사건 개요]\n라벨 혼입 의심. 라벨 버전 측정값 Rev. B (규격 Rev. C).\n\n[근본원인 분석]\n라벨 버전이(가) 규격(Rev. C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 라벨러 LB-2를 재가동하였다.\n\n[결론]\nRev. B 측정으로 규격(Rev. C)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0036",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0036\n구역: Grade C 구역 | 설비: 공조기 AHU-5 | 배치: R-8890-36\n[사건 개요]\nHVAC 차압 이탈. 실간 차압 측정값 6 Pa (규격 10–15 Pa).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 실간 차압이(가) 규격(10–15 Pa)을 벗어났는가? → 공조기 AHU-5의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(R-8890-36)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-R-8890-36).\n\n[CAPA]\n- 시정조치(Corrective): 공조기 AHU-5를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0037",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0037\n구역: 유틸리티 | 설비: 정제수 시스템 PW-1 | 배치: P-3325-37\n[사건 개요]\n정제수 전도도 상승. 전도도 측정값 2.1 µS/cm (규격 ≤1.3 µS/cm).\n\n[근본원인 분석]\n전도도이(가) 규격(≤1.3 µS/cm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(P-3325-37)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-P-3325-37).\n\n[CAPA]\n- 시정조치(Corrective): 정제수 시스템 PW-1를 재가동하였다.\n\n[결론]\n2.1 µS/cm 측정으로 규격(≤1.3 µS/cm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0038",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0038\n구역: QC 미생물 | 설비: 아이솔레이터 IS-2 | 배치: R-8890-38\n[사건 개요]\n무균 시험 중 오염 의심. 환경 모니터링 CFU 측정값 4 CFU (규격 ≤1 CFU).\n\n[근본원인 분석]\n환경 모니터링 CFU이(가) 규격(≤1 CFU)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 아이솔레이터 IS-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 아이솔레이터 IS-2를 재가동하였다.\n\n[결론]\n4 CFU 측정으로 규격(≤1 CFU)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0039",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0039\n구역: 제조 1호기 | 설비: MES 단말 M-12 | 배치: L-2213-39\n[사건 개요]\n배치 기록서 기재 누락. 공정 기록 측정값 3개 항목 공란 (규격 전 항목 기재).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 공정 기록이(가) 규격(전 항목 기재)을 벗어났는가? → MES 단말 M-12의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(L-2213-39)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-L-2213-39).\n\n[CAPA]\n- 시정조치(Corrective): MES 단말 M-12 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0040",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0040\n구역: 동결건조실 | 설비: 동결건조기 LY-3 | 배치: C-1180-40\n[사건 개요]\n정전으로 인한 공정 중단. 동결건조 온도 측정값 -22°C 상승 (규격 -40°C 유지).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 동결건조 온도이(가) 규격(-40°C 유지)을 벗어났는가? → 동결건조기 LY-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 동결건조기 LY-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(C-1180-40)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-C-1180-40).\n\n[CAPA]\n- 시정조치(Corrective): 동결건조기 LY-3를 재가동하였다.\n\n[결론]\n-22°C 상승 측정으로 규격(-40°C 유지)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0041",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0041\n구역: 무균 충전실 | 설비: 충전기 FL-204 | 배치: L-2213-41\n[사건 개요]\n충전 공정 중 온도 일탈. 제품 온도 측정값 12.4°C (규격 2–8°C).\n\n[근본원인 분석]\n제품 온도이(가) 규격(2–8°C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 충전기 FL-204 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0042",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0042\n구역: 고형제 3라인 | 설비: 타정기 TP-11 | 배치: R-8890-42\n[사건 개요]\n타정 공정 중 경도 규격 미달. 정제 경도 측정값 5.9 kp (규격 8–12 kp).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 정제 경도이(가) 규격(8–12 kp)을 벗어났는가? → 타정기 TP-11의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(R-8890-42)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-R-8890-42).\n\n[CAPA]\n- 시정조치(Corrective): 타정기 TP-11를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0043",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0043\n구역: 칭량실 | 설비: 자동칭량기 WS-7 | 배치: H-5561-43\n[사건 개요]\n칭량 편차 발생. 충전 중량 측정값 512 mg (규격 500±5 mg).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 충전 중량이(가) 규격(500±5 mg)을 벗어났는가? → 자동칭량기 WS-7의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(H-5561-43)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-H-5561-43).\n\n[CAPA]\n- 시정조치(Corrective): 자동칭량기 WS-7를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0044",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0044\n구역: 제조 2호기 | 설비: CIP 스킨 C-3 | 배치: P-3325-44\n[사건 개요]\n세정 밸리데이션 잔류물 초과. 잔류 세정제 측정값 18 ppm (규격 ≤10 ppm).\n\n[근본원인 분석]\n잔류 세정제이(가) 규격(≤10 ppm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 CIP 스킨 C-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(P-3325-44)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-P-3325-44).\n\n[CAPA]\n- 시정조치(Corrective): CIP 스킨 C-3를 재가동하였다.\n\n[결론]\n18 ppm 측정으로 규격(≤10 ppm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0045",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0045\n구역: 포장 1라인 | 설비: 라벨러 LB-2 | 배치: W-9902-45\n[사건 개요]\n라벨 혼입 의심. 라벨 버전 측정값 Rev. B (규격 Rev. C).\n\n[근본원인 분석]\n라벨 버전이(가) 규격(Rev. C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 라벨러 LB-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 라벨러 LB-2를 재가동하였다.\n\n[결론]\nRev. B 측정으로 규격(Rev. C)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0046",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0046\n구역: Grade C 구역 | 설비: 공조기 AHU-5 | 배치: H-5561-46\n[사건 개요]\nHVAC 차압 이탈. 실간 차압 측정값 6 Pa (규격 10–15 Pa).\n\n[근본원인 분석]\n실간 차압이(가) 규격(10–15 Pa)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 공조기 AHU-5 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 공조기 AHU-5 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n6 Pa 측정으로 규격(10–15 Pa)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0047",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0047\n구역: 유틸리티 | 설비: 정제수 시스템 PW-1 | 배치: R-8890-47\n[사건 개요]\n정제수 전도도 상승. 전도도 측정값 2.1 µS/cm (규격 ≤1.3 µS/cm).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 전도도이(가) 규격(≤1.3 µS/cm)을 벗어났는가? → 정제수 시스템 PW-1의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(R-8890-47)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-R-8890-47).\n\n[CAPA]\n- 시정조치(Corrective): 정제수 시스템 PW-1 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0048",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0048\n구역: QC 미생물 | 설비: 아이솔레이터 IS-2 | 배치: W-9902-48\n[사건 개요]\n무균 시험 중 오염 의심. 환경 모니터링 CFU 측정값 4 CFU (규격 ≤1 CFU).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 환경 모니터링 CFU이(가) 규격(≤1 CFU)을 벗어났는가? → 아이솔레이터 IS-2의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 아이솔레이터 IS-2를 재가동하였다.\n\n[결론]\n4 CFU 측정으로 규격(≤1 CFU)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0049",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0049\n구역: 제조 1호기 | 설비: MES 단말 M-12 | 배치: T-4417-49\n[사건 개요]\n배치 기록서 기재 누락. 공정 기록 측정값 3개 항목 공란 (규격 전 항목 기재).\n\n[근본원인 분석]\n공정 기록이(가) 규격(전 항목 기재)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(T-4417-49)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-T-4417-49).\n\n[CAPA]\n- 시정조치(Corrective): MES 단말 M-12 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n3개 항목 공란 측정으로 규격(전 항목 기재)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0050",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0050\n구역: 동결건조실 | 설비: 동결건조기 LY-3 | 배치: P-3325-50\n[사건 개요]\n정전으로 인한 공정 중단. 동결건조 온도 측정값 -22°C 상승 (규격 -40°C 유지).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 동결건조 온도이(가) 규격(-40°C 유지)을 벗어났는가? → 동결건조기 LY-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 동결건조기 LY-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 동결건조기 LY-3 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n-22°C 상승 측정으로 규격(-40°C 유지)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0051",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0051\n구역: 무균 충전실 | 설비: 충전기 FL-204 | 배치: H-5561-51\n[사건 개요]\n충전 공정 중 온도 일탈. 제품 온도 측정값 12.4°C (규격 2–8°C).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 제품 온도이(가) 규격(2–8°C)을 벗어났는가? → 충전기 FL-204의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 충전기 FL-204 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n12.4°C 측정으로 규격(2–8°C)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0052",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0052\n구역: 고형제 3라인 | 설비: 타정기 TP-11 | 배치: W-9902-52\n[사건 개요]\n타정 공정 중 경도 규격 미달. 정제 경도 측정값 5.9 kp (규격 8–12 kp).\n\n[근본원인 분석]\n정제 경도이(가) 규격(8–12 kp)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 타정기 TP-11 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(W-9902-52)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-W-9902-52).\n\n[CAPA]\n- 시정조치(Corrective): 타정기 TP-11를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0053",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0053\n구역: 칭량실 | 설비: 자동칭량기 WS-7 | 배치: R-8890-53\n[사건 개요]\n칭량 편차 발생. 충전 중량 측정값 512 mg (규격 500±5 mg).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 충전 중량이(가) 규격(500±5 mg)을 벗어났는가? → 자동칭량기 WS-7의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 자동칭량기 WS-7 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(R-8890-53)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-R-8890-53).\n\n[CAPA]\n- 시정조치(Corrective): 자동칭량기 WS-7를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0054",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0054\n구역: 제조 2호기 | 설비: CIP 스킨 C-3 | 배치: W-9902-54\n[사건 개요]\n세정 밸리데이션 잔류물 초과. 잔류 세정제 측정값 18 ppm (규격 ≤10 ppm).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 잔류 세정제이(가) 규격(≤10 ppm)을 벗어났는가? → CIP 스킨 C-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 CIP 스킨 C-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(W-9902-54)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-W-9902-54).\n\n[CAPA]\n- 시정조치(Corrective): CIP 스킨 C-3를 재가동하였다.\n\n[결론]\n18 ppm 측정으로 규격(≤10 ppm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0055",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0055\n구역: 포장 1라인 | 설비: 라벨러 LB-2 | 배치: H-5561-55\n[사건 개요]\n라벨 혼입 의심. 라벨 버전 측정값 Rev. B (규격 Rev. C).\n\n[근본원인 분석]\n라벨 버전이(가) 규격(Rev. C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(H-5561-55)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-H-5561-55).\n\n[CAPA]\n- 시정조치(Corrective): 라벨러 LB-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0056",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0056\n구역: Grade C 구역 | 설비: 공조기 AHU-5 | 배치: R-8890-56\n[사건 개요]\nHVAC 차압 이탈. 실간 차압 측정값 6 Pa (규격 10–15 Pa).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 실간 차압이(가) 규격(10–15 Pa)을 벗어났는가? → 공조기 AHU-5의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(R-8890-56)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-R-8890-56).\n\n[CAPA]\n- 시정조치(Corrective): 공조기 AHU-5 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n6 Pa 측정으로 규격(10–15 Pa)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0057",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0057\n구역: 유틸리티 | 설비: 정제수 시스템 PW-1 | 배치: U-7740-57\n[사건 개요]\n정제수 전도도 상승. 전도도 측정값 2.1 µS/cm (규격 ≤1.3 µS/cm).\n\n[근본원인 분석]\n전도도이(가) 규격(≤1.3 µS/cm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 정제수 시스템 PW-1를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0058",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0058\n구역: QC 미생물 | 설비: 아이솔레이터 IS-2 | 배치: S-6604-58\n[사건 개요]\n무균 시험 중 오염 의심. 환경 모니터링 CFU 측정값 4 CFU (규격 ≤1 CFU).\n\n[근본원인 분석]\n환경 모니터링 CFU이(가) 규격(≤1 CFU)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(S-6604-58)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-S-6604-58).\n\n[CAPA]\n- 시정조치(Corrective): 아이솔레이터 IS-2를 재가동하였다.\n\n[결론]\n4 CFU 측정으로 규격(≤1 CFU)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0059",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0059\n구역: 제조 1호기 | 설비: MES 단말 M-12 | 배치: R-8890-59\n[사건 개요]\n배치 기록서 기재 누락. 공정 기록 측정값 3개 항목 공란 (규격 전 항목 기재).\n\n[근본원인 분석]\n공정 기록이(가) 규격(전 항목 기재)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): MES 단말 M-12를 재가동하였다.\n\n[결론]\n3개 항목 공란 측정으로 규격(전 항목 기재)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0060",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0060\n구역: 동결건조실 | 설비: 동결건조기 LY-3 | 배치: S-6604-60\n[사건 개요]\n정전으로 인한 공정 중단. 동결건조 온도 측정값 -22°C 상승 (규격 -40°C 유지).\n\n[근본원인 분석]\n동결건조 온도이(가) 규격(-40°C 유지)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(S-6604-60)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-S-6604-60).\n\n[CAPA]\n- 시정조치(Corrective): 동결건조기 LY-3를 재가동하였다.\n\n[결론]\n-22°C 상승 측정으로 규격(-40°C 유지)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0061",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0061\n구역: 무균 충전실 | 설비: 충전기 FL-204 | 배치: L-2213-61\n[사건 개요]\n충전 공정 중 온도 일탈. 제품 온도 측정값 12.4°C (규격 2–8°C).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 제품 온도이(가) 규격(2–8°C)을 벗어났는가? → 충전기 FL-204의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 충전기 FL-204 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 충전기 FL-204를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0062",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0062\n구역: 고형제 3라인 | 설비: 타정기 TP-11 | 배치: H-5561-62\n[사건 개요]\n타정 공정 중 경도 규격 미달. 정제 경도 측정값 5.9 kp (규격 8–12 kp).\n\n[근본원인 분석]\n정제 경도이(가) 규격(8–12 kp)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 타정기 TP-11를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0063",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0063\n구역: 칭량실 | 설비: 자동칭량기 WS-7 | 배치: B-2381-63\n[사건 개요]\n칭량 편차 발생. 충전 중량 측정값 512 mg (규격 500±5 mg).\n\n[근본원인 분석]\n충전 중량이(가) 규격(500±5 mg)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 자동칭량기 WS-7 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 자동칭량기 WS-7를 재가동하였다.\n\n[결론]\n512 mg 측정으로 규격(500±5 mg)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0064",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0064\n구역: 제조 2호기 | 설비: CIP 스킨 C-3 | 배치: B-2381-64\n[사건 개요]\n세정 밸리데이션 잔류물 초과. 잔류 세정제 측정값 18 ppm (규격 ≤10 ppm).\n\n[근본원인 분석]\n잔류 세정제이(가) 규격(≤10 ppm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): CIP 스킨 C-3 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0065",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0065\n구역: 포장 1라인 | 설비: 라벨러 LB-2 | 배치: U-7740-65\n[사건 개요]\n라벨 혼입 의심. 라벨 버전 측정값 Rev. B (규격 Rev. C).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 라벨 버전이(가) 규격(Rev. C)을 벗어났는가? → 라벨러 LB-2의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 라벨러 LB-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 라벨러 LB-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\nRev. B 측정으로 규격(Rev. C)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0066",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0066\n구역: Grade C 구역 | 설비: 공조기 AHU-5 | 배치: P-3325-66\n[사건 개요]\nHVAC 차압 이탈. 실간 차압 측정값 6 Pa (규격 10–15 Pa).\n\n[근본원인 분석]\n실간 차압이(가) 규격(10–15 Pa)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 공조기 AHU-5를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0067",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0067\n구역: 유틸리티 | 설비: 정제수 시스템 PW-1 | 배치: R-8890-67\n[사건 개요]\n정제수 전도도 상승. 전도도 측정값 2.1 µS/cm (규격 ≤1.3 µS/cm).\n\n[근본원인 분석]\n전도도이(가) 규격(≤1.3 µS/cm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 정제수 시스템 PW-1 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 정제수 시스템 PW-1 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n2.1 µS/cm 측정으로 규격(≤1.3 µS/cm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0068",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0068\n구역: QC 미생물 | 설비: 아이솔레이터 IS-2 | 배치: T-4417-68\n[사건 개요]\n무균 시험 중 오염 의심. 환경 모니터링 CFU 측정값 4 CFU (규격 ≤1 CFU).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 환경 모니터링 CFU이(가) 규격(≤1 CFU)을 벗어났는가? → 아이솔레이터 IS-2의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 아이솔레이터 IS-2를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0069",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0069\n구역: 제조 1호기 | 설비: MES 단말 M-12 | 배치: W-9902-69\n[사건 개요]\n배치 기록서 기재 누락. 공정 기록 측정값 3개 항목 공란 (규격 전 항목 기재).\n\n[근본원인 분석]\n공정 기록이(가) 규격(전 항목 기재)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 MES 단말 M-12 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(W-9902-69)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-W-9902-69).\n\n[CAPA]\n- 시정조치(Corrective): MES 단말 M-12를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0070",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0070\n구역: 동결건조실 | 설비: 동결건조기 LY-3 | 배치: L-2213-70\n[사건 개요]\n정전으로 인한 공정 중단. 동결건조 온도 측정값 -22°C 상승 (규격 -40°C 유지).\n\n[근본원인 분석]\n동결건조 온도이(가) 규격(-40°C 유지)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 동결건조기 LY-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(L-2213-70)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-L-2213-70).\n\n[CAPA]\n- 시정조치(Corrective): 동결건조기 LY-3 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n-22°C 상승 측정으로 규격(-40°C 유지)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0071",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0071\n구역: 무균 충전실 | 설비: 충전기 FL-204 | 배치: S-6604-71\n[사건 개요]\n충전 공정 중 온도 일탈. 제품 온도 측정값 12.4°C (규격 2–8°C).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 제품 온도이(가) 규격(2–8°C)을 벗어났는가? → 충전기 FL-204의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 충전기 FL-204 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0072",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0072\n구역: 고형제 3라인 | 설비: 타정기 TP-11 | 배치: R-8890-72\n[사건 개요]\n타정 공정 중 경도 규격 미달. 정제 경도 측정값 5.9 kp (규격 8–12 kp).\n\n[근본원인 분석]\n정제 경도이(가) 규격(8–12 kp)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 타정기 TP-11를 재가동하였다.\n\n[결론]\n5.9 kp 측정으로 규격(8–12 kp)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0073",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0073\n구역: 칭량실 | 설비: 자동칭량기 WS-7 | 배치: R-8890-73\n[사건 개요]\n칭량 편차 발생. 충전 중량 측정값 512 mg (규격 500±5 mg).\n\n[근본원인 분석]\n충전 중량이(가) 규격(500±5 mg)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(R-8890-73)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-R-8890-73).\n\n[CAPA]\n- 시정조치(Corrective): 자동칭량기 WS-7 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n512 mg 측정으로 규격(500±5 mg)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0074",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0074\n구역: 제조 2호기 | 설비: CIP 스킨 C-3 | 배치: B-2381-74\n[사건 개요]\n세정 밸리데이션 잔류물 초과. 잔류 세정제 측정값 18 ppm (규격 ≤10 ppm).\n\n[근본원인 분석]\n잔류 세정제이(가) 규격(≤10 ppm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(B-2381-74)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-B-2381-74).\n\n[CAPA]\n- 시정조치(Corrective): CIP 스킨 C-3를 재가동하였다.\n\n[결론]\n18 ppm 측정으로 규격(≤10 ppm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0075",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0075\n구역: 포장 1라인 | 설비: 라벨러 LB-2 | 배치: T-4417-75\n[사건 개요]\n라벨 혼입 의심. 라벨 버전 측정값 Rev. B (규격 Rev. C).\n\n[근본원인 분석]\n라벨 버전이(가) 규격(Rev. C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(T-4417-75)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-T-4417-75).\n\n[CAPA]\n- 시정조치(Corrective): 라벨러 LB-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\nRev. B 측정으로 규격(Rev. C)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0076",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0076\n구역: Grade C 구역 | 설비: 공조기 AHU-5 | 배치: B-2381-76\n[사건 개요]\nHVAC 차압 이탈. 실간 차압 측정값 6 Pa (규격 10–15 Pa).\n\n[근본원인 분석]\n실간 차압이(가) 규격(10–15 Pa)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 공조기 AHU-5를 재가동하였다.\n\n[결론]\n6 Pa 측정으로 규격(10–15 Pa)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0077",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0077\n구역: 유틸리티 | 설비: 정제수 시스템 PW-1 | 배치: R-8890-77\n[사건 개요]\n정제수 전도도 상승. 전도도 측정값 2.1 µS/cm (규격 ≤1.3 µS/cm).\n\n[근본원인 분석]\n전도도이(가) 규격(≤1.3 µS/cm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 정제수 시스템 PW-1 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(R-8890-77)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-R-8890-77).\n\n[CAPA]\n- 시정조치(Corrective): 정제수 시스템 PW-1를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0078",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0078\n구역: QC 미생물 | 설비: 아이솔레이터 IS-2 | 배치: W-9902-78\n[사건 개요]\n무균 시험 중 오염 의심. 환경 모니터링 CFU 측정값 4 CFU (규격 ≤1 CFU).\n\n[근본원인 분석]\n환경 모니터링 CFU이(가) 규격(≤1 CFU)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 아이솔레이터 IS-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 아이솔레이터 IS-2를 재가동하였다.\n\n[결론]\n4 CFU 측정으로 규격(≤1 CFU)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0079",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0079\n구역: 제조 1호기 | 설비: MES 단말 M-12 | 배치: W-9902-79\n[사건 개요]\n배치 기록서 기재 누락. 공정 기록 측정값 3개 항목 공란 (규격 전 항목 기재).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 공정 기록이(가) 규격(전 항목 기재)을 벗어났는가? → MES 단말 M-12의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(W-9902-79)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-W-9902-79).\n\n[CAPA]\n- 시정조치(Corrective): MES 단말 M-12를 재가동하였다.\n\n[결론]\n3개 항목 공란 측정으로 규격(전 항목 기재)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0080",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0080\n구역: 동결건조실 | 설비: 동결건조기 LY-3 | 배치: H-5561-80\n[사건 개요]\n정전으로 인한 공정 중단. 동결건조 온도 측정값 -22°C 상승 (규격 -40°C 유지).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 동결건조 온도이(가) 규격(-40°C 유지)을 벗어났는가? → 동결건조기 LY-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 동결건조기 LY-3를 재가동하였다.\n\n[결론]\n-22°C 상승 측정으로 규격(-40°C 유지)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0081",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0081\n구역: 무균 충전실 | 설비: 충전기 FL-204 | 배치: U-7740-81\n[사건 개요]\n충전 공정 중 온도 일탈. 제품 온도 측정값 12.4°C (규격 2–8°C).\n\n[근본원인 분석]\n제품 온도이(가) 규격(2–8°C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 충전기 FL-204를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0082",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0082\n구역: 고형제 3라인 | 설비: 타정기 TP-11 | 배치: W-9902-82\n[사건 개요]\n타정 공정 중 경도 규격 미달. 정제 경도 측정값 5.9 kp (규격 8–12 kp).\n\n[근본원인 분석]\n정제 경도이(가) 규격(8–12 kp)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(W-9902-82)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-W-9902-82).\n\n[CAPA]\n- 시정조치(Corrective): 타정기 TP-11를 재가동하였다.\n\n[결론]\n5.9 kp 측정으로 규격(8–12 kp)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0083",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0083\n구역: 칭량실 | 설비: 자동칭량기 WS-7 | 배치: S-6604-83\n[사건 개요]\n칭량 편차 발생. 충전 중량 측정값 512 mg (규격 500±5 mg).\n\n[근본원인 분석]\n충전 중량이(가) 규격(500±5 mg)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 자동칭량기 WS-7 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n512 mg 측정으로 규격(500±5 mg)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0084",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0084\n구역: 제조 2호기 | 설비: CIP 스킨 C-3 | 배치: U-7740-84\n[사건 개요]\n세정 밸리데이션 잔류물 초과. 잔류 세정제 측정값 18 ppm (규격 ≤10 ppm).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 잔류 세정제이(가) 규격(≤10 ppm)을 벗어났는가? → CIP 스킨 C-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 CIP 스킨 C-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(U-7740-84)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-U-7740-84).\n\n[CAPA]\n- 시정조치(Corrective): CIP 스킨 C-3 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": []
+  },
+  {
+    "id": "DEV-0085",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0085\n구역: 포장 1라인 | 설비: 라벨러 LB-2 | 배치: P-3325-85\n[사건 개요]\n라벨 혼입 의심. 라벨 버전 측정값 Rev. B (규격 Rev. C).\n\n[근본원인 분석]\n라벨 버전이(가) 규격(Rev. C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 라벨러 LB-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(P-3325-85)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-P-3325-85).\n\n[CAPA]\n- 시정조치(Corrective): 라벨러 LB-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0086",
+    "difficulty": "easy",
+    "draft": "편차 리포트 DEV-0086\n구역: Grade C 구역 | 설비: 공조기 AHU-5 | 배치: T-4417-86\n[사건 개요]\nHVAC 차압 이탈. 실간 차압 측정값 6 Pa (규격 10–15 Pa).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 실간 차압이(가) 규격(10–15 Pa)을 벗어났는가? → 공조기 AHU-5의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 공조기 AHU-5 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(T-4417-86)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-T-4417-86).\n\n[CAPA]\n- 시정조치(Corrective): 공조기 AHU-5 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": []
+  },
+  {
+    "id": "DEV-0087",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0087\n구역: 유틸리티 | 설비: 정제수 시스템 PW-1 | 배치: T-4417-87\n[사건 개요]\n정제수 전도도 상승. 전도도 측정값 2.1 µS/cm (규격 ≤1.3 µS/cm).\n\n[근본원인 분석]\n전도도이(가) 규격(≤1.3 µS/cm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 정제수 시스템 PW-1를 재가동하였다.\n\n[결론]\n2.1 µS/cm 측정으로 규격(≤1.3 µS/cm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0088",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0088\n구역: QC 미생물 | 설비: 아이솔레이터 IS-2 | 배치: R-8890-88\n[사건 개요]\n무균 시험 중 오염 의심. 환경 모니터링 CFU 측정값 4 CFU (규격 ≤1 CFU).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 환경 모니터링 CFU이(가) 규격(≤1 CFU)을 벗어났는가? → 아이솔레이터 IS-2의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 아이솔레이터 IS-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 아이솔레이터 IS-2 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n4 CFU 측정으로 규격(≤1 CFU)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0089",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0089\n구역: 제조 1호기 | 설비: MES 단말 M-12 | 배치: H-5561-89\n[사건 개요]\n배치 기록서 기재 누락. 공정 기록 측정값 3개 항목 공란 (규격 전 항목 기재).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 공정 기록이(가) 규격(전 항목 기재)을 벗어났는가? → MES 단말 M-12의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 MES 단말 M-12 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(H-5561-89)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-H-5561-89).\n\n[CAPA]\n- 시정조치(Corrective): MES 단말 M-12를 재가동하였다.\n\n[결론]\n3개 항목 공란 측정으로 규격(전 항목 기재)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0090",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0090\n구역: 동결건조실 | 설비: 동결건조기 LY-3 | 배치: B-2381-90\n[사건 개요]\n정전으로 인한 공정 중단. 동결건조 온도 측정값 -22°C 상승 (규격 -40°C 유지).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 동결건조 온도이(가) 규격(-40°C 유지)을 벗어났는가? → 동결건조기 LY-3의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 동결건조기 LY-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 동결건조기 LY-3를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0091",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0091\n구역: 무균 충전실 | 설비: 충전기 FL-204 | 배치: H-5561-91\n[사건 개요]\n충전 공정 중 온도 일탈. 제품 온도 측정값 12.4°C (규격 2–8°C).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 제품 온도이(가) 규격(2–8°C)을 벗어났는가? → 충전기 FL-204의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 충전기 FL-204 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n12.4°C 측정으로 규격(2–8°C)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0092",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0092\n구역: 고형제 3라인 | 설비: 타정기 TP-11 | 배치: C-1180-92\n[사건 개요]\n타정 공정 중 경도 규격 미달. 정제 경도 측정값 5.9 kp (규격 8–12 kp).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 정제 경도이(가) 규격(8–12 kp)을 벗어났는가? → 타정기 TP-11의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 타정기 TP-11 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 타정기 TP-11를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0093",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0093\n구역: 칭량실 | 설비: 자동칭량기 WS-7 | 배치: P-3325-93\n[사건 개요]\n칭량 편차 발생. 충전 중량 측정값 512 mg (규격 500±5 mg).\n\n[근본원인 분석]\n충전 중량이(가) 규격(500±5 mg)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 자동칭량기 WS-7 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n당해 배치(P-3325-93)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-P-3325-93).\n\n[CAPA]\n- 시정조치(Corrective): 자동칭량기 WS-7를 재가동하였다.\n\n[결론]\n512 mg 측정으로 규격(500±5 mg)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0094",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0094\n구역: 제조 2호기 | 설비: CIP 스킨 C-3 | 배치: S-6604-94\n[사건 개요]\n세정 밸리데이션 잔류물 초과. 잔류 세정제 측정값 18 ppm (규격 ≤10 ppm).\n\n[근본원인 분석]\n잔류 세정제이(가) 규격(≤10 ppm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 CIP 스킨 C-3 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): CIP 스킨 C-3를 재가동하였다.\n\n[결론]\n18 ppm 측정으로 규격(≤10 ppm)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0095",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0095\n구역: 포장 1라인 | 설비: 라벨러 LB-2 | 배치: U-7740-95\n[사건 개요]\n라벨 혼입 의심. 라벨 버전 측정값 Rev. B (규격 Rev. C).\n\n[근본원인 분석]\n라벨 버전이(가) 규격(Rev. C)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 라벨러 LB-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 라벨러 LB-2를 재가동하였다.\n\n[결론]\nRev. B 측정으로 규격(Rev. C)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0096",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0096\n구역: Grade C 구역 | 설비: 공조기 AHU-5 | 배치: B-2381-96\n[사건 개요]\nHVAC 차압 이탈. 실간 차압 측정값 6 Pa (규격 10–15 Pa).\n\n[근본원인 분석]\n실간 차압이(가) 규격(10–15 Pa)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 공조기 AHU-5 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 공조기 AHU-5를 재가동하였다.\n\n[결론]\n6 Pa 측정으로 규격(10–15 Pa)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0097",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0097\n구역: 유틸리티 | 설비: 정제수 시스템 PW-1 | 배치: C-1180-97\n[사건 개요]\n정제수 전도도 상승. 전도도 측정값 2.1 µS/cm (규격 ≤1.3 µS/cm).\n\n[근본원인 분석]\n전도도이(가) 규격(≤1.3 µS/cm)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 정제수 시스템 PW-1 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 정제수 시스템 PW-1 센서 즉시 재교정 및 당해 배치 격리.\n- 예방조치(Preventive): PM 마스터 리스트 갱신 절차(SOP-PM-002)에 독립 검토 단계 추가.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": false,
+      "missing_capa": false,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0098",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0098\n구역: QC 미생물 | 설비: 아이솔레이터 IS-2 | 배치: W-9902-98\n[사건 개요]\n무균 시험 중 오염 의심. 환경 모니터링 CFU 측정값 4 CFU (규격 ≤1 CFU).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 환경 모니터링 CFU이(가) 규격(≤1 CFU)을 벗어났는가? → 아이솔레이터 IS-2의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\nPM 마스터 리스트 갱신 절차에 독립 검토 단계가 부재하여 아이솔레이터 IS-2 센서가 교정 대상에서 누락된 것이 근본 원인이다(프로세스 결함).\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 아이솔레이터 IS-2를 재가동하였다.\n\n[결론]\n4 CFU 측정으로 규격(≤1 CFU)을 벗어났으나, 별도 조사나 조치는 불필요하며 배치를 그대로 출하한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": false,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": true
+    },
+    "expected_issues": [
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      },
+      {
+        "type": "logical_issues",
+        "detail": "규격 이탈 근거와 '조치 불필요' 결론이 모순"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0099",
+    "difficulty": "medium",
+    "draft": "편차 리포트 DEV-0099\n구역: 제조 1호기 | 설비: MES 단말 M-12 | 배치: H-5561-99\n[사건 개요]\n배치 기록서 기재 누락. 공정 기록 측정값 3개 항목 공란 (규격 전 항목 기재).\n\n[근본원인 분석 - 5 Whys]\n1) 왜 공정 기록이(가) 규격(전 항목 기재)을 벗어났는가? → MES 단말 M-12의 제어값이 이탈했다.\n2) 왜 제어값이 이탈했는가? → 센서 피드백이 지연되었다.\n3) 왜 피드백이 지연되었는가? → 센서 교정 주기가 초과되었다.\n4) 왜 교정 주기가 초과되었는가? → 예방정비(PM) 일정에 해당 센서가 누락되어 있었다.\n5) 왜 PM 일정에서 누락되었는가? → PM 마스터 리스트 갱신 절차에 검토 단계가 없었다.\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n당해 배치(H-5561-99)에 대한 재시험 결과 및 인접 배치 3건의 데이터를 검토한 결과 품질 영향 없음을 확인하였다(첨부 Data-H-5561-99).\n\n[CAPA]\n- 시정조치(Corrective): MES 단말 M-12를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": false,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": false,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      }
+    ]
+  },
+  {
+    "id": "DEV-0100",
+    "difficulty": "hard",
+    "draft": "편차 리포트 DEV-0100\n구역: 동결건조실 | 설비: 동결건조기 LY-3 | 배치: T-4417-100\n[사건 개요]\n정전으로 인한 공정 중단. 동결건조 온도 측정값 -22°C 상승 (규격 -40°C 유지).\n\n[근본원인 분석]\n동결건조 온도이(가) 규격(-40°C 유지)을 벗어난 것으로 보인다. 작업자가 설비를 확인하였으나 명확한 원인은 파악되지 않았다. (※ Why 분석 미완결)\n\n[근본 원인]\n작업자의 부주의로 판단된다.\n\n[영향 평가]\n품질에 미치는 영향은 없는 것으로 확인되었다.\n\n[CAPA]\n- 시정조치(Corrective): 동결건조기 LY-3를 재가동하였다.\n\n[결론]\n규격 이탈이 확인되어 상기 CAPA를 이행하고 CAPA 완료 후 배치 처리를 결정한다.",
+    "gold_labels": {
+      "missing_5whys": true,
+      "weak_root_cause": true,
+      "missing_capa": true,
+      "unsupported_claims": true,
+      "logical_issues": false
+    },
+    "expected_issues": [
+      {
+        "type": "missing_5whys",
+        "detail": "5 Whys 분석이 미완결 상태"
+      },
+      {
+        "type": "weak_root_cause",
+        "detail": "근본 원인이 '부주의' 등 증상 수준에 머무름"
+      },
+      {
+        "type": "missing_capa",
+        "detail": "예방조치(Preventive)가 누락됨"
+      },
+      {
+        "type": "unsupported_claims",
+        "detail": "'영향 없음' 결론에 뒷받침 데이터가 없음"
+      }
+    ]
+  }
+]
