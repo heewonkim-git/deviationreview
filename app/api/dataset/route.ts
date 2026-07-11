@@ -10,7 +10,7 @@ export async function GET() {
   const diff = { easy: 0, medium: 0, hard: 0 };
   cases.forEach((c) => diff[c.difficulty]++);
   // 리뷰어 화면의 "예시 문서 불러오기"용 샘플 (다양한 결함 조합).
-  const samples = [1, 12, 30, 55].map((i) => cases[i]).map((c) => ({ id: c.id, draft: c.draft }));
+  const samples = [1, 30].map((i) => cases[i]).map((c) => ({ id: c.id, draft: c.draft }));
   return Response.json({
     total: cases.length,
     difficulty: diff,

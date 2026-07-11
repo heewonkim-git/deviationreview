@@ -7,7 +7,19 @@ import { DocumentViewer } from "../components/DocumentViewer";
 import { Icon } from "../components/Icon";
 
 const SEV_LABEL: Record<string, string> = { low: "낮음", medium: "중간", high: "높음" };
-const MINT_BORDER = "color-mix(in srgb, var(--ds-brand) 45%, var(--hair))";
+const MINT = "var(--ds-brand)";
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+const STEPS = [
+  "문서 파싱 중…",
+  "5 Whys 근본원인 분석 검토…",
+  "Root Cause 타당성 검토…",
+  "CAPA(시정·예방조치) 확인…",
+  "근거 없는 주장 스캔…",
+  "논리 일관성 검토…",
+];
+
+type Phase = "idle" | "streaming" | "done";
 
 export default function ReviewerPage() {
   const [confirmed, setConfirmed] = useState<ConfirmedPrompt | null>(null);
@@ -15,10 +27,14 @@ export default function ReviewerPage() {
   const [forceMock, setForceMock] = useState(false);
   const [samples, setSamples] = useState<{ id: string; draft: string }[]>([]);
   const [draft, setDraft] = useState("");
-  const [fileName, setFileName] = useState<string>("");
+  const [fileName, setFileName] = useState("");
+  const [dragging, setDragging] = useState(false);
+  const [showPaste, setShowPaste] = useState(false);
+  const [phase, setPhase] = useState<Phase>("idle");
+  const [lines, setLines] = useState<string[]>([]);
   const [result, setResult] = useState<AgentOutput | null>(null);
-  const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [detail, setDetail] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -32,11 +48,10 @@ export default function ReviewerPage() {
       .catch(() => {});
   }, []);
 
-  async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const f = e.target.files?.[0];
-    if (!f) return;
+  async function processFile(f: File) {
     setFileName(f.name);
     setResult(null);
+    setPhase("idle");
     setErr(null);
     try {
       if (f.name.toLowerCase().endsWith(".docx")) {
@@ -53,33 +68,58 @@ export default function ReviewerPage() {
     }
   }
 
+  function onDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setDragging(false);
+    const f = e.dataTransfer.files?.[0];
+    if (f) processFile(f);
+  }
+
   async function runReview() {
-    if (!draft.trim() || loading || !confirmed) return;
-    setLoading(true);
+    if (!draft.trim() || !confirmed || phase === "streaming") return;
+    setPhase("streaming");
     setResult(null);
     setErr(null);
+    setLines([]);
+    const apiPromise = fetch("/api/review", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        draft,
+        system: confirmed.system,
+        promptId: confirmed.versionId,
+        useMock: forceMock || undefined,
+      }),
+    }).then((r) => r.json());
+
+    for (const s of STEPS) {
+      setLines((l) => [...l, s]);
+      await sleep(430);
+    }
     try {
-      const res = await fetch("/api/review", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          draft,
-          system: confirmed.system,
-          promptId: confirmed.versionId,
-          useMock: forceMock || undefined,
-        }),
-      });
-      const data = await res.json();
+      const data = await apiPromise;
       if (data.error) setErr(`리뷰 오류: ${data.error}`);
       else if (!data.output) setErr("에이전트 출력이 규칙을 위반했습니다.");
       else setResult(data.output as AgentOutput);
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));
-    } finally {
-      setLoading(false);
     }
+    setLines((l) => [...l, "분석 완료"]);
+    setPhase("done");
   }
 
+  function reset() {
+    setPhase("idle");
+    setResult(null);
+    setLines([]);
+    setDraft("");
+    setFileName("");
+    setErr(null);
+  }
+
+  const ver = confirmed?.versionId === "v1" ? "1.0" : "2.0";
+  const isMock = forceMock || mode === "mock";
+  const issues = result?.issues ?? [];
   const verdictColor =
     result?.overall_verdict === "pass"
       ? "var(--ds-success)"
@@ -92,100 +132,142 @@ export default function ReviewerPage() {
       : result?.overall_verdict === "fail"
       ? "중대 결함 (Fail)"
       : "수정 필요 (Needs revision)";
-  const isMock = forceMock || mode === "mock";
 
   return (
     <div className="page">
-      <div className="reviewer">
-        <div className="rev-controls">
-          <div className="confirmed-card">
-            <div className="eyebrow">현재 배포된 프롬프트</div>
-            <div style={{ fontWeight: 700, fontSize: "var(--ds-text-md)", margin: "4px 0" }}>
-              {confirmed?.label ?? "—"}
-            </div>
-            <div className="hint">
-              {confirmed?.f1 !== undefined
-                ? `검증 F1 ${(confirmed.f1 * 100).toFixed(1)}%`
-                : "기본 배포 버전"}
-              {confirmed?.at === "default" ? " · (랩에서 아직 배포 안 함)" : " · 랩에서 배포됨"}
-            </div>
-          </div>
+      <div className="rev-top">
+        <span className="pv">Prompt version : {ver}</span>
+        <label className="checkline">
+          <input type="checkbox" checked={forceMock} onChange={(e) => setForceMock(e.target.checked)} />
+          Mock ({isMock ? "on" : "off"})
+        </label>
+      </div>
 
-          <div className="field">
-            <label>편차 문서 업로드 (.docx / .txt / .md)</label>
-            <input ref={fileRef} type="file" accept=".docx,.txt,.md" onChange={onFile} style={{ display: "none" }} />
-            <button className="btn btn-secondary" onClick={() => fileRef.current?.click()}>
-              <Icon name="upload" size={14} /> 파일 선택 {fileName && `· ${fileName}`}
-            </button>
-          </div>
-
-          {samples.length > 0 && (
-            <div className="field">
-              <label>또는 예시 문서 불러오기</label>
-              <div className="row" style={{ flexWrap: "wrap" }}>
-                {samples.map((s) => (
-                  <button
-                    key={s.id}
-                    className="btn btn-ghost"
-                    onClick={() => { setDraft(s.draft); setFileName(`${s.id} (예시)`); setResult(null); }}
-                  >
-                    {s.id}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="field">
-            <label>원문 (직접 붙여넣기/수정 가능)</label>
-            <textarea className="draft-in" value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="여기에 편차 리포트 원문을 붙여넣거나 파일을 업로드하세요." />
-          </div>
-
-          <label className="checkline hint">
-            <input type="checkbox" checked={forceMock} onChange={(e) => setForceMock(e.target.checked)} />
-            Mock 모드로 리뷰 (API 비용 없음)
-          </label>
-          <button className="btn btn-primary btn-lg" onClick={runReview} disabled={!draft.trim() || loading}>
-            {loading ? "리뷰 중…" : (<><Icon name="play" size={12} /> 리뷰 실행</>)}
-          </button>
-          {err && <div className="hint" style={{ color: "var(--ds-danger)" }}>{err}</div>}
-        </div>
-
-        <div className="rev-result">
-          {!result && !draft && (
-            <div className="panel"><div className="empty">문서를 업로드하고 리뷰를 실행하면 결과가 여기에 표시됩니다.</div></div>
-          )}
-          {!result && draft && !loading && (
-            <div className="panel"><div className="empty">"리뷰 실행"을 누르면 에이전트가 문서를 검토합니다.</div></div>
-          )}
-          {result && (
+      <div className="rev2">
+        {/* LEFT — upload / streaming */}
+        <div className="rev-left">
+          {phase === "idle" ? (
             <>
-              <div className="rev-summary">
-                <span className="verdict" style={{ color: verdictColor, borderColor: verdictColor, background: `color-mix(in srgb, ${verdictColor} 12%, var(--ds-surface))` }}>
-                  {verdictLabel}
-                </span>
-                {result.issues.length === 0 ? (
-                  <span className="issue-chip" style={{ color: "var(--ds-success)", borderColor: "var(--ds-success)" }}>지적된 이슈 없음</span>
-                ) : (
-                  result.issues.map((i, idx) => (
-                    <span key={idx} className="issue-chip" style={{ color: "var(--ds-brand)", borderColor: MINT_BORDER }}>
-                      {ISSUE_LABELS[i.type]} · {SEV_LABEL[i.severity] ?? i.severity}
-                    </span>
-                  ))
+              <input ref={fileRef} type="file" accept=".docx,.txt,.md" style={{ display: "none" }}
+                onChange={(e) => e.target.files?.[0] && processFile(e.target.files[0])} />
+              <div
+                className={`dropzone ${dragging ? "drag" : ""}`}
+                onClick={() => fileRef.current?.click()}
+                onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+                onDragLeave={() => setDragging(false)}
+                onDrop={onDrop}
+              >
+                <span className="dz-icon"><Icon name="upload" size={28} /></span>
+                <div className="big">편차 문서를 여기에 끌어다 놓기</div>
+                <div className="hint">또는 클릭해서 파일 선택 · .docx / .txt / .md</div>
+                {fileName && <div className="loaded">{fileName} 불러옴</div>}
+              </div>
+
+              <button className="btn btn-primary btn-lg rev-start" disabled={!draft.trim()} onClick={runReview}>
+                <Icon name="play" size={13} /> Review Start
+              </button>
+
+              <div className="rev-secondary">
+                <button className="linkish" onClick={() => setShowPaste((v) => !v)}>직접 붙여넣기</button>
+                {samples.length > 0 && (
+                  <span className="samples">
+                    예시
+                    {samples.map((s) => (
+                      <button key={s.id} className="linkish" onClick={() => { setDraft(s.draft); setFileName(`${s.id} (예시)`); }}>
+                        {s.id}
+                      </button>
+                    ))}
+                  </span>
                 )}
               </div>
-              <div className="panel">
-                <div className="panel-head">
-                  리뷰 결과 · 원문 하이라이트 <span className="sub">{isMock ? "Mock" : "Claude"} · {result.issues.length}건 지적</span>
-                </div>
-                <div className="modal-scroll" style={{ borderRadius: 0 }}>
-                  <DocumentViewer draft={draft} agent={result} title="업로드된 편차 문서" />
-                </div>
-              </div>
+              {showPaste && (
+                <textarea className="draft-in" style={{ marginTop: 12 }} value={draft}
+                  onChange={(e) => setDraft(e.target.value)} placeholder="여기에 편차 리포트 원문을 붙여넣으세요." />
+              )}
+              {err && <div className="hint" style={{ color: "var(--ds-danger)", marginTop: 10 }}>{err}</div>}
             </>
+          ) : (
+            <div className="stream-panel">
+              <div className="stream-head">
+                <span>{fileName || "문서"} 분석 {phase === "streaming" ? "중…" : "완료"}</span>
+                <button className="linkish" onClick={reset}>새 문서</button>
+              </div>
+              <div className="stream-feed">
+                {lines.map((l, i) => (
+                  <div className="stream-line" key={i}>
+                    <span className="tick" /> {l}
+                  </div>
+                ))}
+                {phase === "streaming" && (
+                  <div className="stream-line active">
+                    <span className="spinner" /> 분석 중…
+                  </div>
+                )}
+                {err && <div className="hint" style={{ color: "var(--ds-danger)", marginTop: 8 }}>{err}</div>}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT — summary */}
+        <div className="rev-right">
+          {phase !== "done" || !result ? (
+            <div className="panel">
+              <div className="empty">분석이 끝나면 종합 결과가 여기에 표시됩니다.</div>
+            </div>
+          ) : (
+            <div className="panel">
+              <div className="panel-head">
+                종합 결과 <span className="sub">{isMock ? "Mock" : "Claude"}</span>
+              </div>
+              <div className="panel-body">
+                <span className="result-verdict" style={{ color: verdictColor, borderColor: verdictColor }}>
+                  {verdictLabel}
+                </span>
+                {issues.length === 0 ? (
+                  <div className="hint" style={{ marginTop: 12 }}>지적된 이슈가 없습니다.</div>
+                ) : (
+                  <>
+                    <div className="section-title">수정이 필요한 항목</div>
+                    <ol className="fix-list">
+                      {issues.map((i, idx) => (
+                        <li className="fix-item" key={idx}>
+                          <span className="fix-num">{idx + 1}</span>
+                          <div>
+                            <div className="fix-t">{ISSUE_LABELS[i.type]}</div>
+                            <div className="fix-d">
+                              {i.explanation}
+                              <span style={{ color: MINT }}> · 심각도 {SEV_LABEL[i.severity] ?? i.severity}</span>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ol>
+                  </>
+                )}
+                <button className="btn btn-secondary" style={{ marginTop: 14 }} onClick={() => setDetail(true)}>
+                  <Icon name="chevron" size={13} /> 원문에서 상세 보기
+                </button>
+              </div>
+            </div>
           )}
         </div>
       </div>
+
+      {detail && result && (
+        <div className="modal-wrap">
+          <div className="scrim" onClick={() => setDetail(false)} />
+          <div className="modal-card">
+            <div className="modal-head">
+              <span className="t">원문 상세 · 문제 구간 하이라이트</span>
+              <button className="iconbtn" onClick={() => setDetail(false)}><Icon name="close" size={15} /></button>
+            </div>
+            <div className="modal-scroll">
+              <DocumentViewer draft={draft} agent={result} title={fileName || "업로드된 편차 문서"} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
