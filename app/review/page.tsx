@@ -1,18 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AgentOutput, ISSUE_LABELS, IssueType } from "@/lib/types";
+import { AgentOutput, ISSUE_LABELS } from "@/lib/types";
 import { ConfirmedPrompt, loadConfirmed } from "@/lib/confirmed";
 import { DocumentViewer } from "../components/DocumentViewer";
 
 const SEV_LABEL: Record<string, string> = { low: "낮음", medium: "중간", high: "높음" };
-const TYPE_COLORS: Record<IssueType, string> = {
-  missing_5whys: "var(--ds-accent-1)",
-  weak_root_cause: "var(--ds-accent-2)",
-  missing_capa: "var(--ds-accent-3)",
-  unsupported_claims: "var(--ds-accent-4)",
-  logical_issues: "var(--ds-info)",
-};
+const MINT_BORDER = "color-mix(in srgb, var(--ds-brand) 45%, var(--hair))";
 
 export default function ReviewerPage() {
   const [confirmed, setConfirmed] = useState<ConfirmedPrompt | null>(null);
@@ -185,7 +179,7 @@ export default function ReviewerPage() {
                   <span className="issue-chip" style={{ color: "var(--ds-success)", borderColor: "var(--ds-success)" }}>지적된 이슈 없음</span>
                 ) : (
                   result.issues.map((i, idx) => (
-                    <span key={idx} className="issue-chip" style={{ color: TYPE_COLORS[i.type], borderColor: TYPE_COLORS[i.type] }}>
+                    <span key={idx} className="issue-chip" style={{ color: "var(--ds-brand)", borderColor: MINT_BORDER }}>
                       {ISSUE_LABELS[i.type]} · {SEV_LABEL[i.severity] ?? i.severity}
                     </span>
                   ))

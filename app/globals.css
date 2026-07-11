@@ -11,6 +11,39 @@
   --hair: var(--ds-border);
 }
 
+/* 이 앱의 포인트 색은 민트 단색. 공유 DS 브랜드 토큰을 앱 스코프로 민트 오버라이드.
+   (모든 --ds-brand 사용처가 자동으로 민트가 됨.) 테마별로 각각 지정해 소스 순서상 우선. */
+:root {
+  --ds-brand: #10b3a3;
+  --ds-brand-hover: #0e9c8e;
+  --ds-brand-active: #0b857a;
+  --ds-brand-fg: #ffffff;
+  --ds-brand-subtle: #d8f3ef;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ds-brand: #2dd4bf;
+    --ds-brand-hover: #45dccb;
+    --ds-brand-active: #63e4d6;
+    --ds-brand-fg: #04201c;
+    --ds-brand-subtle: rgba(45, 212, 191, 0.16);
+  }
+}
+:root[data-theme="dark"] {
+  --ds-brand: #2dd4bf;
+  --ds-brand-hover: #45dccb;
+  --ds-brand-active: #63e4d6;
+  --ds-brand-fg: #04201c;
+  --ds-brand-subtle: rgba(45, 212, 191, 0.16);
+}
+:root[data-theme="light"] {
+  --ds-brand: #10b3a3;
+  --ds-brand-hover: #0e9c8e;
+  --ds-brand-active: #0b857a;
+  --ds-brand-fg: #ffffff;
+  --ds-brand-subtle: #d8f3ef;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -605,7 +638,7 @@ input[type="checkbox"] {
 }
 .bar-fill {
   height: 100%;
-  background: var(--ds-brand);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--ds-brand) 40%, transparent), var(--ds-brand));
 }
 .bar-val {
   text-align: right;

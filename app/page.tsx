@@ -34,14 +34,6 @@ interface RunResult {
 const emptyRun = (): RunResult => ({ status: "idle", total: 0, done: 0, cases: [], metrics: null });
 const pct = (n: number | undefined) => (n === undefined ? "—" : `${(n * 100).toFixed(1)}%`);
 
-const TYPE_COLORS: Record<IssueType, string> = {
-  missing_5whys: "var(--ds-accent-1)",
-  weak_root_cause: "var(--ds-accent-2)",
-  missing_capa: "var(--ds-accent-3)",
-  unsupported_claims: "var(--ds-accent-4)",
-  logical_issues: "var(--ds-info)",
-};
-
 export default function LabPage() {
   const [prompts, setPrompts] = useState<Record<PromptId, string>>({
     v1: DEFAULT_PROMPTS.v1.system,
@@ -140,18 +132,6 @@ export default function LabPage() {
 
   return (
     <div className="page">
-      <div className="page-head">
-        <span className="eyebrow" style={{ color: "var(--ds-brand)" }}>
-          운영 화면 · 프롬프트 엔지니어링 & 검증
-        </span>
-        <h1>
-          정답지 100건으로 <span className="blue">프롬프트를 검증</span>하고 배포한다
-        </h1>
-        <div className="tag">
-          프롬프트를 고쳐 채점 → 지표가 좋아지면 "이 버전 배포" → 리뷰어 화면에 반영됩니다.
-        </div>
-      </div>
-
       {/* Run bar */}
       <div className="runbar" style={{ marginBottom: 16 }}>
         <div className="verpick">
@@ -326,9 +306,9 @@ function MetricsRail({ metrics, other, otherLabel }: { metrics: Metrics | null; 
         <div className="section-title">유형별 F1</div>
         {ISSUE_TYPES.map((t) => (
           <div className="bar-row" key={t}>
-            <span style={{ color: TYPE_COLORS[t] }}>{ISSUE_LABELS[t]}</span>
+            <span>{ISSUE_LABELS[t]}</span>
             <div className="bar-track">
-              <div className="bar-fill" style={{ width: `${(metrics?.perType[t].f1 ?? 0) * 100}%`, background: TYPE_COLORS[t] }} />
+              <div className="bar-fill" style={{ width: `${(metrics?.perType[t].f1 ?? 0) * 100}%` }} />
             </div>
             <span className="bar-val">{metrics ? pct(metrics.perType[t].f1) : "—"}</span>
           </div>

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 /** 상단 내비 — 운영(평가 랩)과 실사용(리뷰어) 두 화면을 분리해 오간다. */
 export function Nav() {
   const path = usePathname();
-  const [theme, setTheme] = useState<"system" | "light" | "dark">("system");
+  const [theme, setTheme] = useState<"system" | "light" | "dark">("dark");
 
   useEffect(() => {
     const el = document.documentElement;
@@ -28,7 +28,7 @@ export function Nav() {
     <nav className="nav">
       <div className="nav-in">
         <span className="nav-brand">
-          Golden Batch × <b>Deviation Review</b>
+          <b>Deviation Review Platform</b>
         </span>
         <div className="nav-tabs">
           {tabs.map((t) => (
