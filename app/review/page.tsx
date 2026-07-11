@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { AgentOutput, ISSUE_LABELS } from "@/lib/types";
 import { ConfirmedPrompt, loadConfirmed } from "@/lib/confirmed";
 import { DocumentViewer } from "../components/DocumentViewer";
+import { Icon } from "../components/Icon";
 
 const SEV_LABEL: Record<string, string> = { low: "낮음", medium: "중간", high: "높음" };
 const MINT_BORDER = "color-mix(in srgb, var(--ds-brand) 45%, var(--hair))";
@@ -114,7 +115,7 @@ export default function ReviewerPage() {
             <label>편차 문서 업로드 (.docx / .txt / .md)</label>
             <input ref={fileRef} type="file" accept=".docx,.txt,.md" onChange={onFile} style={{ display: "none" }} />
             <button className="btn btn-secondary" onClick={() => fileRef.current?.click()}>
-              📄 파일 선택 {fileName && `· ${fileName}`}
+              <Icon name="upload" size={14} /> 파일 선택 {fileName && `· ${fileName}`}
             </button>
           </div>
 
@@ -145,7 +146,7 @@ export default function ReviewerPage() {
             Mock 모드로 리뷰 (API 비용 없음)
           </label>
           <button className="btn btn-primary btn-lg" onClick={runReview} disabled={!draft.trim() || loading}>
-            {loading ? "리뷰 중…" : "▶ 리뷰 실행"}
+            {loading ? "리뷰 중…" : (<><Icon name="play" size={12} /> 리뷰 실행</>)}
           </button>
           {err && <div className="hint" style={{ color: "var(--ds-danger)" }}>{err}</div>}
         </div>

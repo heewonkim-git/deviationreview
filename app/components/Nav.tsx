@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Icon } from "./Icon";
 
 /** 상단 내비 — 운영(평가 랩)과 실사용(리뷰어) 두 화면을 분리해 오간다. */
 export function Nav() {
@@ -16,8 +17,8 @@ export function Nav() {
   }, [theme]);
 
   const cycle = () =>
-    setTheme((t) => (t === "system" ? "light" : t === "light" ? "dark" : "system"));
-  const icon = theme === "system" ? "◐" : theme === "light" ? "☀" : "☾";
+    setTheme((t) => (t === "dark" ? "light" : t === "light" ? "system" : "dark"));
+  const iconName = theme === "system" ? "monitor" : theme === "light" ? "sun" : "moon";
 
   const tabs = [
     { href: "/", label: "평가 랩 · 운영" },
@@ -43,7 +44,7 @@ export function Nav() {
         </div>
         <div className="nav-right">
           <button className="toggle" onClick={cycle} aria-label="테마 전환">
-            <span>{icon}</span>
+            <Icon name={iconName} size={14} />
             <span>{theme.charAt(0).toUpperCase() + theme.slice(1)}</span>
           </button>
         </div>

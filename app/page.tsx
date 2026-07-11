@@ -13,6 +13,7 @@ import { DEFAULT_PROMPTS } from "@/lib/prompts";
 import { aggregateMetrics } from "@/lib/evaluate";
 import { saveConfirmed, loadConfirmed } from "@/lib/confirmed";
 import { DocumentViewer } from "./components/DocumentViewer";
+import { Icon } from "./components/Icon";
 
 type PromptId = "v1" | "v2";
 
@@ -148,7 +149,7 @@ export default function LabPage() {
           ))}
         </div>
         <button className="btn btn-secondary" onClick={() => { setDrawerTab(active); setDrawer(true); }}>
-          ✎ 프롬프트 편집
+          <Icon name="edit" size={14} /> 프롬프트 편집
         </button>
         <div className="spacer" />
         <label className="checkline hint">
@@ -161,7 +162,13 @@ export default function LabPage() {
           <option value={100}>100건</option>
         </select>
         <button className="btn btn-primary" onClick={runEvaluation} disabled={running}>
-          {running ? `채점 중… ${run.done}/${run.total}` : `▶ ${active.toUpperCase()} 채점 실행`}
+          {running ? (
+            `채점 중… ${run.done}/${run.total}`
+          ) : (
+            <>
+              <Icon name="play" size={12} /> {active.toUpperCase()} 채점 실행
+            </>
+          )}
         </button>
         <button
           className="btn btn-secondary"
@@ -169,7 +176,7 @@ export default function LabPage() {
           onClick={() => deploy(active)}
           title="이 버전을 리뷰어 화면에 배포"
         >
-          ⬆ 이 버전 배포
+          <Icon name="up" size={14} /> 이 버전 배포
         </button>
       </div>
 
@@ -205,7 +212,7 @@ export default function LabPage() {
                     <span className="cid">{c.id}</span>
                     <span className={`pill ${c.evaluation.pass ? "pass" : "fail"}`}>{c.evaluation.pass ? "PASS" : "FAIL"}</span>
                     <span className="reason">{c.evaluation.reason}</span>
-                    <span className="chev">상세 ›</span>
+                    <span className="chev"><Icon name="chevron" size={14} /></span>
                   </div>
                 ))}
               </div>
@@ -254,7 +261,7 @@ function SummaryHero({ metrics, other, otherLabel }: { metrics: Metrics | null; 
             <div className="v">{pct(v)}</div>
             {d !== undefined ? (
               <div className={`d ${Math.abs(d) < 0.0001 ? "flat" : d > 0 ? "up" : "down"}`}>
-                {Math.abs(d) < 0.0001 ? "동일" : `${d > 0 ? "▲" : "▼"} ${Math.abs(d * 100).toFixed(1)}p vs ${otherLabel}`}
+                {Math.abs(d) < 0.0001 ? "동일" : `${d > 0 ? "+" : "−"}${Math.abs(d * 100).toFixed(1)}p vs ${otherLabel}`}
               </div>
             ) : (
               <div className="d flat">{metrics ? "단독 실행" : "채점 대기"}</div>
@@ -288,7 +295,7 @@ function MetricsRail({ metrics, other, otherLabel }: { metrics: Metrics | null; 
               <span className="v">
                 {pct(v)}
                 {d !== undefined && Math.abs(d) > 0.0001 && (
-                  <span className={`delta ${d > 0 ? "up" : "down"}`}>{d > 0 ? "▲" : "▼"}{Math.abs(d * 100).toFixed(1)}</span>
+                  <span className={`delta ${d > 0 ? "up" : "down"}`}>{d > 0 ? "+" : "−"}{Math.abs(d * 100).toFixed(1)}</span>
                 )}
               </span>
             </div>
@@ -346,7 +353,7 @@ function PromptDrawer({
       <aside className="drawer">
         <div className="drawer-head">
           <h3>프롬프트 편집 & 버전</h3>
-          <button className="iconbtn" onClick={onClose}>✕</button>
+          <button className="iconbtn" onClick={onClose}><Icon name="close" size={15} /></button>
         </div>
         <div className="drawer-body">
           <div className="tabs">
@@ -400,7 +407,7 @@ function CaseModal({ c, isMock, onClose }: { c: CaseRow; isMock: boolean; onClos
               {isMock ? "Mock" : "Claude"} 리뷰 · 정탐/오탐/놓침을 우측 메모로 표시
             </span>
           </span>
-          <button className="iconbtn" onClick={onClose}>✕</button>
+          <button className="iconbtn" onClick={onClose}><Icon name="close" size={15} /></button>
         </div>
         <div className="modal-scroll">
           <DocumentViewer
