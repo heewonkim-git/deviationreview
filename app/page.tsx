@@ -8,7 +8,6 @@ import {
   ISSUE_LABELS,
   ISSUE_TYPES,
   Metrics,
-  AgentOutput,
 } from "@/lib/types";
 import { DEFAULT_PROMPTS } from "@/lib/prompts";
 import { saveConfirmed, loadConfirmed } from "@/lib/confirmed";
@@ -273,24 +272,27 @@ function MetricsRail({ metrics, other, otherLabel }: { metrics: Metrics | null; 
     <div className="panel">
       <div className="panel-head">Metrics Dashboard <span className="sub">6대 지표 · 혼동행렬</span></div>
       <div className="panel-body">
-        <div className="metric-grid">
-          {(["accuracy", "humanAgreement"] as (keyof Metrics)[]).map((key) => {
-            const v = metrics ? (metrics[key] as number) : undefined;
-            const ov = other ? (other[key] as number) : undefined;
-            const d = v !== undefined && ov !== undefined ? v - ov : undefined;
-            return (
-              <div className="metric" key={key}>
-                <div className="label">{key === "accuracy" ? "Accuracy" : "Human Agreement"}</div>
-                <div className="val">
-                  {pct(v)}
-                  {d !== undefined && Math.abs(d) > 0.0001 && (
-                    <span className={`delta ${d > 0 ? "up" : "down"}`}>{d > 0 ? "▲" : "▼"}{Math.abs(d * 100).toFixed(1)}</span>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {([
+          ["accuracy", "Accuracy"],
+          ["precision", "Precision"],
+          ["recall", "Recall"],
+          ["humanAgreement", "Human Agreement"],
+        ] as [keyof Metrics, string][]).map(([key, label]) => {
+          const v = metrics ? (metrics[key] as number) : undefined;
+          const ov = other ? (other[key] as number) : undefined;
+          const d = v !== undefined && ov !== undefined ? v - ov : undefined;
+          return (
+            <div className="metric-line" key={key}>
+              <span className="l">{label}</span>
+              <span className="v">
+                {pct(v)}
+                {d !== undefined && Math.abs(d) > 0.0001 && (
+                  <span className={`delta ${d > 0 ? "up" : "down"}`}>{d > 0 ? "▲" : "▼"}{Math.abs(d * 100).toFixed(1)}</span>
+                )}
+              </span>
+            </div>
+          );
+        })}
 
         <div className="section-title">혼동행렬 (유형 단위 · Micro)</div>
         <div className="confusion">
@@ -386,32 +388,25 @@ function PromptDrawer({
 }
 
 function CaseModal({ c, isMock, onClose }: { c: CaseRow; isMock: boolean; onClose: () => void }) {
-  const legend = [
-    { c: "var(--ds-success)", t: "정탐 (실제 이슈를 잡음)" },
-    { c: "var(--ds-danger)", t: "오탐 (없는 이슈 지적)" },
-    { c: "var(--ds-warning)", t: "놓침 (실제 이슈 누락)" },
-  ];
   return (
     <div className="modal-wrap">
       <div className="scrim" onClick={onClose} />
       <div className="modal-card">
         <div className="modal-head">
-          <span className="t">{c.id} · 원문 상세 <span className="hint">({isMock ? "Mock" : "Claude"} 리뷰 결과)</span></span>
-          <button className="iconbtn" onClick={onClose}>✕</button>
-        </div>
-        <div className="modal-legend">
-          {legend.map((l) => (
-            <span className="legend-item" key={l.t}>
-              <span className="legend-swatch" style={{ background: l.c }} /> {l.t}
+          <span className="t">
+            {c.id} · 원문 상세{" "}
+            <span className="hint" style={{ fontWeight: 400 }}>
+              {isMock ? "Mock" : "Claude"} 리뷰 · 정탐/오탐/놓침을 우측 메모로 표시
             </span>
-          ))}
+          </span>
+          <button className="iconbtn" onClick={onClose}>✕</button>
         </div>
         <div className="modal-scroll">
           <DocumentViewer
             draft={c.draft || ""}
             agent={c.evaluation.agentOutput}
             gold={c.gold_labels}
-            title="편차 리포트 · 정답 대비 채점"
+            title={`편차 리포트 ${c.id} · 정답 대비 채점`}
           />
         </div>
       </div>
