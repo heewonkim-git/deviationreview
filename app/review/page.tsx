@@ -95,18 +95,6 @@ export default function ReviewerPage() {
 
   return (
     <div className="page">
-      <div className="page-head">
-        <span className="eyebrow" style={{ color: "var(--ds-brand)" }}>
-          실사용 화면 · 현업 검토자
-        </span>
-        <h1>
-          편차 문서를 올리면 <span className="blue">확정된 프롬프트</span>로 리뷰합니다
-        </h1>
-        <div className="tag">
-          Word(.docx) 또는 텍스트 파일을 업로드하면, 배포된 리뷰 에이전트가 문제 구간을 짚어줍니다.
-        </div>
-      </div>
-
       <div className="reviewer">
         <div className="rev-controls">
           <div className="confirmed-card">
