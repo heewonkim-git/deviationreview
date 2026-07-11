@@ -10,6 +10,7 @@ import {
   Metrics,
 } from "@/lib/types";
 import { DEFAULT_PROMPTS } from "@/lib/prompts";
+import { aggregateMetrics } from "@/lib/evaluate";
 import { saveConfirmed, loadConfirmed } from "@/lib/confirmed";
 import { DocumentViewer } from "./components/DocumentViewer";
 
@@ -78,32 +79,45 @@ export default function LabPage() {
     const reader = res.body.getReader();
     const dec = new TextDecoder();
     let buf = "";
+    const collected: CaseEvaluation[] = []; // 스트림 중단 대비 클라이언트 집계용
+    let gotDone = false;
     const handle = (ev: string, data: any) => {
       if (ev === "meta") {
         setMode(data.mode);
         setRuns((r) => ({ ...r, [active]: { ...r[active], total: data.total, status: "running" } }));
       } else if (ev === "case") {
+        collected.push(data.evaluation);
         setRuns((r) => {
           const cur = r[active];
           const row: CaseRow = { ...data.case, evaluation: data.evaluation };
           return { ...r, [active]: { ...cur, done: data.done, cases: [...cur.cases, row] } };
         });
       } else if (ev === "done") {
+        gotDone = true;
         setRuns((r) => ({ ...r, [active]: { ...r[active], status: "done", metrics: data.metrics } }));
       }
     };
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buf += dec.decode(value, { stream: true });
-      const parts = buf.split("\n\n");
-      buf = parts.pop() || "";
-      for (const p of parts) {
-        const lines = p.split("\n");
-        const ev = lines.find((l) => l.startsWith("event:"))?.slice(6).trim();
-        const dl = lines.find((l) => l.startsWith("data:"))?.slice(5).trim();
-        if (ev && dl) handle(ev, JSON.parse(dl));
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += dec.decode(value, { stream: true });
+        const parts = buf.split("\n\n");
+        buf = parts.pop() || "";
+        for (const p of parts) {
+          const lines = p.split("\n");
+          const ev = lines.find((l) => l.startsWith("event:"))?.slice(6).trim();
+          const dl = lines.find((l) => l.startsWith("data:"))?.slice(5).trim();
+          if (ev && dl) handle(ev, JSON.parse(dl));
+        }
       }
+    } catch {
+      /* 네트워크/타임아웃 중단 — 아래에서 부분 집계로 마무리 */
+    }
+    // done 이벤트를 못 받고 스트림이 끊긴 경우(예: Vercel 60초 제한): 받은 만큼으로 집계.
+    if (!gotDone) {
+      const metrics = collected.length ? aggregateMetrics(collected) : null;
+      setRuns((r) => ({ ...r, [active]: { ...r[active], status: "done", metrics } }));
     }
   }
 
@@ -178,6 +192,13 @@ export default function LabPage() {
           ⬆ 이 버전 배포
         </button>
       </div>
+
+      {!isMock && limit === 100 && (
+        <div className="hint" style={{ margin: "0 2px 14px" }}>
+          실제 Claude 100건은 함수 시간제한(Hobby 60초 · Pro 최대 5분)에 걸릴 수 있습니다. 중간에 끊겨도 받은 만큼
+          자동 집계됩니다 — 빠른 시연은 20/50건 또는 Mock 모드를 권장합니다.
+        </div>
+      )}
 
       <div className="lab">
         <div className="lab-main">

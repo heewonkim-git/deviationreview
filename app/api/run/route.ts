@@ -7,8 +7,8 @@ import datasetJson from "@/data/dataset.json";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-// Claude 실행 시 다수 케이스가 기본 타임아웃을 넘길 수 있어 최대 지속시간 확대.
-export const maxDuration = 60;
+// 다수 케이스 채점을 위해 최대 지속시간 확대(5분). Pro 플랜에서 적용, Hobby는 60초로 강제됨.
+export const maxDuration = 300;
 
 function loadDataset(): DeviationCase[] {
   return datasetJson as DeviationCase[];
@@ -32,7 +32,8 @@ export async function POST(req: NextRequest) {
   const cases = body.limit ? dataset.slice(0, body.limit) : dataset;
   const useMock = body.useMock ?? !hasApiKey();
   const mockProfile: "naive" | "tuned" = body.promptId === "v1" ? "naive" : "tuned";
-  const concurrency = Math.max(1, Math.min(body.concurrency ?? (useMock ? 20 : 5), 20));
+  // Vercel 함수 60초 제한 안에 100건을 끝내려면 동시성을 높인다.
+  const concurrency = Math.max(1, Math.min(body.concurrency ?? (useMock ? 24 : 12), 24));
 
   const encoder = new TextEncoder();
   const evaluations: CaseEvaluation[] = [];

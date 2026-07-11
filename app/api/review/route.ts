@@ -4,7 +4,7 @@ import { reviewCase } from "@/lib/reviewer";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 /**
  * POST /api/review — 편차 초안 1건을 확정 프롬프트로 리뷰 (실사용/리뷰어 화면용).
