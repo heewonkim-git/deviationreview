@@ -257,18 +257,34 @@ export default function OperationPage() {
   );
 }
 
-const METRIC_TIPS: Record<string, string> = {
-  Accuracy: "전체 판정 중 맞은 비율 — (TP+TN) / 전체. 유형 단위 정오 전체 정확도.",
-  Precision: "지적한 것 중 실제 이슈 비율 — P = TP / (TP+FP). 오탐이 적을수록 높음.",
-  Recall: "실제 이슈 중 잡아낸 비율 — R = TP / (TP+FN). 누락이 적을수록 높음.",
-  "F1 Score": "정밀도·재현율의 조화평균 — F1 = 2·P·R / (P+R). 둘의 균형.",
-  "Rule Compliance": "출력이 JSON 스키마·형식을 지킨 비율 — 형식 안정성.",
-  "Human Agreement": "사람 정답(Gold)과 유형 단위 판정이 일치한 비율.",
+const METRIC_INFO: Record<string, { desc: string; formula?: string }> = {
+  Accuracy: { desc: "전체 판정 중 맞게 맞춘 비율", formula: "( TP + TN ) / 전체" },
+  Precision: { desc: "지적한 것 중 실제 이슈였던 비율\n오탐이 적을수록 높음", formula: "TP / ( TP + FP )" },
+  Recall: { desc: "실제 이슈 중 놓치지 않고 잡아낸 비율\n누락이 적을수록 높음", formula: "TP / ( TP + FN )" },
+  "F1 Score": { desc: "정밀도와 재현율의 균형 (조화평균)", formula: "2 · P · R / ( P + R )" },
+  "Rule Compliance": { desc: "출력이 JSON 스키마·형식을 지킨 비율\n형식 안정성", formula: "규칙 준수 출력 / 전체 출력" },
+  "Human Agreement": { desc: "사람 정답(Gold)과 유형 단위 판정이\n일치한 비율", formula: "일치 판정 / 전체 판정" },
 };
+
+/** 조용히 뜨는 설명 툴팁 (설명 여러 줄 + 수식은 민트). */
+function Tip({ label, desc, formula }: { label: string; desc: string; formula?: string }) {
+  return (
+    <span className="tt">
+      {label}
+      <span className="tt-box" role="tooltip">
+        <span className="tt-desc">{desc}</span>
+        {formula && <span className="tt-formula">{formula}</span>}
+      </span>
+    </span>
+  );
+}
 
 function ResultsBlock({ metrics, cmp, cmpLabel, deployed }: { metrics: Metrics | null; cmp: Metrics | null; cmpLabel: string; deployed: boolean }) {
   const [open, setOpen] = useState(false);
-  const ok = metrics && metrics.f1 >= 0.85 && metrics.ruleCompliance >= 0.999;
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [f1Cut, setF1Cut] = useState(85);
+  const [rcCut, setRcCut] = useState(100);
+  const ok = metrics && metrics.f1 * 100 >= f1Cut && metrics.ruleCompliance * 100 >= rcCut;
   const items: { k: string; key: keyof Metrics }[] = [
     { k: "Accuracy", key: "accuracy" },
     { k: "Precision", key: "precision" },
@@ -289,7 +305,7 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed }: { metrics: Metrics |
             const d = v !== undefined && ov !== undefined ? v - ov : undefined;
             return (
               <div className="stat" key={k}>
-                <div className="k"><span className="tip" data-tip={METRIC_TIPS[k]}>{k}</span></div>
+                <div className="k"><Tip label={k} desc={METRIC_INFO[k].desc} formula={METRIC_INFO[k].formula} /></div>
                 <div className="v">{pct(v)}</div>
                 {d !== undefined ? (
                   <div className={`d ${Math.abs(d) < 0.0001 ? "" : d > 0 ? "up" : "down"}`}>
@@ -358,10 +374,15 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed }: { metrics: Metrics |
           </div>
         )}
 
-        {/* Test Result: 배포 결정 */}
+        {/* Test Result: 배포 결정 (컷오프 사람이 설정) */}
         <div className="testresult">
-          <div className="tr-line">
-            <span className="tr-label">Test Result :</span>
+          <div className="tr-head">
+            <span className="tr-label">
+              <Tip
+                label="Test Result :"
+                desc={"설정한 컷오프 기준으로 배포 권고 여부를 판정합니다.\nRelease 권고 = 기준 충족(배포 가능)\n개선 필요 = 미달(프롬프트 개선 필요)"}
+              />
+            </span>
             {metrics ? (
               <span className="tr-verdict" style={{ color: ok ? "var(--ds-brand)" : "var(--ds-text-muted)" }}>
                 {ok ? "Release 권고" : "개선 필요"}{deployed ? " · 현재 배포됨" : ""}
@@ -369,9 +390,23 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed }: { metrics: Metrics |
             ) : (
               <span className="hint">Test 실행 후 판단됩니다.</span>
             )}
+            <button className="gear" onClick={() => setSettingsOpen((o) => !o)} title="판정 기준(cut-off) 설정">
+              <Icon name="settings" size={15} />
+            </button>
           </div>
+          {settingsOpen && (
+            <div className="tr-settings">
+              <label className="tr-field">
+                F1 ≥ <input type="number" min={0} max={100} value={f1Cut} onChange={(e) => setF1Cut(Number(e.target.value))} /> %
+              </label>
+              <label className="tr-field">
+                Rule Compliance ≥ <input type="number" min={0} max={100} value={rcCut} onChange={(e) => setRcCut(Number(e.target.value))} /> %
+              </label>
+              <span className="hint">이 기준 이상이면 Release 권고로 표시됩니다.</span>
+            </div>
+          )}
           {metrics && (
-            <div className="hint">기준 F1 ≥ 85% · Rule Compliance = 100% (현재 F1 {pct(metrics.f1)} · RC {pct(metrics.ruleCompliance)})</div>
+            <div className="hint">기준 F1 ≥ {f1Cut}% · Rule Compliance ≥ {rcCut}% (현재 F1 {pct(metrics.f1)} · RC {pct(metrics.ruleCompliance)})</div>
           )}
         </div>
       </div>

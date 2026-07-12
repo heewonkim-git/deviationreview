@@ -133,52 +133,91 @@ body *:not(pre):not(code) {
 }
 
 /* 지표 설명 툴팁 (작은 그레이 네모). */
-.tip {
+/* 구조화 툴팁(.tt): 설명(여러 줄) + 수식(민트). 대시 없이 줄바꿈으로 정리. */
+.tt {
   position: relative;
 }
-.tip::after {
-  content: attr(data-tip);
+.tt-box {
   position: absolute;
   left: 0;
   top: calc(100% + 8px);
   width: max-content;
-  max-width: 260px;
-  padding: 8px 10px;
+  max-width: 280px;
+  padding: 12px 14px;
   background: var(--ds-surface-2);
-  color: var(--ds-text);
   border: 1px solid var(--ds-border-strong);
   border-radius: var(--ds-radius-md);
   box-shadow: var(--ds-shadow-md);
-  font-size: var(--ds-text-xs);
-  font-weight: 400;
-  line-height: 1.5;
-  white-space: normal;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   opacity: 0;
   transform: translateY(-3px);
   pointer-events: none;
   transition: opacity 0.12s ease, transform 0.12s ease;
   z-index: 20;
 }
-.tip:hover::after {
+.tt:hover .tt-box {
   opacity: 1;
   transform: translateY(0);
 }
-/* 오른쪽 끝 지표 툴팁은 오른쪽 정렬(화면 밖 방지). */
-.stat:last-child .tip::after,
-.stat:nth-child(3n) .tip::after {
+.tt-desc {
+  font-size: var(--ds-text-xs);
+  font-weight: 400;
+  color: var(--ds-text);
+  line-height: 1.7;
+  white-space: pre-line;
+}
+.tt-formula {
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-text-xs);
+  font-weight: 600;
+  color: var(--ds-brand);
+  letter-spacing: 0.01em;
+}
+/* 오른쪽 열 지표 툴팁은 오른쪽 정렬(화면 밖 방지). */
+.stat:last-child .tt-box,
+.stat:nth-child(3n) .tt-box {
   left: auto;
   right: 0;
 }
 
-.summary-cap {
-  font-size: var(--ds-text-sm);
-  font-weight: 600;
-  color: var(--ds-text-muted);
-  margin-bottom: 2px;
+/* Test Result 컷오프 설정 */
+.tr-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.summary-cap .hint {
-  font-weight: 400;
-  display: inline;
+.gear {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--ds-text-subtle);
+  cursor: pointer;
+  padding: 3px;
+  border-radius: var(--ds-radius-sm);
+  display: inline-flex;
+}
+.gear:hover {
+  color: var(--ds-brand);
+  background: var(--ds-surface-2);
+}
+.tr-settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 0 2px;
+}
+.tr-field {
+  font-size: var(--ds-text-xs);
+  color: var(--ds-text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tr-field input {
+  width: 58px;
 }
 
 /* ============================ Nav ============================ */
@@ -338,7 +377,8 @@ body *:not(pre):not(code) {
 }
 
 select,
-input[type="text"] {
+input[type="text"],
+input[type="number"] {
   font-family: inherit;
   font-size: var(--ds-text-sm);
   padding: 7px 10px;
