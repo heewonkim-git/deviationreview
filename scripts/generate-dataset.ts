@@ -131,7 +131,7 @@ function buildDraft(s: Scenario, g: GoldLabels, id: string, useFishbone: boolean
   return `편차 보고서 (Deviation Report) — QA-DEV-F-001 Rev.00 · ${id}
 
 [1. 편차 개요]
-편차번호: ${dv} | 발생일시: 2026-06-${pad(0).slice(2)}12 09:${20} | 발견일시: 2026-06-12 10:05
+편차번호: ${dv} | 발생일시: 2026-06-12 09:20 | 발견일시: 2026-06-12 10:05
 작성자/부서: 홍길동 / 생산1팀
 제품: ${s.product} | 배치번호: LOT-${id.slice(-4)} | 공정 단계: ${s.step} | 발생 위치: ${s.area}
 관련 설비: ${s.equipment} ${s.eqNo} | 관련 문서: ${s.sop}

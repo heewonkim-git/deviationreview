@@ -440,7 +440,7 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed, consistency, onRunCons
                       const maxV = Math.max(...vals) * 100;
                       const medV = median(vals) * 100;
                       // KDE 밀도 곡선(추세선) — 얇고 낮게
-                      const H = 30;
+                      const H = 22;
                       const bw = 6;
                       const pts: string[] = [];
                       let maxY = 0;

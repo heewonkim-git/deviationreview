@@ -12,11 +12,12 @@ import { AgentOutput, GoldLabels, IssueType, ISSUE_LABELS } from "@/lib/types";
  */
 
 type Tone = "flag" | "tp" | "fp" | "fn";
-const TONE_COLOR: Record<Tone, string> = {
-  flag: "var(--ds-brand)",
-  tp: "var(--ds-success)",
-  fp: "var(--ds-danger)",
-  fn: "var(--ds-warning)",
+// 무채색 문서 — 색 대신 회색 그라데이션(진하기)으로 강조. 정탐은 옅게, 문제(오탐/놓침)는 진하게.
+const TONE_GRAY: Record<Tone, string> = {
+  flag: "var(--ds-text-muted)",
+  tp: "var(--ds-text-subtle)",
+  fp: "var(--ds-text)",
+  fn: "var(--ds-text-muted)",
 };
 const TONE_LABEL: Record<Tone, string> = {
   flag: "지적",
@@ -61,16 +62,16 @@ export function DocumentViewer({ draft, agent, gold, title }: DocViewerProps) {
             <div key={s.key} className="doc-row" style={{ display: "contents" }}>
               <div
                 className={`doc-body${note ? " hl" : ""}`}
-                style={note ? { borderLeftColor: TONE_COLOR[note.tone] } : undefined}
+                style={note ? { borderLeftColor: TONE_GRAY[note.tone] } : undefined}
               >
                 {s.heading && <div className="doc-h">{s.heading}</div>}
                 <div className="doc-text">{s.body}</div>
               </div>
               <div className="note-col">
                 {note && s.issueType && (
-                  <div className="note" style={{ borderColor: `color-mix(in srgb, ${TONE_COLOR[note.tone]} 45%, var(--ds-border))` }}>
-                    <div className="note-h" style={{ color: TONE_COLOR[note.tone] }}>
-                      <span className="note-dot" style={{ background: TONE_COLOR[note.tone] }} />
+                  <div className="note">
+                    <div className="note-h" style={{ color: TONE_GRAY[note.tone] }}>
+                      <span className="note-dot" style={{ background: TONE_GRAY[note.tone] }} />
                       {ISSUE_LABELS[s.issueType]}
                       <span className="note-tag">{TONE_LABEL[note.tone]}</span>
                     </div>
