@@ -37,9 +37,18 @@ export function buildNotes(agent: AgentOutput | null, gold?: GoldLabels): FormNo
   return notes;
 }
 
+export function verdictLabel(agent: AgentOutput | null): string | undefined {
+  if (!agent) return undefined;
+  return agent.overall_verdict === "pass"
+    ? "이상 없음 (Pass)"
+    : agent.overall_verdict === "fail"
+    ? "중대 결함 (Fail)"
+    : "수정 필요 (Needs revision)";
+}
+
 export function DocumentViewer({ draft, agent, gold, title }: DocViewerProps) {
   const notes = buildNotes(agent, gold);
-  const html = deviationFormHtml(draft, notes);
+  const html = deviationFormHtml(draft, notes, verdictLabel(agent));
   return (
     <div className="doc-page">
       {title && <div className="doc-title">{title}</div>}

@@ -121,19 +121,9 @@ export default function ReviewerPage() {
 
   function downloadDoc() {
     if (!result) return;
-    const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    // 화면과 동일한 폼(표·체크박스) + 지적 메모를 그대로 재현
-    const secHtml = deviationFormHtml(draft, buildNotes(result, undefined));
-    const issuesHtml = result.issues.length
-      ? "<ol>" + result.issues.map((i) => `<li><b>${ISSUE_LABELS[i.type]}</b> (심각도 ${SEV_LABEL[i.severity] ?? i.severity}) — ${esc(i.explanation)}</li>`).join("") + "</ol>"
-      : "<p>지적된 이슈 없음</p>";
-    const vlabel =
-      result.overall_verdict === "pass" ? "이상 없음 (Pass)" : result.overall_verdict === "fail" ? "중대 결함 (Fail)" : "수정 필요 (Needs revision)";
-    const body = `<h2>편차 리뷰 결과</h2>
-      <p><b>판정:</b> ${vlabel}</p>
-      <h3>수정이 필요한 항목</h3>${issuesHtml}
-      <h3>원문 (문제 구간 표시)</h3>${secHtml}`;
-    const html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:'Malgun Gothic',sans-serif;font-size:11pt;line-height:1.6}h2{font-size:15pt}h3{font-size:12pt}</style></head><body>${body}</body></html>`;
+    // 화면과 동일: 상단 리뷰 메모(판정+수정필요 항목) + 서식 본문(지적 섹션 회색 강조)
+    const body = deviationFormHtml(draft, buildNotes(result, undefined), verdictLabel);
+    const html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:'Malgun Gothic',sans-serif;font-size:11pt;line-height:1.6}</style></head><body>${body}</body></html>`;
     const blob = new Blob(["﻿", html], { type: "application/msword" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
