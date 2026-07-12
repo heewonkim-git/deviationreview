@@ -5,7 +5,7 @@ import { AgentOutput, ISSUE_LABELS } from "@/lib/types";
 import { parseDeviation } from "@/lib/deviation";
 import { modelLabel } from "@/lib/models";
 import { ConfirmedPrompt, loadConfirmed } from "@/lib/confirmed";
-import { DocumentViewer, buildNotes } from "../components/DocumentViewer";
+import { DocumentViewer, buildNotes, COMMENT_AUTHOR } from "../components/DocumentViewer";
 import { Icon } from "../components/Icon";
 import { Tip } from "../components/Tip";
 
@@ -122,60 +122,69 @@ export default function ReviewerPage() {
 
   async function downloadDoc() {
     if (!result) return;
-    // 진짜 Word 검토(Review) 코멘트가 달린 .docx 생성 — 지적 섹션 제목에 코멘트 부착.
+    // 양식(표)을 유지한 .docx 생성 + 지적 섹션에 실제 Word 검토 코멘트 부착.
+    // 상단 안내문 없이 양식 바로 시작. 꼭 할 말(종합)은 문서 타이틀에 코멘트로.
     const D = await import("docx");
-    const { Document, Packer, Paragraph, TextRun, CommentRangeStart, CommentRangeEnd, CommentReference, AlignmentType } = D;
+    const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, CommentRangeStart, CommentRangeEnd, CommentReference, AlignmentType } = D;
+    const AUTHOR = COMMENT_AUTHOR;
     const notes = buildNotes(result, undefined);
     const sections = parseDeviation(draft);
     let cid = 0;
-    const commentChildren: any[] = [];
-    const bodyChildren: any[] = [];
+    const comments: any[] = [];
+    const children: any[] = [];
 
-    bodyChildren.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "편차 보고서 (AI 리뷰 · 검토 코멘트)", bold: true, size: 28 })] }));
-    bodyChildren.push(new Paragraph({ children: [new TextRun({ text: `판정: ${verdictLabel}`, bold: true })] }));
-    bodyChildren.push(new Paragraph({ children: [new TextRun({ text: "회색으로 표시된 제목에 검토 코멘트가 달려 있습니다. Word에서 [검토] 탭으로 확인하세요.", italics: true, size: 18, color: "666666" })] }));
-    bodyChildren.push(new Paragraph({ text: "" }));
+    const bodyToTable = (body: string) => {
+      const rows: any[] = [];
+      body.split("\n").forEach((line) => {
+        line.split("|").map((p) => p.trim()).filter(Boolean).forEach((part) => {
+          const m = part.match(/^(.+?):\s*(.*)$/);
+          if (m && m[2] !== "") {
+            rows.push(new TableRow({ children: [
+              new TableCell({ width: { size: 30, type: WidthType.PERCENTAGE }, shading: { fill: "F5F5F5" }, children: [new Paragraph({ children: [new TextRun({ text: m[1], size: 18 })] })] }),
+              new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: m[2], size: 18 })] })] }),
+            ] }));
+          } else {
+            rows.push(new TableRow({ children: [new TableCell({ columnSpan: 2, children: [new Paragraph({ children: [new TextRun({ text: part, size: 18 })] })] })] }));
+          }
+        });
+      });
+      return rows.length ? new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows }) : null;
+    };
 
     for (const sec of sections) {
       if (!sec.heading) {
-        sec.body.split("\n").map((s) => s.trim()).filter(Boolean).forEach((l) =>
-          bodyChildren.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: l, bold: true })] }))
-        );
+        const lines = sec.body.split("\n").map((l) => l.trim()).filter(Boolean);
+        lines.forEach((l, i) => {
+          if (i === 0) {
+            // 문서 타이틀 + 종합 코멘트(꼭 할 말)
+            const id = cid++;
+            const cc: any[] = [new Paragraph({ children: [new TextRun({ text: `판정: ${verdictLabel}`, bold: true })] })];
+            if (result.issues.length) result.issues.forEach((iss, k) => cc.push(new Paragraph({ children: [new TextRun({ text: `${k + 1}. ${ISSUE_LABELS[iss.type]} — ${iss.explanation}` })] })));
+            else cc.push(new Paragraph({ children: [new TextRun({ text: "지적된 이슈 없음" })] }));
+            comments.push({ id, author: AUTHOR, initials: "DRP", date: new Date(), children: cc });
+            children.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [new CommentRangeStart(id), new TextRun({ text: l, bold: true, size: 28 }), new CommentRangeEnd(id), new CommentReference(id)] }));
+          } else {
+            children.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: l, size: 18, color: "666666" })] }));
+          }
+        });
         continue;
       }
       const note = sec.issueType ? notes[sec.issueType] : undefined;
       if (note) {
         const id = cid++;
-        commentChildren.push({
-          id,
-          author: "AI 리뷰",
-          initials: "AI",
-          date: new Date(),
-          children: [
-            new Paragraph({ children: [new TextRun({ text: note.label, bold: true })] }),
-            new Paragraph({ children: [new TextRun({ text: note.text })] }),
-          ],
-        });
-        bodyChildren.push(
-          new Paragraph({
-            spacing: { before: 200 },
-            children: [
-              new CommentRangeStart(id),
-              new TextRun({ text: sec.heading, bold: true, highlight: "lightGray" }),
-              new CommentRangeEnd(id),
-              new CommentReference(id),
-            ],
-          })
-        );
+        comments.push({ id, author: AUTHOR, initials: "DRP", date: new Date(), children: [
+          new Paragraph({ children: [new TextRun({ text: note.label, bold: true })] }),
+          new Paragraph({ children: [new TextRun({ text: note.text })] }),
+        ] });
+        children.push(new Paragraph({ spacing: { before: 160 }, shading: { fill: "ECECEC" }, children: [new CommentRangeStart(id), new TextRun({ text: sec.heading, bold: true }), new CommentRangeEnd(id), new CommentReference(id)] }));
       } else {
-        bodyChildren.push(new Paragraph({ spacing: { before: 200 }, children: [new TextRun({ text: sec.heading, bold: true })] }));
+        children.push(new Paragraph({ spacing: { before: 160 }, shading: { fill: "ECECEC" }, children: [new TextRun({ text: sec.heading, bold: true })] }));
       }
-      sec.body.split("\n").filter((l) => l.trim()).forEach((l) =>
-        bodyChildren.push(new Paragraph({ children: [new TextRun({ text: l })] }))
-      );
+      const t = bodyToTable(sec.body);
+      if (t) children.push(t);
     }
 
-    const doc = new Document({ comments: { children: commentChildren }, sections: [{ children: bodyChildren }] });
+    const doc = new Document({ comments: { children: comments }, sections: [{ children }] });
     const blob = await Packer.toBlob(doc);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
