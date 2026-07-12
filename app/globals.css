@@ -759,6 +759,85 @@ input[type="checkbox"] {
 .pertype {
   padding-top: 10px;
 }
+.disclose-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 26px;
+  padding-top: 12px;
+}
+@media (max-width: 760px) {
+  .disclose-body {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+.detail-col {
+  min-width: 0;
+}
+
+/* 2×2 혼동행렬 (행: 예측 · 열: 실제) */
+.cm {
+  display: grid;
+  grid-template-columns: 78px 1fr 1fr;
+  gap: 6px;
+}
+.cm-corner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 10px;
+  color: var(--ds-text-subtle);
+}
+.cm-h {
+  background: var(--ds-surface-2);
+  border: 1px solid var(--hair);
+  border-radius: var(--ds-radius-sm);
+  padding: 8px 6px;
+  font-size: var(--ds-text-xs);
+  font-weight: 600;
+  color: var(--ds-text-muted);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-content: center;
+}
+.cm-h span {
+  font-weight: 400;
+  color: var(--ds-text-subtle);
+  font-size: 10px;
+}
+.cm-cell {
+  border: 1px solid var(--hair);
+  border-radius: var(--ds-radius-sm);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+}
+.cm-cell.diag {
+  background: var(--ds-brand-subtle);
+  border-color: color-mix(in srgb, var(--ds-brand) 30%, var(--hair));
+}
+.cm-abbr {
+  font-size: var(--ds-text-xs);
+  font-weight: 700;
+  color: var(--ds-text-muted);
+  letter-spacing: 0.04em;
+}
+.cm-val {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.cm-full {
+  font-size: 10px;
+  color: var(--ds-text-subtle);
+}
 
 /* Test Result (배포 결정) — 점선 박스 */
 .testresult {

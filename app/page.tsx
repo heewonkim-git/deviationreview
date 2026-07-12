@@ -303,31 +303,58 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed }: { metrics: Metrics |
           })}
         </div>
 
-        {/* 아랫줄: 혼동행렬 */}
-        <div className="section-title">혼동행렬 (유형 단위 · Micro)</div>
-        <div className="confusion wide">
-          <div className="cell tp"><span className="k">TP 정탐</span><span className="v">{metrics?.confusion.tp ?? "—"}</span></div>
-          <div className="cell fp"><span className="k">FP 오탐</span><span className="v">{metrics?.confusion.fp ?? "—"}</span></div>
-          <div className="cell fn"><span className="k">FN 누락</span><span className="v">{metrics?.confusion.fn ?? "—"}</span></div>
-          <div className="cell tn"><span className="k">TN 정상</span><span className="v">{metrics?.confusion.tn ?? "—"}</span></div>
-        </div>
-
-        {/* 상세 보기 → 유형별 F1 (조용히 펼침) */}
+        {/* 상세 보기 → 좌: 혼동행렬(2×2) / 우: 유형별 F1 */}
         <button className="disclose" onClick={() => setOpen((o) => !o)}>
           <span className={`chev-ic ${open ? "open" : ""}`}><Icon name="chevron" size={14} /></span>
-          상세 보기 · 유형별 F1
+          상세 보기 · 혼동행렬 & 유형별 F1
         </button>
         {open && (
-          <div className="pertype">
-            {ISSUE_TYPES.map((t) => (
-              <div className="bar-row" key={t}>
-                <span>{ISSUE_LABELS[t]}</span>
-                <div className="bar-track">
-                  <div className="bar-fill" style={{ width: `${(metrics?.perType[t].f1 ?? 0) * 100}%` }} />
+          <div className="disclose-body">
+            <div className="detail-col">
+              <div className="section-title" style={{ marginTop: 0 }}>혼동행렬 (행: 예측 · 열: 실제)</div>
+              <div className="cm">
+                <div className="cm-corner">예측 ＼ 실제</div>
+                <div className="cm-h">실제 정<span>이슈 있음</span></div>
+                <div className="cm-h">실제 오<span>이슈 없음</span></div>
+
+                <div className="cm-h side">예측 정<span>지적</span></div>
+                <div className="cm-cell diag">
+                  <span className="cm-abbr">TP</span>
+                  <span className="cm-val">{metrics?.confusion.tp ?? "—"}</span>
+                  <span className="cm-full">True Positive · 정탐</span>
                 </div>
-                <span className="bar-val">{metrics ? pct(metrics.perType[t].f1) : "—"}</span>
+                <div className="cm-cell">
+                  <span className="cm-abbr">FP</span>
+                  <span className="cm-val">{metrics?.confusion.fp ?? "—"}</span>
+                  <span className="cm-full">False Positive · 오탐</span>
+                </div>
+
+                <div className="cm-h side">예측 오<span>미지적</span></div>
+                <div className="cm-cell">
+                  <span className="cm-abbr">FN</span>
+                  <span className="cm-val">{metrics?.confusion.fn ?? "—"}</span>
+                  <span className="cm-full">False Negative · 누락</span>
+                </div>
+                <div className="cm-cell diag">
+                  <span className="cm-abbr">TN</span>
+                  <span className="cm-val">{metrics?.confusion.tn ?? "—"}</span>
+                  <span className="cm-full">True Negative · 정상</span>
+                </div>
               </div>
-            ))}
+            </div>
+
+            <div className="detail-col">
+              <div className="section-title" style={{ marginTop: 0 }}>유형별 F1 (RCA는 5 Whys/Fishbone 공통)</div>
+              {ISSUE_TYPES.map((t) => (
+                <div className="bar-row" key={t}>
+                  <span>{ISSUE_LABELS[t]}</span>
+                  <div className="bar-track">
+                    <div className="bar-fill" style={{ width: `${(metrics?.perType[t].f1 ?? 0) * 100}%` }} />
+                  </div>
+                  <span className="bar-val">{metrics ? pct(metrics.perType[t].f1) : "—"}</span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
