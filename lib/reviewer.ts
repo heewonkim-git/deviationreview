@@ -177,5 +177,11 @@ export async function reviewCase(
 ): Promise<ReviewResult> {
   const useMock = opts.useMock ?? !hasApiKey();
   if (useMock) return reviewWithMock(testCase, opts.mockProfile ?? "tuned");
-  return reviewWithClaude(testCase, systemPrompt);
+  const res = await reviewWithClaude(testCase, systemPrompt);
+  // Claude 호출 실패(크레딧 부족·레이트리밋 등) → Mock으로 자동 폴백해 데모가 끊기지 않게 함.
+  if (res.error || !res.output) {
+    const m = reviewWithMock(testCase, opts.mockProfile ?? "tuned");
+    return { output: m.output, ruleCompliant: m.ruleCompliant, source: "mock" };
+  }
+  return res;
 }

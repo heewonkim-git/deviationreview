@@ -120,6 +120,7 @@ export default function OperationPage() {
         setMode(data.mode);
         patch(id, (v) => ({ ...v, total: data.total }));
       } else if (ev === "case") {
+        if (data.source === "mock") setMode("mock"); // Claude 실패 → Mock 폴백 시 배지 반영
         collected.push(data.evaluation);
         patch(id, (v) => ({ ...v, done: data.done, cases: [...v.cases, { ...data.case, evaluation: data.evaluation }] }));
       } else if (ev === "done") {

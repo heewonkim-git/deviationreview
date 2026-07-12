@@ -97,6 +97,7 @@ export default function ReviewerPage() {
     }
     try {
       const data = await apiPromise;
+      if (data.source) setMode(data.source); // Claude 실패 → Mock 폴백 시 배지 반영
       if (data.error) setErr(`리뷰 오류: ${data.error}`);
       else if (!data.output) setErr("에이전트 출력이 규칙을 위반했습니다.");
       else setResult(data.output as AgentOutput);
