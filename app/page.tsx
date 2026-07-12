@@ -219,6 +219,13 @@ export default function OperationPage() {
             <option key={m.id} value={m.id}>{m.label}</option>
           ))}
         </select>
+        <span className="infobadge">
+          <Tip
+            label="ⓘ"
+            desc={MODELS.map((m) => `${m.short} · 입력 $${m.in} / 출력 $${m.out} (1M 토큰)\n${m.speed}`).join("\n\n")}
+            formula="Haiku = 입·출력 모두 5× 저렴 (Anthropic 공식 가격표)"
+          />
+        </span>
         <div className="spacer" />
         <select value={limit} onChange={(e) => setLimit(Number(e.target.value))}>
           <option value={20}>20건</option>

@@ -134,6 +134,15 @@ body *:not(pre):not(code) {
 .modelselect {
   min-width: 230px;
 }
+.infobadge {
+  color: var(--ds-text-subtle);
+  font-size: 13px;
+  cursor: default;
+  display: inline-flex;
+}
+.infobadge:hover {
+  color: var(--ds-brand);
+}
 
 /* 지표 설명 툴팁 (작은 그레이 네모). */
 /* 구조화 툴팁(.tt): 설명(여러 줄) + 수식(민트). 대시 없이 줄바꿈으로 정리. */
