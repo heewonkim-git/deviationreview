@@ -115,6 +115,31 @@ export default function ReviewerPage() {
     setErr(null);
   }
 
+  function downloadDoc() {
+    if (!result) return;
+    const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const issuesHtml = result.issues.length
+      ? "<ol>" + result.issues.map((i) => `<li><b>${ISSUE_LABELS[i.type]}</b> (심각도 ${SEV_LABEL[i.severity] ?? i.severity}) — ${esc(i.explanation)}</li>`).join("") + "</ol>"
+      : "<p>지적된 이슈 없음</p>";
+    const vlabel =
+      result.overall_verdict === "pass" ? "이상 없음 (Pass)" : result.overall_verdict === "fail" ? "중대 결함 (Fail)" : "수정 필요 (Needs revision)";
+    const body = `<h2>편차 리뷰 결과</h2>
+      <p><b>판정:</b> ${vlabel}</p>
+      <h3>수정이 필요한 항목</h3>${issuesHtml}
+      <h3>원문</h3>
+      <div style="white-space:pre-wrap">${esc(draft)}</div>`;
+    const html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:'Malgun Gothic',sans-serif;font-size:11pt;line-height:1.6}h2{font-size:15pt}h3{font-size:12pt}</style></head><body>${body}</body></html>`;
+    const blob = new Blob(["﻿", html], { type: "application/msword" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${(fileName || "deviation_review").replace(/\.[^.]+$/, "")}_review.doc`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
   const ver = confirmed ? `${confirmed.version}.0` : "—";
   const isMock = mode === "mock";
   const issues = result?.issues ?? [];
@@ -254,7 +279,12 @@ export default function ReviewerPage() {
           <div className="modal-card">
             <div className="modal-head">
               <span className="t">원문 상세 · 문제 구간 하이라이트</span>
-              <button className="iconbtn" onClick={() => setDetail(false)}><Icon name="close" size={15} /></button>
+              <div className="row" style={{ gap: 4 }}>
+                <button className="iconbtn" onClick={downloadDoc} title="Word(.doc)로 다운로드">
+                  <Icon name="download" size={15} />
+                </button>
+                <button className="iconbtn" onClick={() => setDetail(false)}><Icon name="close" size={15} /></button>
+              </div>
             </div>
             <div className="modal-scroll">
               <DocumentViewer draft={draft} agent={result} title={fileName || "업로드된 편차 문서"} />

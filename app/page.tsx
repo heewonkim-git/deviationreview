@@ -206,40 +206,37 @@ export default function OperationPage() {
         </div>
       )}
 
-      <div className="lab">
-        <div className="lab-main">
-          <div className="summary-cap">
-            평가 지표 · 6대 <span className="hint">— 라벨에 마우스를 올리면 식·의미</span>
+      <ResultsBlock
+        metrics={metrics}
+        cmp={cmpMetrics}
+        cmpLabel={cmp ? `v${cmp.id}` : ""}
+        deployed={deployedId === selectedId}
+      />
+
+      <div className="panel" style={{ marginTop: 16 }}>
+        <div className="panel-head">
+          평가 진행 · PASS / FAIL <span className="sub">케이스를 누르면 원문에서 상세 확인</span>
+        </div>
+        <div className="panel-body" style={{ maxHeight: "52vh" }}>
+          <div className="progress-track">
+            <div className="progress-fill" style={{ width: sel.total ? `${(sel.done / sel.total) * 100}%` : "0%" }} />
           </div>
-          <SummaryHero metrics={metrics} cmp={cmpMetrics} cmpLabel={cmp ? `v${cmp.id}` : ""} />
-          <div className="panel">
-            <div className="panel-head">
-              평가 진행 · PASS / FAIL <span className="sub">케이스를 누르면 원문에서 상세 확인</span>
-            </div>
-            <div className="panel-body" style={{ maxHeight: "48vh" }}>
-              <div className="progress-track">
-                <div className="progress-fill" style={{ width: sel.total ? `${(sel.done / sel.total) * 100}%` : "0%" }} />
+          <div className="progress-meta">
+            <span>{sel.done} / {sel.total || "—"} 케이스</span>
+            <span>PASS {sel.cases.filter((c) => c.evaluation.pass).length} · FAIL {sel.cases.filter((c) => !c.evaluation.pass).length}</span>
+          </div>
+          <div className="case-list">
+            {sel.cases.length === 0 && <div className="empty">Test를 실행하면 케이스별 결과가 실시간으로 표시됩니다.</div>}
+            {sel.cases.map((c) => (
+              <div key={c.id} className="case-row" onClick={() => setSelectedCase(c.id)}>
+                <span className="cid">{c.id}</span>
+                <span className={`pill ${c.evaluation.pass ? "pass" : "fail"}`}>{c.evaluation.pass ? "PASS" : "FAIL"}</span>
+                <span className="reason">{c.evaluation.reason}</span>
+                <span className="chev"><Icon name="chevron" size={14} /></span>
               </div>
-              <div className="progress-meta">
-                <span>{sel.done} / {sel.total || "—"} 케이스</span>
-                <span>PASS {sel.cases.filter((c) => c.evaluation.pass).length} · FAIL {sel.cases.filter((c) => !c.evaluation.pass).length}</span>
-              </div>
-              <div className="case-list">
-                {sel.cases.length === 0 && <div className="empty">채점을 실행하면 케이스별 결과가 실시간으로 표시됩니다.</div>}
-                {sel.cases.map((c) => (
-                  <div key={c.id} className="case-row" onClick={() => setSelectedCase(c.id)}>
-                    <span className="cid">{c.id}</span>
-                    <span className={`pill ${c.evaluation.pass ? "pass" : "fail"}`}>{c.evaluation.pass ? "PASS" : "FAIL"}</span>
-                    <span className="reason">{c.evaluation.reason}</span>
-                    <span className="chev"><Icon name="chevron" size={14} /></span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-
-        <MetricsRail metrics={metrics} deployed={deployedId === selectedId} />
       </div>
 
       {improveOpen && (
@@ -269,7 +266,9 @@ const METRIC_TIPS: Record<string, string> = {
   "Human Agreement": "사람 정답(Gold)과 유형 단위 판정이 일치한 비율.",
 };
 
-function SummaryHero({ metrics, cmp, cmpLabel }: { metrics: Metrics | null; cmp: Metrics | null; cmpLabel: string }) {
+function ResultsBlock({ metrics, cmp, cmpLabel, deployed }: { metrics: Metrics | null; cmp: Metrics | null; cmpLabel: string; deployed: boolean }) {
+  const [open, setOpen] = useState(false);
+  const ok = metrics && metrics.f1 >= 0.85 && metrics.ruleCompliance >= 0.999;
   const items: { k: string; key: keyof Metrics }[] = [
     { k: "Accuracy", key: "accuracy" },
     { k: "Precision", key: "precision" },
@@ -279,67 +278,73 @@ function SummaryHero({ metrics, cmp, cmpLabel }: { metrics: Metrics | null; cmp:
     { k: "Human Agreement", key: "humanAgreement" },
   ];
   return (
-    <div className="summary">
-      {items.map(({ k, key }) => {
-        const v = metrics ? (metrics[key] as number) : undefined;
-        const ov = cmp ? (cmp[key] as number) : undefined;
-        const d = v !== undefined && ov !== undefined ? v - ov : undefined;
-        return (
-          <div className="stat" key={k}>
-            <div className="k">
-              <span className="tip" data-tip={METRIC_TIPS[k]}>{k}</span>
-            </div>
-            <div className="v">{pct(v)}</div>
-            {d !== undefined ? (
-              <div className={`d ${Math.abs(d) < 0.0001 ? "" : d > 0 ? "up" : "down"}`}>
-                {Math.abs(d) < 0.0001 ? "동일" : `${d > 0 ? "+" : "−"}${Math.abs(d * 100).toFixed(1)}p vs ${cmpLabel}`}
-              </div>
-            ) : (
-              <div className="d">{metrics ? "단독 실행" : "채점 대기"}</div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function MetricsRail({ metrics, deployed }: { metrics: Metrics | null; deployed: boolean }) {
-  const ok = metrics && metrics.f1 >= 0.85 && metrics.ruleCompliance >= 0.999;
-  return (
     <div className="panel">
-      <div className="panel-head">진단 (Diagnostics) <span className="sub">혼동행렬 · 유형별 F1</span></div>
+      <div className="panel-head">평가 결과 <span className="sub">6대 지표 · 혼동행렬</span></div>
       <div className="panel-body">
-        <div className="section-title" style={{ marginTop: 0 }}>혼동행렬 (유형 단위 · Micro)</div>
-        <div className="confusion">
+        {/* 윗줄: 6대 지표 */}
+        <div className="summary">
+          {items.map(({ k, key }) => {
+            const v = metrics ? (metrics[key] as number) : undefined;
+            const ov = cmp ? (cmp[key] as number) : undefined;
+            const d = v !== undefined && ov !== undefined ? v - ov : undefined;
+            return (
+              <div className="stat" key={k}>
+                <div className="k"><span className="tip" data-tip={METRIC_TIPS[k]}>{k}</span></div>
+                <div className="v">{pct(v)}</div>
+                {d !== undefined ? (
+                  <div className={`d ${Math.abs(d) < 0.0001 ? "" : d > 0 ? "up" : "down"}`}>
+                    {Math.abs(d) < 0.0001 ? "동일" : `${d > 0 ? "+" : "−"}${Math.abs(d * 100).toFixed(1)}p vs ${cmpLabel}`}
+                  </div>
+                ) : (
+                  <div className="d">{metrics ? "단독 실행" : "채점 대기"}</div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 아랫줄: 혼동행렬 */}
+        <div className="section-title">혼동행렬 (유형 단위 · Micro)</div>
+        <div className="confusion wide">
           <div className="cell tp"><span className="k">TP 정탐</span><span className="v">{metrics?.confusion.tp ?? "—"}</span></div>
           <div className="cell fp"><span className="k">FP 오탐</span><span className="v">{metrics?.confusion.fp ?? "—"}</span></div>
           <div className="cell fn"><span className="k">FN 누락</span><span className="v">{metrics?.confusion.fn ?? "—"}</span></div>
           <div className="cell tn"><span className="k">TN 정상</span><span className="v">{metrics?.confusion.tn ?? "—"}</span></div>
         </div>
 
-        <div className="section-title">유형별 F1 (RCA는 5 Whys/Fishbone 공통)</div>
-        {ISSUE_TYPES.map((t) => (
-          <div className="bar-row" key={t}>
-            <span>{ISSUE_LABELS[t]}</span>
-            <div className="bar-track">
-              <div className="bar-fill" style={{ width: `${(metrics?.perType[t].f1 ?? 0) * 100}%` }} />
-            </div>
-            <span className="bar-val">{metrics ? pct(metrics.perType[t].f1) : "—"}</span>
-          </div>
-        ))}
-
-        <div className="section-title">배포 결정</div>
-        <div className="deploy">
-          {metrics ? (
-            <>
-              <div className="h" style={{ color: ok ? "var(--ds-brand)" : "var(--ds-text-muted)" }}>
-                {ok ? "Release 권고" : "개선 필요"}{deployed ? " · 현재 배포됨" : ""}
+        {/* 상세 보기 → 유형별 F1 (조용히 펼침) */}
+        <button className="disclose" onClick={() => setOpen((o) => !o)}>
+          <span className={`chev-ic ${open ? "open" : ""}`}><Icon name="chevron" size={14} /></span>
+          상세 보기 · 유형별 F1
+        </button>
+        {open && (
+          <div className="pertype">
+            {ISSUE_TYPES.map((t) => (
+              <div className="bar-row" key={t}>
+                <span>{ISSUE_LABELS[t]}</span>
+                <div className="bar-track">
+                  <div className="bar-fill" style={{ width: `${(metrics?.perType[t].f1 ?? 0) * 100}%` }} />
+                </div>
+                <span className="bar-val">{metrics ? pct(metrics.perType[t].f1) : "—"}</span>
               </div>
-              <div className="hint">기준 F1 ≥ 85% · RC = 100% (현재 F1 {pct(metrics.f1)} · RC {pct(metrics.ruleCompliance)})</div>
-            </>
-          ) : (
-            <div className="hint">채점 완료 후 판단됩니다.</div>
+            ))}
+          </div>
+        )}
+
+        {/* Test Result: 배포 결정 */}
+        <div className="testresult">
+          <div className="tr-line">
+            <span className="tr-label">Test Result :</span>
+            {metrics ? (
+              <span className="tr-verdict" style={{ color: ok ? "var(--ds-brand)" : "var(--ds-text-muted)" }}>
+                {ok ? "Release 권고" : "개선 필요"}{deployed ? " · 현재 배포됨" : ""}
+              </span>
+            ) : (
+              <span className="hint">Test 실행 후 판단됩니다.</span>
+            )}
+          </div>
+          {metrics && (
+            <div className="hint">기준 F1 ≥ 85% · Rule Compliance = 100% (현재 F1 {pct(metrics.f1)} · RC {pct(metrics.ruleCompliance)})</div>
           )}
         </div>
       </div>

@@ -93,10 +93,10 @@ body *:not(pre):not(code) {
   color: var(--ds-text-muted);
 }
 
-/* 텍스트 선택 하이라이트: 기본 파랑 대신 형광펜 느낌의 옅은 민트. */
+/* 텍스트 선택 하이라이트: 형광펜 느낌의 옅은 민트 + 어두운 글자(다크모드에서도 가독). */
 ::selection {
-  background: color-mix(in srgb, var(--ds-brand) 42%, transparent);
-  color: inherit;
+  background: #c8fcf3;
+  color: #062a24;
 }
 
 /* 정사각 아이콘 버튼 (프롬프트 개선=편집). */
@@ -715,6 +715,74 @@ input[type="checkbox"] {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   margin-top: 3px;
+}
+/* 병합 블록: 혼동행렬 4열 한 줄 */
+.confusion.wide {
+  grid-template-columns: repeat(4, 1fr);
+}
+.confusion.wide .cell {
+  border-bottom: none;
+  border-right: 1px solid var(--hair);
+}
+.confusion.wide .cell:last-child {
+  border-right: none;
+}
+@media (max-width: 640px) {
+  .confusion.wide {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 상세 보기 디스클로저 */
+.disclose {
+  background: none;
+  border: none;
+  color: var(--ds-text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--ds-text-sm);
+  padding: 12px 0 2px;
+}
+.disclose:hover {
+  color: var(--ds-text);
+}
+.chev-ic {
+  display: inline-flex;
+  transition: transform 0.15s ease;
+  color: var(--ds-text-subtle);
+}
+.chev-ic.open {
+  transform: rotate(90deg);
+}
+.pertype {
+  padding-top: 10px;
+}
+
+/* Test Result (배포 결정) — 점선 박스 */
+.testresult {
+  margin-top: 14px;
+  border: 1px dashed var(--ds-border-strong);
+  border-radius: var(--ds-radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.tr-line {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.tr-label {
+  font-weight: 600;
+  font-size: var(--ds-text-sm);
+  color: var(--ds-text-muted);
+}
+.tr-verdict {
+  font-weight: 600;
+  font-size: var(--ds-text-md);
 }
 
 /* Per-type bars — single accent */

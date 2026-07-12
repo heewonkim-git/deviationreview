@@ -49,6 +49,14 @@ export function Icon({ name, size = 15 }: { name: IconName; size?: number }) {
           <polyline points="9 6 15 12 9 18" />
         </svg>
       );
+    case "download":
+      return (
+        <svg {...s}>
+          <line x1="12" y1="3" x2="12" y2="15" />
+          <polyline points="7 10 12 15 17 10" />
+          <path d="M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2" />
+        </svg>
+      );
     case "close":
       return (
         <svg {...s}>
@@ -86,6 +94,7 @@ export type IconName =
   | "up"
   | "upload"
   | "chevron"
+  | "download"
   | "close"
   | "sun"
   | "moon"
