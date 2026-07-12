@@ -380,7 +380,7 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed }: { metrics: Metrics |
             <span className="tr-label">
               <Tip
                 label="Test Result :"
-                desc={"설정한 컷오프 기준으로 배포 권고 여부를 판정합니다.\nRelease 권고 = 기준 충족(배포 가능)\n개선 필요 = 미달(프롬프트 개선 필요)"}
+                desc={"설정한 컷오프 기준으로 배포 권고 여부를 판정합니다.\n① Release 권고 = 컷오프 기준 충족 (배포 가능)\n② 개선 필요 = 미달 (프롬프트 개선 필요)"}
               />
             </span>
             {metrics ? (
@@ -395,15 +395,24 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed }: { metrics: Metrics |
             </button>
           </div>
           {settingsOpen && (
-            <div className="tr-settings">
-              <label className="tr-field">
-                F1 ≥ <input type="number" min={0} max={100} value={f1Cut} onChange={(e) => setF1Cut(Number(e.target.value))} /> %
-              </label>
-              <label className="tr-field">
-                Rule Compliance ≥ <input type="number" min={0} max={100} value={rcCut} onChange={(e) => setRcCut(Number(e.target.value))} /> %
-              </label>
-              <span className="hint">이 기준 이상이면 Release 권고로 표시됩니다.</span>
-            </div>
+            <>
+              <div className="popover-scrim" onClick={() => setSettingsOpen(false)} />
+              <div className="tr-settings" role="dialog">
+                <div className="tr-settings-head">
+                  <span>판정 기준 (cut-off)</span>
+                  <button className="iconbtn" onClick={() => setSettingsOpen(false)}><Icon name="close" size={14} /></button>
+                </div>
+                <label className="tr-field">
+                  <span>F1 ≥</span>
+                  <input type="number" min={0} max={100} value={f1Cut} onChange={(e) => setF1Cut(Number(e.target.value))} /> %
+                </label>
+                <label className="tr-field">
+                  <span>Rule Compliance ≥</span>
+                  <input type="number" min={0} max={100} value={rcCut} onChange={(e) => setRcCut(Number(e.target.value))} /> %
+                </label>
+                <span className="hint">이 기준 이상이면 Release 권고로 표시됩니다.</span>
+              </div>
+            </>
           )}
           {metrics && (
             <div className="hint">기준 F1 ≥ {f1Cut}% · Rule Compliance ≥ {rcCut}% (현재 F1 {pct(metrics.f1)} · RC {pct(metrics.ruleCompliance)})</div>

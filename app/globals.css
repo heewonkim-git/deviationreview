@@ -202,22 +202,48 @@ body *:not(pre):not(code) {
   color: var(--ds-brand);
   background: var(--ds-surface-2);
 }
+.popover-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 14;
+}
 .tr-settings {
+  position: absolute;
+  right: 12px;
+  top: 46px;
+  z-index: 16;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border-strong);
+  border-radius: var(--ds-radius-md);
+  box-shadow: var(--ds-shadow-lg);
+  padding: 12px 14px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 10px;
+  width: max-content;
+  max-width: 300px;
+  animation: fade 0.12s ease;
+}
+.tr-settings-head {
+  display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 6px 0 2px;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: var(--ds-text-sm);
+  font-weight: 600;
 }
 .tr-field {
   font-size: var(--ds-text-xs);
   color: var(--ds-text-muted);
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+}
+.tr-field > span {
+  min-width: 118px;
 }
 .tr-field input {
-  width: 58px;
+  width: 64px;
 }
 
 /* ============================ Nav ============================ */
@@ -881,6 +907,7 @@ input[type="checkbox"] {
 
 /* Test Result (배포 결정) — 점선 박스 */
 .testresult {
+  position: relative;
   margin-top: 14px;
   border: 1px dashed var(--ds-border-strong);
   border-radius: var(--ds-radius-md);
