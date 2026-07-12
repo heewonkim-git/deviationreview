@@ -849,15 +849,15 @@ input[type="checkbox"] {
 }
 .consist-row {
   display: grid;
-  grid-template-columns: 118px 1fr 92px;
-  align-items: flex-end;
+  grid-template-columns: 118px 1fr 108px;
+  align-items: center;
   gap: 12px;
-  margin-bottom: 9px;
+  margin-bottom: 6px;
   font-size: var(--ds-text-xs);
   color: var(--ds-text-muted);
 }
 .consist-axis {
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 .dist-scale {
   display: flex;
@@ -865,27 +865,29 @@ input[type="checkbox"] {
   font-size: 10px;
   color: var(--ds-text-subtle);
 }
-/* 반복 실행 값 분포(스트립 플롯): 각 회차 값을 네모로, 같은 5-단위는 위로 스택 */
-.dist {
-  position: relative;
-  border-bottom: 1px solid var(--ds-border-strong);
-  min-height: 22px;
+/* 반복 실행 값 분포(밀도 추세선) — 얇고 낮게 */
+.distline {
+  width: 100%;
+  height: 30px;
+  display: block;
+  border-bottom: 1px solid var(--hair);
+  overflow: visible;
 }
-.dist-sq {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  margin-left: -3px;
-  border-radius: 1px;
-  background: var(--ds-brand);
-  opacity: 0.9;
+.distline-area {
+  fill: color-mix(in srgb, var(--ds-brand) 20%, transparent);
+  stroke: none;
 }
-.dist-mean {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--ds-text-subtle);
+.distline-stroke {
+  fill: none;
+  stroke: var(--ds-brand);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.distline-mean {
+  stroke: var(--ds-text-subtle);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 2 2;
 }
 .consist-num {
   text-align: right;

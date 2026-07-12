@@ -41,6 +41,13 @@ function meanStd(xs: number[]): { mean: number; std: number } {
   const v = xs.reduce((a, b) => a + (b - mean) ** 2, 0) / xs.length;
   return { mean, std: Math.sqrt(v) };
 }
+/** 비모수 요약용 중앙값. */
+function median(xs: number[]): number {
+  if (!xs.length) return 0;
+  const s = [...xs].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+}
 const newVersion = (id: number, system: string, base?: number, createdAt: number | null = null): Version => ({
   id, system, base, createdAt, status: "idle", total: 0, done: 0, cases: [], metrics: null,
 });
@@ -429,31 +436,41 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed, consistency, onRunCons
                     </div>
                     {ISSUE_TYPES.map((t) => {
                       const vals = cRuns.map((r) => r.perType[t]);
-                      const s = meanStd(vals);
-                      const bc: Record<number, number> = {};
-                      const sq = vals.map((v) => {
-                        const p = Math.max(0, Math.min(100, v * 100));
-                        const bin = Math.round(p / 5) * 5;
-                        const stack = bc[bin] ?? 0;
-                        bc[bin] = stack + 1;
-                        return { left: bin, stack };
-                      });
-                      const maxStack = Math.max(1, ...Object.values(bc));
+                      const minV = Math.min(...vals) * 100;
+                      const maxV = Math.max(...vals) * 100;
+                      const medV = median(vals) * 100;
+                      // KDE 밀도 곡선(추세선) — 얇고 낮게
+                      const H = 30;
+                      const bw = 6;
+                      const pts: string[] = [];
+                      let maxY = 0;
+                      const ys: number[] = [];
+                      for (let x = 0; x <= 100; x += 2) {
+                        let y = 0;
+                        for (const v of vals) {
+                          const d = (x - v * 100) / bw;
+                          y += Math.exp(-0.5 * d * d);
+                        }
+                        ys.push(y);
+                        if (y > maxY) maxY = y;
+                      }
+                      ys.forEach((y, i) => pts.push(`${i * 2},${(H - (maxY ? y / maxY : 0) * (H - 3)).toFixed(1)}`));
+                      const line = pts.join(" ");
+                      const area = `0,${H} ${line} 100,${H}`;
                       return (
-                        <div className="consist-row" key={t}>
+                        <div
+                          className="consist-row"
+                          key={t}
+                          title={`회차 F1: ${vals.map((v) => (v * 100).toFixed(0)).join(", ")}  ·  중앙값 ${medV.toFixed(1)} · 범위 ${minV.toFixed(0)}–${maxV.toFixed(0)}`}
+                        >
                           <span>{ISSUE_LABELS[t]}</span>
-                          <div
-                            className="dist"
-                            style={{ height: `${10 + maxStack * 7}px` }}
-                            title={`회차 값: ${vals.map((v) => (v * 100).toFixed(0)).join(", ")}`}
-                          >
-                            <span className="dist-mean" style={{ left: `${s.mean * 100}%` }} />
-                            {sq.map((p, i) => (
-                              <span key={i} className="dist-sq" style={{ left: `${p.left}%`, bottom: `${3 + p.stack * 7}px` }} />
-                            ))}
-                          </div>
+                          <svg className="distline" viewBox={`0 0 100 ${H}`} preserveAspectRatio="none">
+                            <polygon className="distline-area" points={area} />
+                            <polyline className="distline-stroke" points={line} />
+                            <line className="distline-mean" x1={medV} y1="0" x2={medV} y2={H} />
+                          </svg>
                           <span className="consist-num">
-                            {(s.mean * 100).toFixed(0)}% <span className="pm">±{(s.std * 100).toFixed(1)}</span>
+                            {minV.toFixed(0)}–{maxV.toFixed(0)} <span className="pm">med {medV.toFixed(0)}</span>
                           </span>
                         </div>
                       );
