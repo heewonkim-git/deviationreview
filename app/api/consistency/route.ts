@@ -13,11 +13,12 @@ export const maxDuration = 300;
  * LLM은 확률적이라 1회 채점만으로는 안정성을 알 수 없다 → 반복 실행의 F1 분포(평균·표준편차)를 반환.
  */
 export async function POST(req: NextRequest) {
-  const { system, promptId, sample = 10, repeats = 10 } = (await req.json()) as {
+  const { system, promptId, sample = 10, repeats = 10, model } = (await req.json()) as {
     system: string;
     promptId?: string;
     sample?: number;
     repeats?: number;
+    model?: string;
   };
   const dataset = datasetJson as unknown as DeviationCase[];
   const cases = dataset.slice(0, Math.max(1, Math.min(sample, dataset.length)));
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest) {
     while (idx < tasks.length) {
       const { r, i } = tasks[idx++];
       const c = cases[i];
-      const res = await reviewCase(c, system, { useMock, mockProfile });
+      const res = await reviewCase(c, system, { useMock, mockProfile, model });
       perRun[r].push(evaluateCase(c, res.output, res.ruleCompliant, res.error));
     }
   }

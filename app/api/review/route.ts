@@ -11,11 +11,12 @@ export const maxDuration = 300;
  * 정답지·평가 없음. 에이전트의 구조화 리뷰 결과(AgentOutput)만 반환.
  */
 export async function POST(req: NextRequest) {
-  const { draft, system, useMock, promptId } = (await req.json()) as {
+  const { draft, system, useMock, promptId, model } = (await req.json()) as {
     draft: string;
     system: string;
     useMock?: boolean;
     promptId?: string;
+    model?: string;
   };
   const testCase: DeviationCase = {
     id: "USER-INPUT",
@@ -33,6 +34,7 @@ export async function POST(req: NextRequest) {
   const res = await reviewCase(testCase, system, {
     useMock,
     mockProfile: promptId === "v1" ? "naive" : "tuned",
+    model,
   });
   return Response.json({
     output: res.output,

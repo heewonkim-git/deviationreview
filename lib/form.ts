@@ -51,9 +51,14 @@ export function deviationFormHtml(draft: string, notes: FormNotes = {}): string 
   const parts = sections.map((sec) => {
     // 표제/개요 앞 블록
     if (!sec.heading) {
-      const lines = sec.body.split("\n").filter(Boolean);
-      const title = lines[0] ? `<div style="text-align:center;font-weight:bold;font-size:13pt;color:${C.text};margin-bottom:12px">${esc(lines[0])}</div>` : "";
-      return title;
+      const lines = sec.body.split("\n").map((l) => l.trim()).filter(Boolean);
+      if (!lines.length) return "";
+      const title = `<div style="text-align:center;font-weight:bold;font-size:13pt;color:${C.text};margin-bottom:4px">${esc(lines[0])}</div>`;
+      const rest = lines
+        .slice(1)
+        .map((l) => `<div style="text-align:center;font-size:9pt;color:${C.sub}">${esc(l)}</div>`)
+        .join("");
+      return `<div style="margin-bottom:12px">${title}${rest}</div>`;
     }
     const note = sec.issueType ? notes[sec.issueType] : undefined;
     const header = `<div style="background:${C.headBg};border:1px solid ${C.line};border-bottom:none;padding:6px 10px;font-weight:bold;font-size:10.5pt;color:${C.text}">${esc(

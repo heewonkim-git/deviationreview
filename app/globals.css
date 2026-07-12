@@ -127,9 +127,12 @@ body *:not(pre):not(code) {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--ds-brand) 28%, transparent);
 }
 .verselect {
-  min-width: 340px;
+  min-width: 300px;
   font-family: var(--ds-font-mono);
   font-size: var(--ds-text-xs);
+}
+.modelselect {
+  min-width: 230px;
 }
 
 /* 지표 설명 툴팁 (작은 그레이 네모). */

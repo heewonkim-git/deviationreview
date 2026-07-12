@@ -20,6 +20,7 @@ interface RunBody {
   useMock?: boolean;
   limit?: number; // 케이스 수 제한 (빠른 데모)
   concurrency?: number;
+  model?: string;
 }
 
 /**
@@ -54,7 +55,7 @@ export async function POST(req: NextRequest) {
           const my = index++;
           const c = cases[my];
           try {
-            const res = await reviewCase(c, body.system, { useMock, mockProfile });
+            const res = await reviewCase(c, body.system, { useMock, mockProfile, model: body.model });
             const evaluation = evaluateCase(c, res.output, res.ruleCompliant, res.error);
             evaluations.push(evaluation);
             send("case", {

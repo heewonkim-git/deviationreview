@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AgentOutput, ISSUE_LABELS } from "@/lib/types";
 import { deviationFormHtml } from "@/lib/form";
+import { modelLabel } from "@/lib/models";
 import { ConfirmedPrompt, loadConfirmed } from "@/lib/confirmed";
 import { DocumentViewer, buildNotes } from "../components/DocumentViewer";
 import { Icon } from "../components/Icon";
@@ -88,6 +89,7 @@ export default function ReviewerPage() {
         draft,
         system: confirmed.system,
         promptId: confirmed.versionId,
+        model: confirmed.model,
       }),
     }).then((r) => r.json());
 
@@ -162,7 +164,10 @@ export default function ReviewerPage() {
   return (
     <div className="page">
       <div className="rev-top">
-        <span className="pv">Prompt version : {ver}</span>
+        <span className="pv">
+          Prompt version : {ver}
+          {confirmed && <span style={{ color: "var(--ds-text-subtle)" }}>　·　{modelLabel(confirmed.model)}</span>}
+        </span>
       </div>
 
       <div className="rev2">

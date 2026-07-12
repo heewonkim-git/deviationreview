@@ -38,11 +38,21 @@ export function parseDeviation(draft: string): DocSection[] {
     }
   };
 
+  // 섹션 헤더 인식: (1) [대괄호] (우리 생성 데이터), (2) "5. 영향 평가 ..." 숫자형(실제 서식),
+  // (3) "근본 원인 결론 ..." (RCA 결론 소섹션).
+  function headingOf(line: string): string | null {
+    const braced = line.match(/^\s*\[(.+?)\]\s*$/);
+    if (braced) return braced[1].trim();
+    const numbered = line.match(/^\s*(\d{1,2})[.)]\s+(\S.{1,50})$/);
+    if (numbered) return line.trim();
+    if (/^\s*근본\s*원인\s*결론/.test(line)) return line.trim();
+    return null;
+  }
+
   for (const line of lines) {
-    const m = line.match(/^\s*\[(.+?)\]\s*$/);
-    if (m) {
+    const heading = headingOf(line);
+    if (heading) {
       flush();
-      const heading = m[1].trim();
       cur = {
         key: `s${sections.length}`,
         heading,

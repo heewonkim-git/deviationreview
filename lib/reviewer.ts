@@ -28,7 +28,7 @@ export function hasApiKey(): boolean {
   return !!process.env.ANTHROPIC_API_KEY;
 }
 
-const MODEL = process.env.REVIEW_MODEL || "claude-opus-4-8";
+const DEFAULT_MODEL = process.env.REVIEW_MODEL || "claude-opus-4-8";
 
 let _client: Anthropic | null = null;
 function client(): Anthropic {
@@ -65,11 +65,12 @@ function coerce(raw: unknown, caseId: string): AgentOutput | null {
 
 async function reviewWithClaude(
   testCase: DeviationCase,
-  systemPrompt: string
+  systemPrompt: string,
+  model: string
 ): Promise<ReviewResult> {
   try {
     const res = await client().messages.create({
-      model: MODEL,
+      model,
       max_tokens: 4000,
       system: systemPrompt,
       output_config: {
@@ -173,11 +174,11 @@ function reviewWithMock(
 export async function reviewCase(
   testCase: DeviationCase,
   systemPrompt: string,
-  opts: { useMock?: boolean; mockProfile?: "naive" | "tuned" } = {}
+  opts: { useMock?: boolean; mockProfile?: "naive" | "tuned"; model?: string } = {}
 ): Promise<ReviewResult> {
   const useMock = opts.useMock ?? !hasApiKey();
   if (useMock) return reviewWithMock(testCase, opts.mockProfile ?? "tuned");
-  const res = await reviewWithClaude(testCase, systemPrompt);
+  const res = await reviewWithClaude(testCase, systemPrompt, opts.model || DEFAULT_MODEL);
   // Claude 호출 실패(크레딧 부족·레이트리밋 등) → Mock으로 자동 폴백해 데모가 끊기지 않게 함.
   if (res.error || !res.output) {
     const m = reviewWithMock(testCase, opts.mockProfile ?? "tuned");

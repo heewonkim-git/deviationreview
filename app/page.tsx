@@ -10,6 +10,7 @@ import {
   Metrics,
 } from "@/lib/types";
 import { DEFAULT_PROMPTS } from "@/lib/prompts";
+import { MODELS, DEFAULT_MODEL } from "@/lib/models";
 import { aggregateMetrics } from "@/lib/evaluate";
 import { saveConfirmed, loadConfirmed } from "@/lib/confirmed";
 import { DocumentViewer } from "./components/DocumentViewer";
@@ -66,6 +67,7 @@ export default function OperationPage() {
   const [selectedId, setSelectedId] = useState(2);
   const [deployedId, setDeployedId] = useState<number | null>(null);
   const [mode, setMode] = useState("mock");
+  const [model, setModel] = useState<string>(DEFAULT_MODEL);
   const [limit, setLimit] = useState(20);
   const [selectedCase, setSelectedCase] = useState<string | null>(null);
   const [consistency, setConsistency] = useState<{ loading: boolean; runs: { f1: number; perType: Record<IssueType, number> }[] | null }>({ loading: false, runs: null });
@@ -107,7 +109,7 @@ export default function OperationPage() {
     const res = await fetch("/api/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ system, promptId: id === 1 ? "v1" : "v2", limit }),
+      body: JSON.stringify({ system, promptId: id === 1 ? "v1" : "v2", limit, model }),
     });
     if (!res.body) return;
     const reader = res.body.getReader();
@@ -168,7 +170,7 @@ export default function OperationPage() {
       const res = await fetch("/api/consistency", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ system: sel.system, promptId: sel.id === 1 ? "v1" : "v2", sample: 10, repeats: 10 }),
+        body: JSON.stringify({ system: sel.system, promptId: sel.id === 1 ? "v1" : "v2", sample: 10, repeats: 10, model }),
       });
       const data = await res.json();
       setConsistency({ loading: false, runs: data.runs || [] });
@@ -183,6 +185,7 @@ export default function OperationPage() {
       version: sel.id,
       label: `v${sel.id}`,
       system: sel.system,
+      model,
       f1: sel.metrics?.f1,
       at: "deployed",
     });
@@ -210,6 +213,12 @@ export default function OperationPage() {
         <button className="sqbtn" onClick={openImprove} title="프롬프트 개선하기 (편집)">
           <Icon name="edit" size={15} />
         </button>
+        <label className="verlabel" style={{ marginLeft: 8 }}>Model :</label>
+        <select className="modelselect" value={model} onChange={(e) => setModel(e.target.value)}>
+          {MODELS.map((m) => (
+            <option key={m.id} value={m.id}>{m.label}</option>
+          ))}
+        </select>
         <div className="spacer" />
         <select value={limit} onChange={(e) => setLimit(Number(e.target.value))}>
           <option value={20}>20건</option>
