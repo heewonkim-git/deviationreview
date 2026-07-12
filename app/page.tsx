@@ -27,6 +27,7 @@ interface Version {
   id: number;
   system: string;
   base?: number;
+  createdAt: number | null; // ms — 하이드레이션 회피 위해 마운트 후 채움
   status: "idle" | "running" | "done";
   total: number;
   done: number;
@@ -34,9 +35,15 @@ interface Version {
   metrics: Metrics | null;
 }
 const pct = (n: number | undefined) => (n === undefined ? "—" : `${(n * 100).toFixed(1)}%`);
-const newVersion = (id: number, system: string, base?: number): Version => ({
-  id, system, base, status: "idle", total: 0, done: 0, cases: [], metrics: null,
+const newVersion = (id: number, system: string, base?: number, createdAt: number | null = null): Version => ({
+  id, system, base, createdAt, status: "idle", total: 0, done: 0, cases: [], metrics: null,
 });
+function fmtTime(ms: number | null): string {
+  if (!ms) return "";
+  const d = new Date(ms);
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
 
 export default function OperationPage() {
   const [versions, setVersions] = useState<Version[]>([
@@ -46,7 +53,7 @@ export default function OperationPage() {
   const [selectedId, setSelectedId] = useState(2);
   const [deployedId, setDeployedId] = useState<number | null>(null);
   const [mode, setMode] = useState("mock");
-  const [limit, setLimit] = useState(100);
+  const [limit, setLimit] = useState(20);
   const [selectedCase, setSelectedCase] = useState<string | null>(null);
 
   // 개선 드로어
@@ -58,6 +65,9 @@ export default function OperationPage() {
     fetch("/api/dataset").then((r) => r.json()).then((d) => setMode(d.mode)).catch(() => {});
     const c = loadConfirmed();
     if (c.at === "deployed") setDeployedId(c.version);
+    // 초기 버전들에 생성시각 부여 (마운트 후 → SSR 하이드레이션 회피)
+    const now = Date.now();
+    setVersions((vs) => vs.map((v, i) => (v.createdAt == null ? { ...v, createdAt: now - (vs.length - 1 - i) * 3600_000 } : v)));
   }, []);
 
   const sel = versions.find((v) => v.id === selectedId)!;
@@ -130,7 +140,7 @@ export default function OperationPage() {
   }
   function saveImprove() {
     const id = maxId + 1;
-    setVersions((vs) => [...vs, newVersion(id, improveText, improveBase)]);
+    setVersions((vs) => [...vs, newVersion(id, improveText, improveBase, Date.now())]);
     setSelectedId(id);
     setImproveOpen(false);
   }
@@ -147,24 +157,25 @@ export default function OperationPage() {
   }
 
   const deployDisabled = running || selectedId === deployedId || !sel.metrics;
+  const deployEnabled = !deployDisabled;
   const caseObj = sel.cases.find((c) => c.id === selectedCase) || null;
 
   return (
     <div className="page">
       {/* Version bar */}
       <div className="runbar" style={{ marginBottom: 16 }}>
-        <label className="verlabel">프롬프트 버전</label>
-        <select value={selectedId} onChange={(e) => setSelectedId(Number(e.target.value))}>
+        <label className="verlabel">Prompt :</label>
+        <select className="verselect" value={selectedId} onChange={(e) => setSelectedId(Number(e.target.value))}>
           {[...versions].sort((a, b) => b.id - a.id).map((v) => (
             <option key={v.id} value={v.id}>
-              v{v.id}
-              {v.metrics ? ` · F1 ${pct(v.metrics.f1)}` : ""}
-              {deployedId === v.id ? " · 배포됨" : ""}
+              {`prompt_version ${v.id}     ${fmtTime(v.createdAt)}`}
+              {v.metrics ? `   · F1 ${pct(v.metrics.f1)}` : ""}
+              {deployedId === v.id ? "   · 배포됨" : ""}
             </option>
           ))}
         </select>
-        <button className="btn btn-secondary" onClick={openImprove}>
-          <Icon name="edit" size={14} /> 프롬프트 개선하기
+        <button className="sqbtn" onClick={openImprove} title="프롬프트 개선하기 (편집)">
+          <Icon name="edit" size={15} />
         </button>
         <div className="spacer" />
         <select value={limit} onChange={(e) => setLimit(Number(e.target.value))}>
@@ -172,16 +183,20 @@ export default function OperationPage() {
           <option value={50}>50건</option>
           <option value={100}>100건</option>
         </select>
-        <button className="btn btn-primary" onClick={runEvaluation} disabled={running}>
-          {running ? (
-            `채점 중… ${sel.done}/${sel.total}`
-          ) : (
-            <><Icon name="play" size={12} /> v{sel.id} 채점 실행</>
-          )}
+        <button
+          className={`btn action-btn ${deployEnabled ? "btn-secondary" : "btn-primary"}`}
+          onClick={runEvaluation}
+          disabled={running}
+        >
+          {running ? `Testing… ${sel.done}/${sel.total}` : (<><Icon name="play" size={12} /> Test</>)}
         </button>
-        <button className="btn btn-secondary" onClick={deploy} disabled={deployDisabled}
-          title={selectedId === deployedId ? "이미 배포된 버전입니다" : !sel.metrics ? "먼저 채점을 실행하세요" : "이 버전을 Review 화면에 배포"}>
-          <Icon name="up" size={14} /> 배포하기
+        <button
+          className={`btn action-btn ${deployEnabled ? "btn-primary deploy-emph" : "btn-secondary"}`}
+          onClick={deploy}
+          disabled={deployDisabled}
+          title={selectedId === deployedId ? "이미 배포된 버전입니다" : !sel.metrics ? "먼저 Test를 실행하세요" : "이 버전을 Review 화면에 배포"}
+        >
+          <Icon name="up" size={14} /> Deploy
         </button>
       </div>
 
@@ -242,6 +257,13 @@ export default function OperationPage() {
   );
 }
 
+const METRIC_TIPS: Record<string, string> = {
+  "F1 Score": "정밀도·재현율의 조화평균 — F1 = 2·P·R / (P+R). 둘의 균형을 나타냄.",
+  Precision: "지적한 것 중 실제 이슈 비율 — P = TP / (TP+FP). 오탐이 적을수록 높음.",
+  Recall: "실제 이슈 중 잡아낸 비율 — R = TP / (TP+FN). 누락이 적을수록 높음.",
+  "Rule Compliance": "출력이 JSON 스키마·형식을 지킨 비율 — 형식 안정성.",
+};
+
 function SummaryHero({ metrics, cmp, cmpLabel }: { metrics: Metrics | null; cmp: Metrics | null; cmpLabel: string }) {
   const items: { k: string; key: keyof Metrics }[] = [
     { k: "F1 Score", key: "f1" },
@@ -257,7 +279,9 @@ function SummaryHero({ metrics, cmp, cmpLabel }: { metrics: Metrics | null; cmp:
         const d = v !== undefined && ov !== undefined ? v - ov : undefined;
         return (
           <div className="stat" key={k}>
-            <div className="k">{k}</div>
+            <div className="k">
+              <span className="tip" data-tip={METRIC_TIPS[k]}>{k}</span>
+            </div>
             <div className="v">{pct(v)}</div>
             {d !== undefined ? (
               <div className={`d ${Math.abs(d) < 0.0001 ? "" : d > 0 ? "up" : "down"}`}>

@@ -93,6 +93,79 @@ body *:not(pre):not(code) {
   color: var(--ds-text-muted);
 }
 
+/* 텍스트 선택 하이라이트: 기본 파랑 대신 형광펜 느낌의 옅은 민트. */
+::selection {
+  background: color-mix(in srgb, var(--ds-brand) 42%, transparent);
+  color: inherit;
+}
+
+/* 정사각 아이콘 버튼 (프롬프트 개선=편집). */
+.sqbtn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--ds-border-strong);
+  background: var(--ds-surface);
+  color: var(--ds-text-muted);
+  border-radius: var(--ds-radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.sqbtn:hover {
+  border-color: var(--ds-brand);
+  color: var(--ds-brand);
+}
+
+/* Test/Deploy 동일 너비 + Deploy 활성 시 강조. */
+.action-btn {
+  min-width: 116px;
+  justify-content: center;
+}
+.deploy-emph {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ds-brand) 28%, transparent);
+}
+.verselect {
+  min-width: 340px;
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-text-xs);
+}
+
+/* 지표 설명 툴팁 (작은 그레이 네모). */
+.tip {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dotted var(--ds-text-subtle);
+}
+.tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  width: max-content;
+  max-width: 260px;
+  padding: 8px 10px;
+  background: var(--ds-surface-2);
+  color: var(--ds-text);
+  border: 1px solid var(--ds-border-strong);
+  border-radius: var(--ds-radius-md);
+  box-shadow: var(--ds-shadow-md);
+  font-size: var(--ds-text-xs);
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: normal;
+  opacity: 0;
+  transform: translateY(-3px);
+  pointer-events: none;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  z-index: 20;
+}
+.tip:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ============================ Nav ============================ */
 .nav {
   position: sticky;
@@ -421,7 +494,6 @@ input[type="checkbox"] {
   grid-template-columns: repeat(4, 1fr);
   border: 1px solid var(--hair);
   border-radius: var(--ds-radius-lg);
-  overflow: hidden;
   background: var(--ds-surface);
 }
 @media (max-width: 720px) {
