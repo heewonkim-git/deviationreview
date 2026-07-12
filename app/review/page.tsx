@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AgentOutput, ISSUE_LABELS } from "@/lib/types";
-import { parseDeviation } from "@/lib/deviation";
+import { deviationFormHtml } from "@/lib/form";
 import { ConfirmedPrompt, loadConfirmed } from "@/lib/confirmed";
-import { DocumentViewer } from "../components/DocumentViewer";
+import { DocumentViewer, buildNotes } from "../components/DocumentViewer";
 import { Icon } from "../components/Icon";
 
 const SEV_LABEL: Record<string, string> = { low: "낮음", medium: "중간", high: "높음" };
@@ -119,23 +119,8 @@ export default function ReviewerPage() {
   function downloadDoc() {
     if (!result) return;
     const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    const flagged = new Map(result.issues.map((i) => [i.type, i]));
-    // 원문을 섹션으로 나눠, 지적된 구간은 좌측 음영 + 우측 메모(화면과 동일)로 렌더 (무채색)
-    const secHtml = parseDeviation(draft)
-      .map((sec) => {
-        const head = sec.heading ? `<div style="font-weight:bold;margin:14px 0 4px">${esc(sec.heading)}</div>` : "";
-        const bodyCell = `<div style="white-space:pre-wrap;line-height:1.6">${esc(sec.body)}</div>`;
-        const issue = sec.issueType ? flagged.get(sec.issueType) : undefined;
-        if (!issue) return head + bodyCell;
-        return (
-          head +
-          `<table style="width:100%;border-collapse:collapse;margin:4px 0"><tr>` +
-          `<td style="border-left:3px solid #888;background:#f4f4f4;padding:8px 12px;vertical-align:top">${bodyCell}</td>` +
-          `<td style="width:32%;background:#fafafa;border:1px solid #ddd;padding:8px 10px;font-size:9pt;color:#333;vertical-align:top">■ ${esc(ISSUE_LABELS[issue.type])} · 지적<br/><span style="color:#555">${esc(issue.explanation)}</span></td>` +
-          `</tr></table>`
-        );
-      })
-      .join("");
+    // 화면과 동일한 폼(표·체크박스) + 지적 메모를 그대로 재현
+    const secHtml = deviationFormHtml(draft, buildNotes(result, undefined));
     const issuesHtml = result.issues.length
       ? "<ol>" + result.issues.map((i) => `<li><b>${ISSUE_LABELS[i.type]}</b> (심각도 ${SEV_LABEL[i.severity] ?? i.severity}) — ${esc(i.explanation)}</li>`).join("") + "</ol>"
       : "<p>지적된 이슈 없음</p>";

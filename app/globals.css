@@ -1205,21 +1205,22 @@ textarea.draft-in {
   background: var(--ds-bg);
 }
 
-/* ============================ Document viewer (margin notes) ============================ */
+/* ============================ Document viewer (실제 서식 · 흰 종이 고정) ============================ */
 .doc-page {
-  background: var(--ds-surface);
-  border: 1px solid var(--hair);
+  background: #ffffff;
+  color: #1f2328;
+  border: 1px solid #d0d0d0;
   border-radius: var(--ds-radius-md);
-  max-width: 1000px;
+  max-width: 940px;
   margin: 0 auto;
-  padding: 40px 44px;
+  padding: 36px 40px;
 }
 .doc-title {
-  font-size: var(--ds-text-sm);
-  color: var(--ds-text-subtle);
-  padding-bottom: 16px;
-  margin-bottom: 22px;
-  border-bottom: 1px solid var(--hair);
+  font-size: 12px;
+  color: #6b7280;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #e0e0e0;
 }
 .doc-grid {
   display: grid;

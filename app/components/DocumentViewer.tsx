@@ -1,88 +1,49 @@
 "use client";
 
-import { parseDeviation } from "@/lib/deviation";
-import { AgentOutput, GoldLabels, IssueType, ISSUE_LABELS } from "@/lib/types";
+import { AgentOutput, GoldLabels, IssueType, ISSUE_LABELS, ISSUE_TYPES } from "@/lib/types";
+import { deviationFormHtml, FormNotes } from "@/lib/form";
 
 /**
- * 편차 초안을 문서처럼 렌더하고, 문제 구간을 우측 여백 메모(코멘트)로 표시한다.
- * 카드/채운 배경 없이 본문은 헤어라인만 — 개발 도구스러운 미니멀.
- *
- *  - review 모드 (gold 없음): 에이전트가 지적한 구간만 메모 (실사용).
- *  - lab 모드 (gold 있음): 정답 대비 정탐/오탐/놓침 을 메모로 (운영 상세).
+ * 편차 초안을 "실제 서식"(표·체크박스)처럼 렌더하고, 지적된 섹션에 좌측 회색 강조 + 메모를 붙인다.
+ * 화면·Word 다운로드가 동일한 폼 빌더(deviationFormHtml)를 쓴다.
+ *  - review 모드(gold 없음): 에이전트가 지적한 구간에 "· 지적" 메모
+ *  - lab 모드(gold 있음): 정답 대비 정탐/오탐/놓침 메모
  */
-
-type Tone = "flag" | "tp" | "fp" | "fn";
-// 무채색 문서 — 색 대신 회색 그라데이션(진하기)으로 강조. 정탐은 옅게, 문제(오탐/놓침)는 진하게.
-const TONE_GRAY: Record<Tone, string> = {
-  flag: "var(--ds-text-muted)",
-  tp: "var(--ds-text-subtle)",
-  fp: "var(--ds-text)",
-  fn: "var(--ds-text-muted)",
-};
-const TONE_LABEL: Record<Tone, string> = {
-  flag: "지적",
-  tp: "정탐",
-  fp: "오탐",
-  fn: "놓침",
-};
 
 export interface DocViewerProps {
   draft: string;
   agent: AgentOutput | null;
-  gold?: GoldLabels; // 있으면 lab 모드
+  gold?: GoldLabels;
   title?: string;
 }
 
-export function DocumentViewer({ draft, agent, gold, title }: DocViewerProps) {
-  const sections = parseDeviation(draft);
+/** 화면·다운로드 공용 — 에이전트/정답으로 섹션 메모 맵을 만든다. */
+export function buildNotes(agent: AgentOutput | null, gold?: GoldLabels): FormNotes {
   const flagged = new Set(agent?.issues.map((i) => i.type) ?? []);
-  const agentByType = new Map(agent?.issues.map((i) => [i.type, i]));
-
-  function noteFor(t: IssueType | null): { tone: Tone; text: string } | null {
-    if (!t) return null;
+  const byType = new Map(agent?.issues.map((i) => [i.type, i]));
+  const notes: FormNotes = {};
+  for (const t of ISSUE_TYPES as readonly IssueType[]) {
     const pred = flagged.has(t);
-    const issue = agentByType.get(t);
+    const issue = byType.get(t);
     if (gold) {
       const g = gold[t];
-      if (g && pred) return { tone: "tp", text: issue?.explanation || "실제 이슈를 정확히 지적." };
-      if (!g && pred) return { tone: "fp", text: issue?.explanation || "실제로는 이슈가 아님." };
-      if (g && !pred) return { tone: "fn", text: "에이전트가 이 실제 이슈를 놓쳤습니다." };
-      return null; // TN
+      if (g && pred) notes[t] = { label: `${ISSUE_LABELS[t]} · 정탐`, text: issue?.explanation || "실제 이슈를 정확히 지적." };
+      else if (!g && pred) notes[t] = { label: `${ISSUE_LABELS[t]} · 오탐`, text: issue?.explanation || "실제로는 이슈가 아님." };
+      else if (g && !pred) notes[t] = { label: `${ISSUE_LABELS[t]} · 놓침`, text: "에이전트가 이 실제 이슈를 놓쳤습니다." };
+    } else if (pred) {
+      notes[t] = { label: `${ISSUE_LABELS[t]} · 지적`, text: issue?.explanation || "" };
     }
-    return pred ? { tone: "flag", text: issue?.explanation || "" } : null;
   }
+  return notes;
+}
 
+export function DocumentViewer({ draft, agent, gold, title }: DocViewerProps) {
+  const notes = buildNotes(agent, gold);
+  const html = deviationFormHtml(draft, notes);
   return (
     <div className="doc-page">
       {title && <div className="doc-title">{title}</div>}
-      <div className="doc-grid">
-        {sections.map((s) => {
-          const note = noteFor(s.issueType);
-          return (
-            <div key={s.key} className="doc-row" style={{ display: "contents" }}>
-              <div
-                className={`doc-body${note ? " hl" : ""}`}
-                style={note ? { borderLeftColor: TONE_GRAY[note.tone] } : undefined}
-              >
-                {s.heading && <div className="doc-h">{s.heading}</div>}
-                <div className="doc-text">{s.body}</div>
-              </div>
-              <div className="note-col">
-                {note && s.issueType && (
-                  <div className="note">
-                    <div className="note-h" style={{ color: TONE_GRAY[note.tone] }}>
-                      <span className="note-dot" style={{ background: TONE_GRAY[note.tone] }} />
-                      {ISSUE_LABELS[s.issueType]}
-                      <span className="note-tag">{TONE_LABEL[note.tone]}</span>
-                    </div>
-                    {note.text && <div className="note-text">{note.text}</div>}
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <div dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   );
 }
