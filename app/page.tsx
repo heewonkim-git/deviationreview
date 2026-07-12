@@ -35,6 +35,12 @@ interface Version {
   metrics: Metrics | null;
 }
 const pct = (n: number | undefined) => (n === undefined ? "—" : `${(n * 100).toFixed(1)}%`);
+function meanStd(xs: number[]): { mean: number; std: number } {
+  if (!xs.length) return { mean: 0, std: 0 };
+  const mean = xs.reduce((a, b) => a + b, 0) / xs.length;
+  const v = xs.reduce((a, b) => a + (b - mean) ** 2, 0) / xs.length;
+  return { mean, std: Math.sqrt(v) };
+}
 const newVersion = (id: number, system: string, base?: number, createdAt: number | null = null): Version => ({
   id, system, base, createdAt, status: "idle", total: 0, done: 0, cases: [], metrics: null,
 });
@@ -55,6 +61,7 @@ export default function OperationPage() {
   const [mode, setMode] = useState("mock");
   const [limit, setLimit] = useState(20);
   const [selectedCase, setSelectedCase] = useState<string | null>(null);
+  const [consistency, setConsistency] = useState<{ loading: boolean; runs: { f1: number; perType: Record<IssueType, number> }[] | null }>({ loading: false, runs: null });
 
   // 개선 드로어
   const [improveOpen, setImproveOpen] = useState(false);
@@ -69,6 +76,9 @@ export default function OperationPage() {
     const now = Date.now();
     setVersions((vs) => vs.map((v, i) => (v.createdAt == null ? { ...v, createdAt: now - (vs.length - 1 - i) * 3600_000 } : v)));
   }, []);
+
+  // 버전 바뀌면 일관성 결과 초기화
+  useEffect(() => setConsistency({ loading: false, runs: null }), [selectedId]);
 
   const sel = versions.find((v) => v.id === selectedId)!;
   const cmp = versions.find((v) => v.id === (sel.base ?? sel.id - 1));
@@ -144,6 +154,21 @@ export default function OperationPage() {
     setSelectedId(id);
     setImproveOpen(false);
   }
+  async function runConsistency() {
+    setConsistency({ loading: true, runs: null });
+    try {
+      const res = await fetch("/api/consistency", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ system: sel.system, promptId: sel.id === 1 ? "v1" : "v2", sample: 10, repeats: 5 }),
+      });
+      const data = await res.json();
+      setConsistency({ loading: false, runs: data.runs || [] });
+    } catch {
+      setConsistency({ loading: false, runs: [] });
+    }
+  }
+
   function deploy() {
     saveConfirmed({
       versionId: `v${sel.id}`,
@@ -211,6 +236,8 @@ export default function OperationPage() {
         cmp={cmpMetrics}
         cmpLabel={cmp ? `v${cmp.id}` : ""}
         deployed={deployedId === selectedId}
+        consistency={consistency}
+        onRunConsistency={runConsistency}
       />
 
       <div className="panel" style={{ marginTop: 16 }}>
@@ -279,8 +306,17 @@ function Tip({ label, desc, formula }: { label: string; desc: string; formula?: 
   );
 }
 
-function ResultsBlock({ metrics, cmp, cmpLabel, deployed }: { metrics: Metrics | null; cmp: Metrics | null; cmpLabel: string; deployed: boolean }) {
+function ResultsBlock({ metrics, cmp, cmpLabel, deployed, consistency, onRunConsistency }: {
+  metrics: Metrics | null;
+  cmp: Metrics | null;
+  cmpLabel: string;
+  deployed: boolean;
+  consistency: { loading: boolean; runs: { f1: number; perType: Record<IssueType, number> }[] | null };
+  onRunConsistency: () => void;
+}) {
   const [open, setOpen] = useState(false);
+  const cRuns = consistency.runs;
+  const overallCons = cRuns && cRuns.length ? meanStd(cRuns.map((r) => r.f1)) : null;
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [f1Cut, setF1Cut] = useState(85);
   const [rcCut, setRcCut] = useState(100);
@@ -370,6 +406,43 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed }: { metrics: Metrics |
                   <span className="bar-val">{metrics ? pct(metrics.perType[t].f1) : "—"}</span>
                 </div>
               ))}
+
+              {/* 일관성 (반복 실행) — LLM은 확률적이므로 표본 ×5로 안정성 확인 */}
+              <div className="consist">
+                <div className="consist-top">
+                  <span className="section-title" style={{ margin: 0 }}>일관성 (반복 실행)</span>
+                  <button className="linkish" onClick={onRunConsistency} disabled={consistency.loading}>
+                    {consistency.loading ? "측정 중…" : "일관성 검사 (표본 10 × 5회)"}
+                  </button>
+                </div>
+                {cRuns && cRuns.length ? (
+                  <>
+                    <div className="consist-head">
+                      전체 F1 {(overallCons!.mean * 100).toFixed(1)}%{" "}
+                      <span className="pm">± {(overallCons!.std * 100).toFixed(1)}%p</span>
+                      {overallCons!.std < 0.0005 && <span className="hint"> · 결정적(반복해도 동일)</span>}
+                    </div>
+                    {ISSUE_TYPES.map((t) => {
+                      const s = meanStd(cRuns.map((r) => r.perType[t]));
+                      return (
+                        <div className="consist-row" key={t}>
+                          <span>{ISSUE_LABELS[t]}</span>
+                          <div
+                            className="consist-box"
+                            title={`평균 ${(s.mean * 100).toFixed(1)}% · 표준편차 ${(s.std * 100).toFixed(1)}%p`}
+                            style={{ background: `color-mix(in srgb, var(--ds-brand) ${Math.round(s.mean * 100)}%, var(--ds-surface-2))` }}
+                          />
+                          <span className="consist-num">
+                            {(s.mean * 100).toFixed(0)}% <span className="pm">±{(s.std * 100).toFixed(1)}</span>
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <div className="hint">LLM은 실행마다 결과가 달라질 수 있습니다. 반복 실행으로 판정의 안정성(표준편차)을 확인하세요.</div>
+                )}
+              </div>
             </div>
           </div>
         )}

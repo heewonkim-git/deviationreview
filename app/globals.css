@@ -825,6 +825,52 @@ input[type="checkbox"] {
 .pertype {
   padding-top: 10px;
 }
+
+/* 일관성(반복 실행) */
+.consist {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hair);
+}
+.consist-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.consist-head {
+  font-size: var(--ds-text-sm);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.consist-head .pm {
+  color: var(--ds-text-muted);
+  font-weight: 500;
+}
+.consist-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 92px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+  font-size: var(--ds-text-xs);
+  color: var(--ds-text-muted);
+}
+.consist-box {
+  height: 20px;
+  border: 1px solid var(--hair);
+  border-radius: var(--ds-radius-sm);
+}
+.consist-num {
+  text-align: right;
+  font-family: var(--ds-font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ds-text);
+}
+.consist-num .pm {
+  color: var(--ds-text-subtle);
+}
 .disclose-body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
