@@ -24,7 +24,6 @@ type Phase = "idle" | "streaming" | "done";
 export default function ReviewerPage() {
   const [confirmed, setConfirmed] = useState<ConfirmedPrompt | null>(null);
   const [mode, setMode] = useState("mock");
-  const [forceMock, setForceMock] = useState(false);
   const [samples, setSamples] = useState<{ id: string; draft: string }[]>([]);
   const [draft, setDraft] = useState("");
   const [fileName, setFileName] = useState("");
@@ -88,7 +87,6 @@ export default function ReviewerPage() {
         draft,
         system: confirmed.system,
         promptId: confirmed.versionId,
-        useMock: forceMock || undefined,
       }),
     }).then((r) => r.json());
 
@@ -117,8 +115,8 @@ export default function ReviewerPage() {
     setErr(null);
   }
 
-  const ver = confirmed?.versionId === "v1" ? "1.0" : "2.0";
-  const isMock = forceMock || mode === "mock";
+  const ver = confirmed ? `${confirmed.version}.0` : "—";
+  const isMock = mode === "mock";
   const issues = result?.issues ?? [];
   const verdictColor =
     result?.overall_verdict === "pass"
@@ -137,10 +135,6 @@ export default function ReviewerPage() {
     <div className="page">
       <div className="rev-top">
         <span className="pv">Prompt version : {ver}</span>
-        <label className="checkline">
-          <input type="checkbox" checked={forceMock} onChange={(e) => setForceMock(e.target.checked)} />
-          Mock ({isMock ? "on" : "off"})
-        </label>
       </div>
 
       <div className="rev2">

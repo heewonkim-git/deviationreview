@@ -1,10 +1,11 @@
 import { DEFAULT_PROMPTS } from "./prompts";
 
-/** 랩에서 확정("배포")한 프롬프트를 리뷰어 화면으로 전달 (localStorage). */
+/** Operation에서 배포한 프롬프트를 Review 화면으로 전달 (localStorage). */
 const KEY = "deviation.confirmedPrompt";
 
 export interface ConfirmedPrompt {
-  versionId: string;
+  versionId: string; // 예: "v2", "v3"
+  version: number; // 예: 2, 3 → Review 화면에 "Prompt version : 2.0"
   label: string;
   system: string;
   f1?: number;
@@ -20,11 +21,16 @@ export function saveConfirmed(p: ConfirmedPrompt) {
 export function loadConfirmed(): ConfirmedPrompt {
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) return JSON.parse(raw) as ConfirmedPrompt;
+    if (raw) {
+      const p = JSON.parse(raw) as ConfirmedPrompt;
+      if (typeof p.version !== "number") p.version = p.versionId === "v1" ? 1 : 2;
+      return p;
+    }
   } catch {}
   // 기본값: v2 (개선 버전)
   return {
     versionId: "v2",
+    version: 2,
     label: DEFAULT_PROMPTS.v2.label,
     system: DEFAULT_PROMPTS.v2.system,
     at: "default",

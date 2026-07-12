@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CaseEvaluation,
   GoldLabels,
@@ -15,8 +15,6 @@ import { saveConfirmed, loadConfirmed } from "@/lib/confirmed";
 import { DocumentViewer } from "./components/DocumentViewer";
 import { Icon } from "./components/Icon";
 
-type PromptId = "v1" | "v2";
-
 interface CaseRow {
   id: string;
   difficulty?: string;
@@ -25,69 +23,81 @@ interface CaseRow {
   expected_issues?: { type: IssueType; detail: string }[];
   evaluation: CaseEvaluation;
 }
-interface RunResult {
+interface Version {
+  id: number;
+  system: string;
+  base?: number;
   status: "idle" | "running" | "done";
   total: number;
   done: number;
   cases: CaseRow[];
   metrics: Metrics | null;
 }
-const emptyRun = (): RunResult => ({ status: "idle", total: 0, done: 0, cases: [], metrics: null });
 const pct = (n: number | undefined) => (n === undefined ? "—" : `${(n * 100).toFixed(1)}%`);
+const newVersion = (id: number, system: string, base?: number): Version => ({
+  id, system, base, status: "idle", total: 0, done: 0, cases: [], metrics: null,
+});
 
-export default function LabPage() {
-  const [prompts, setPrompts] = useState<Record<PromptId, string>>({
-    v1: DEFAULT_PROMPTS.v1.system,
-    v2: DEFAULT_PROMPTS.v2.system,
-  });
-  const [active, setActive] = useState<PromptId>("v1");
-  const [runs, setRuns] = useState<Record<PromptId, RunResult>>({ v1: emptyRun(), v2: emptyRun() });
+export default function OperationPage() {
+  const [versions, setVersions] = useState<Version[]>([
+    newVersion(1, DEFAULT_PROMPTS.v1.system),
+    newVersion(2, DEFAULT_PROMPTS.v2.system, 1),
+  ]);
+  const [selectedId, setSelectedId] = useState(2);
+  const [deployedId, setDeployedId] = useState<number | null>(null);
   const [mode, setMode] = useState("mock");
-  const [forceMock, setForceMock] = useState(false);
   const [limit, setLimit] = useState(100);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [drawer, setDrawer] = useState(false);
-  const [drawerTab, setDrawerTab] = useState<PromptId>("v1");
-  const [confirmedId, setConfirmedId] = useState<string>("v2");
+  const [selectedCase, setSelectedCase] = useState<string | null>(null);
+
+  // 개선 드로어
+  const [improveOpen, setImproveOpen] = useState(false);
+  const [improveBase, setImproveBase] = useState(2);
+  const [improveText, setImproveText] = useState("");
 
   useEffect(() => {
     fetch("/api/dataset").then((r) => r.json()).then((d) => setMode(d.mode)).catch(() => {});
-    setConfirmedId(loadConfirmed().versionId);
+    const c = loadConfirmed();
+    if (c.at === "deployed") setDeployedId(c.version);
   }, []);
 
-  const run = runs[active];
-  const other = active === "v1" ? runs.v2 : runs.v1;
-  const running = run.status === "running";
+  const sel = versions.find((v) => v.id === selectedId)!;
+  const cmp = versions.find((v) => v.id === (sel.base ?? sel.id - 1));
+  const metrics = sel.metrics;
+  const cmpMetrics = cmp?.metrics ?? null;
+  const running = sel.status === "running";
+  const maxId = Math.max(...versions.map((v) => v.id));
+
+  function patch(id: number, fn: (v: Version) => Version) {
+    setVersions((vs) => vs.map((v) => (v.id === id ? fn(v) : v)));
+  }
 
   async function runEvaluation() {
     if (running) return;
-    setSelected(null);
-    setRuns((r) => ({ ...r, [active]: { ...emptyRun(), status: "running" } }));
+    const id = selectedId;
+    const system = sel.system;
+    setSelectedCase(null);
+    patch(id, (v) => ({ ...v, status: "running", total: 0, done: 0, cases: [], metrics: null }));
     const res = await fetch("/api/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ system: prompts[active], promptId: active, limit, useMock: forceMock || undefined }),
+      body: JSON.stringify({ system, promptId: id === 1 ? "v1" : "v2", limit }),
     });
     if (!res.body) return;
     const reader = res.body.getReader();
     const dec = new TextDecoder();
     let buf = "";
-    const collected: CaseEvaluation[] = []; // 스트림 중단 대비 클라이언트 집계용
+    const collected: CaseEvaluation[] = [];
     let gotDone = false;
     const handle = (ev: string, data: any) => {
       if (ev === "meta") {
         setMode(data.mode);
-        setRuns((r) => ({ ...r, [active]: { ...r[active], total: data.total, status: "running" } }));
+        patch(id, (v) => ({ ...v, total: data.total }));
       } else if (ev === "case") {
         collected.push(data.evaluation);
-        setRuns((r) => {
-          const cur = r[active];
-          const row: CaseRow = { ...data.case, evaluation: data.evaluation };
-          return { ...r, [active]: { ...cur, done: data.done, cases: [...cur.cases, row] } };
-        });
+        patch(id, (v) => ({ ...v, done: data.done, cases: [...v.cases, { ...data.case, evaluation: data.evaluation }] }));
       } else if (ev === "done") {
         gotDone = true;
-        setRuns((r) => ({ ...r, [active]: { ...r[active], status: "done", metrics: data.metrics } }));
+        patch(id, (v) => ({ ...v, status: "done", metrics: data.metrics }));
       }
     };
     try {
@@ -99,63 +109,64 @@ export default function LabPage() {
         buf = parts.pop() || "";
         for (const p of parts) {
           const lines = p.split("\n");
-          const ev = lines.find((l) => l.startsWith("event:"))?.slice(6).trim();
+          const e = lines.find((l) => l.startsWith("event:"))?.slice(6).trim();
           const dl = lines.find((l) => l.startsWith("data:"))?.slice(5).trim();
-          if (ev && dl) handle(ev, JSON.parse(dl));
+          if (e && dl) handle(e, JSON.parse(dl));
         }
       }
     } catch {
-      /* 네트워크/타임아웃 중단 — 아래에서 부분 집계로 마무리 */
+      /* 중단 — 부분 집계 */
     }
-    // done 이벤트를 못 받고 스트림이 끊긴 경우(예: Vercel 60초 제한): 받은 만큼으로 집계.
     if (!gotDone) {
-      const metrics = collected.length ? aggregateMetrics(collected) : null;
-      setRuns((r) => ({ ...r, [active]: { ...r[active], status: "done", metrics } }));
+      const m = collected.length ? aggregateMetrics(collected) : null;
+      patch(id, (v) => ({ ...v, status: "done", metrics: m }));
     }
   }
 
-  function deploy(id: PromptId) {
-    const m = runs[id].metrics;
+  function openImprove() {
+    setImproveBase(selectedId);
+    setImproveText(sel.system);
+    setImproveOpen(true);
+  }
+  function saveImprove() {
+    const id = maxId + 1;
+    setVersions((vs) => [...vs, newVersion(id, improveText, improveBase)]);
+    setSelectedId(id);
+    setImproveOpen(false);
+  }
+  function deploy() {
     saveConfirmed({
-      versionId: id,
-      label: DEFAULT_PROMPTS[id].label,
-      system: prompts[id],
-      f1: m?.f1,
+      versionId: `v${sel.id}`,
+      version: sel.id,
+      label: `v${sel.id}`,
+      system: sel.system,
+      f1: sel.metrics?.f1,
       at: "deployed",
     });
-    setConfirmedId(id);
+    setDeployedId(sel.id);
   }
 
-  const metrics = run.metrics;
-  const otherMetrics = other.metrics;
-  const selectedCase = run.cases.find((c) => c.id === selected) || null;
-  const isMock = forceMock || mode === "mock";
+  const deployDisabled = running || selectedId === deployedId || !sel.metrics;
+  const caseObj = sel.cases.find((c) => c.id === selectedCase) || null;
 
   return (
     <div className="page">
-      {/* Run bar */}
+      {/* Version bar */}
       <div className="runbar" style={{ marginBottom: 16 }}>
-        <div className="verpick">
-          {(["v1", "v2"] as PromptId[]).map((id) => (
-            <button
-              key={id}
-              className={`verchip ${active === id ? "active" : ""}`}
-              onClick={() => setActive(id)}
-            >
-              {DEFAULT_PROMPTS[id].label}
-              {runs[id].metrics && <span className="f1">F1 {pct(runs[id].metrics!.f1)}</span>}
-              {confirmedId === id && <span className="f1">· 배포됨</span>}
-            </button>
+        <label className="verlabel">프롬프트 버전</label>
+        <select value={selectedId} onChange={(e) => setSelectedId(Number(e.target.value))}>
+          {[...versions].sort((a, b) => b.id - a.id).map((v) => (
+            <option key={v.id} value={v.id}>
+              v{v.id}
+              {v.metrics ? ` · F1 ${pct(v.metrics.f1)}` : ""}
+              {deployedId === v.id ? " · 배포됨" : ""}
+            </option>
           ))}
-        </div>
-        <button className="btn btn-secondary" onClick={() => { setDrawerTab(active); setDrawer(true); }}>
-          <Icon name="edit" size={14} /> 프롬프트 편집
+        </select>
+        <button className="btn btn-secondary" onClick={openImprove}>
+          <Icon name="edit" size={14} /> 프롬프트 개선하기
         </button>
         <div className="spacer" />
-        <label className="checkline hint">
-          <input type="checkbox" checked={forceMock} onChange={(e) => setForceMock(e.target.checked)} />
-          Mock (비용 없음)
-        </label>
         <select value={limit} onChange={(e) => setLimit(Number(e.target.value))}>
           <option value={20}>20건</option>
           <option value={50}>50건</option>
@@ -163,52 +174,42 @@ export default function LabPage() {
         </select>
         <button className="btn btn-primary" onClick={runEvaluation} disabled={running}>
           {running ? (
-            `채점 중… ${run.done}/${run.total}`
+            `채점 중… ${sel.done}/${sel.total}`
           ) : (
-            <>
-              <Icon name="play" size={12} /> {active.toUpperCase()} 채점 실행
-            </>
+            <><Icon name="play" size={12} /> v{sel.id} 채점 실행</>
           )}
         </button>
-        <button
-          className="btn btn-secondary"
-          disabled={!metrics}
-          onClick={() => deploy(active)}
-          title="이 버전을 리뷰어 화면에 배포"
-        >
-          <Icon name="up" size={14} /> 이 버전 배포
+        <button className="btn btn-secondary" onClick={deploy} disabled={deployDisabled}
+          title={selectedId === deployedId ? "이미 배포된 버전입니다" : !sel.metrics ? "먼저 채점을 실행하세요" : "이 버전을 Review 화면에 배포"}>
+          <Icon name="up" size={14} /> 배포하기
         </button>
       </div>
 
-      {!isMock && limit === 100 && (
+      {!(mode === "mock") && limit === 100 && (
         <div className="hint" style={{ margin: "0 2px 14px" }}>
-          실제 Claude 100건은 함수 시간제한(Hobby 60초 · Pro 최대 5분)에 걸릴 수 있습니다. 중간에 끊겨도 받은 만큼
-          자동 집계됩니다 — 빠른 시연은 20/50건 또는 Mock 모드를 권장합니다.
+          실제 Claude 100건은 함수 시간제한에 걸릴 수 있습니다. 중간에 끊겨도 받은 만큼 자동 집계됩니다 — 빠른 시연은 20/50건을 권장합니다.
         </div>
       )}
 
       <div className="lab">
         <div className="lab-main">
-          {/* Punchy summary */}
-          <SummaryHero metrics={metrics} other={otherMetrics} otherLabel={active === "v1" ? "v2" : "v1"} />
-
-          {/* Case results */}
+          <SummaryHero metrics={metrics} cmp={cmpMetrics} cmpLabel={cmp ? `v${cmp.id}` : ""} />
           <div className="panel">
             <div className="panel-head">
               평가 진행 · PASS / FAIL <span className="sub">케이스를 누르면 원문에서 상세 확인</span>
             </div>
             <div className="panel-body" style={{ maxHeight: "48vh" }}>
               <div className="progress-track">
-                <div className="progress-fill" style={{ width: run.total ? `${(run.done / run.total) * 100}%` : "0%" }} />
+                <div className="progress-fill" style={{ width: sel.total ? `${(sel.done / sel.total) * 100}%` : "0%" }} />
               </div>
               <div className="progress-meta">
-                <span>{run.done} / {run.total || "—"} 케이스</span>
-                <span>PASS {run.cases.filter((c) => c.evaluation.pass).length} · FAIL {run.cases.filter((c) => !c.evaluation.pass).length}</span>
+                <span>{sel.done} / {sel.total || "—"} 케이스</span>
+                <span>PASS {sel.cases.filter((c) => c.evaluation.pass).length} · FAIL {sel.cases.filter((c) => !c.evaluation.pass).length}</span>
               </div>
               <div className="case-list">
-                {run.cases.length === 0 && <div className="empty">채점을 실행하면 케이스별 결과가 실시간으로 표시됩니다.</div>}
-                {run.cases.map((c) => (
-                  <div key={c.id} className="case-row" onClick={() => setSelected(c.id)}>
+                {sel.cases.length === 0 && <div className="empty">채점을 실행하면 케이스별 결과가 실시간으로 표시됩니다.</div>}
+                {sel.cases.map((c) => (
+                  <div key={c.id} className="case-row" onClick={() => setSelectedCase(c.id)}>
                     <span className="cid">{c.id}</span>
                     <span className={`pill ${c.evaluation.pass ? "pass" : "fail"}`}>{c.evaluation.pass ? "PASS" : "FAIL"}</span>
                     <span className="reason">{c.evaluation.reason}</span>
@@ -220,51 +221,50 @@ export default function LabPage() {
           </div>
         </div>
 
-        {/* Metrics rail */}
-        <MetricsRail metrics={metrics} other={otherMetrics} otherLabel={active === "v1" ? "v2" : "v1"} />
+        <MetricsRail metrics={metrics} cmp={cmpMetrics} deployed={deployedId === selectedId} />
       </div>
 
-      {drawer && (
-        <PromptDrawer
-          prompts={prompts}
-          setPrompts={setPrompts}
-          tab={drawerTab}
-          setTab={setDrawerTab}
-          runs={runs}
-          onClose={() => setDrawer(false)}
+      {improveOpen && (
+        <ImproveDrawer
+          versions={versions}
+          base={improveBase}
+          setBase={(id) => { setImproveBase(id); setImproveText(versions.find((v) => v.id === id)!.system); }}
+          text={improveText}
+          setText={setImproveText}
+          nextId={maxId + 1}
+          onSave={saveImprove}
+          onClose={() => setImproveOpen(false)}
         />
       )}
 
-      {selectedCase && (
-        <CaseModal c={selectedCase} isMock={isMock} onClose={() => setSelected(null)} />
-      )}
+      {caseObj && <CaseModal c={caseObj} isMock={mode === "mock"} onClose={() => setSelectedCase(null)} />}
     </div>
   );
 }
 
-function SummaryHero({ metrics, other, otherLabel }: { metrics: Metrics | null; other: Metrics | null; otherLabel: string }) {
-  const items: { k: string; key: keyof Metrics; hero?: boolean }[] = [
-    { k: "F1 Score", key: "f1", hero: true },
+function SummaryHero({ metrics, cmp, cmpLabel }: { metrics: Metrics | null; cmp: Metrics | null; cmpLabel: string }) {
+  const items: { k: string; key: keyof Metrics }[] = [
+    { k: "F1 Score", key: "f1" },
     { k: "Precision", key: "precision" },
     { k: "Recall", key: "recall" },
     { k: "Rule Compliance", key: "ruleCompliance" },
   ];
   return (
     <div className="summary">
-      {items.map(({ k, key, hero }) => {
+      {items.map(({ k, key }) => {
         const v = metrics ? (metrics[key] as number) : undefined;
-        const ov = other ? (other[key] as number) : undefined;
+        const ov = cmp ? (cmp[key] as number) : undefined;
         const d = v !== undefined && ov !== undefined ? v - ov : undefined;
         return (
-          <div className={`stat ${hero ? "hero-pass" : ""}`} key={k}>
+          <div className="stat" key={k}>
             <div className="k">{k}</div>
             <div className="v">{pct(v)}</div>
             {d !== undefined ? (
-              <div className={`d ${Math.abs(d) < 0.0001 ? "flat" : d > 0 ? "up" : "down"}`}>
-                {Math.abs(d) < 0.0001 ? "동일" : `${d > 0 ? "+" : "−"}${Math.abs(d * 100).toFixed(1)}p vs ${otherLabel}`}
+              <div className={`d ${Math.abs(d) < 0.0001 ? "" : d > 0 ? "up" : "down"}`}>
+                {Math.abs(d) < 0.0001 ? "동일" : `${d > 0 ? "+" : "−"}${Math.abs(d * 100).toFixed(1)}p vs ${cmpLabel}`}
               </div>
             ) : (
-              <div className="d flat">{metrics ? "단독 실행" : "채점 대기"}</div>
+              <div className="d">{metrics ? "단독 실행" : "채점 대기"}</div>
             )}
           </div>
         );
@@ -273,9 +273,8 @@ function SummaryHero({ metrics, other, otherLabel }: { metrics: Metrics | null; 
   );
 }
 
-function MetricsRail({ metrics, other, otherLabel }: { metrics: Metrics | null; other: Metrics | null; otherLabel: string }) {
+function MetricsRail({ metrics, cmp, deployed }: { metrics: Metrics | null; cmp: Metrics | null; deployed: boolean }) {
   const ok = metrics && metrics.f1 >= 0.85 && metrics.ruleCompliance >= 0.999;
-  const tone = ok ? "var(--ds-success)" : "var(--ds-warning)";
   return (
     <div className="panel">
       <div className="panel-head">Metrics Dashboard <span className="sub">6대 지표 · 혼동행렬</span></div>
@@ -287,7 +286,7 @@ function MetricsRail({ metrics, other, otherLabel }: { metrics: Metrics | null; 
           ["humanAgreement", "Human Agreement"],
         ] as [keyof Metrics, string][]).map(([key, label]) => {
           const v = metrics ? (metrics[key] as number) : undefined;
-          const ov = other ? (other[key] as number) : undefined;
+          const ov = cmp ? (cmp[key] as number) : undefined;
           const d = v !== undefined && ov !== undefined ? v - ov : undefined;
           return (
             <div className="metric-line" key={key}>
@@ -310,7 +309,7 @@ function MetricsRail({ metrics, other, otherLabel }: { metrics: Metrics | null; 
           <div className="cell tn"><span className="k">TN 정상</span><span className="v">{metrics?.confusion.tn ?? "—"}</span></div>
         </div>
 
-        <div className="section-title">유형별 F1</div>
+        <div className="section-title">유형별 F1 (RCA는 5 Whys/Fishbone 공통)</div>
         {ISSUE_TYPES.map((t) => (
           <div className="bar-row" key={t}>
             <span>{ISSUE_LABELS[t]}</span>
@@ -322,10 +321,12 @@ function MetricsRail({ metrics, other, otherLabel }: { metrics: Metrics | null; 
         ))}
 
         <div className="section-title">배포 결정</div>
-        <div className="deploy" style={{ borderColor: tone, background: metrics ? (ok ? "var(--ds-success-bg)" : "var(--ds-warning-bg)") : "var(--ds-surface-2)" }}>
+        <div className="deploy">
           {metrics ? (
             <>
-              <div className="h" style={{ color: tone }}>{ok ? "✅ Release 권고" : "⚠ 개선 필요"}</div>
+              <div className="h" style={{ color: ok ? "var(--ds-brand)" : "var(--ds-text-muted)" }}>
+                {ok ? "Release 권고" : "개선 필요"}{deployed ? " · 현재 배포됨" : ""}
+              </div>
               <div className="hint">기준 F1 ≥ 85% · RC = 100% (현재 F1 {pct(metrics.f1)} · RC {pct(metrics.ruleCompliance)})</div>
             </>
           ) : (
@@ -337,14 +338,16 @@ function MetricsRail({ metrics, other, otherLabel }: { metrics: Metrics | null; 
   );
 }
 
-function PromptDrawer({
-  prompts, setPrompts, tab, setTab, runs, onClose,
+function ImproveDrawer({
+  versions, base, setBase, text, setText, nextId, onSave, onClose,
 }: {
-  prompts: Record<PromptId, string>;
-  setPrompts: React.Dispatch<React.SetStateAction<Record<PromptId, string>>>;
-  tab: PromptId;
-  setTab: (t: PromptId) => void;
-  runs: Record<PromptId, RunResult>;
+  versions: Version[];
+  base: number;
+  setBase: (id: number) => void;
+  text: string;
+  setText: (s: string) => void;
+  nextId: number;
+  onSave: () => void;
   onClose: () => void;
 }) {
   return (
@@ -352,43 +355,27 @@ function PromptDrawer({
       <div className="scrim" onClick={onClose} />
       <aside className="drawer">
         <div className="drawer-head">
-          <h3>프롬프트 편집 & 버전</h3>
+          <h3>프롬프트 개선하기 → v{nextId}</h3>
           <button className="iconbtn" onClick={onClose}><Icon name="close" size={15} /></button>
         </div>
         <div className="drawer-body">
-          <div className="tabs">
-            {(["v1", "v2"] as PromptId[]).map((id) => (
-              <button key={id} className={`tab ${tab === id ? "active" : ""}`} onClick={() => setTab(id)}>
-                {DEFAULT_PROMPTS[id].label}
-              </button>
-            ))}
+          <div className="field">
+            <label>기준 버전</label>
+            <select value={base} onChange={(e) => setBase(Number(e.target.value))}>
+              {[...versions].sort((a, b) => b.id - a.id).map((v) => (
+                <option key={v.id} value={v.id}>v{v.id}{v.metrics ? ` · F1 ${pct(v.metrics.f1)}` : ""}</option>
+              ))}
+            </select>
           </div>
-          <textarea
-            className="prompt"
-            value={prompts[tab]}
-            onChange={(e) => setPrompts((p) => ({ ...p, [tab]: e.target.value }))}
-            spellCheck={false}
-          />
-          <button className="btn btn-secondary" onClick={() => setPrompts((p) => ({ ...p, [tab]: DEFAULT_PROMPTS[tab].system }))}>
-            기본값으로 초기화
-          </button>
-          <div className="section-title" style={{ marginTop: 8 }}>버전 이력 (최근 채점)</div>
-          <div className="history">
-            {(["v1", "v2"] as PromptId[]).map((id) => (
-              <div className="history-item" key={id}>
-                <span>{DEFAULT_PROMPTS[id].label}</span>
-                <span className="meta">
-                  {runs[id].metrics
-                    ? `F1 ${pct(runs[id].metrics!.f1)} · PASS ${runs[id].metrics!.passed}/${runs[id].metrics!.total}`
-                    : "미실행"}
-                </span>
-              </div>
-            ))}
+          <div className="field" style={{ flex: 1 }}>
+            <label>프롬프트 (system)</label>
+            <textarea className="prompt" value={text} onChange={(e) => setText(e.target.value)} spellCheck={false} />
           </div>
-          <div className="hint">편집 후 드로어를 닫고 해당 버전을 채점하면 지표가 갱신됩니다.</div>
+          <div className="hint">저장하면 v{nextId}로 추가되고 상단에서 선택됩니다. 채점 실행 후 결과가 좋으면 "배포하기".</div>
         </div>
         <div className="drawer-foot">
-          <button className="btn btn-primary" style={{ flex: 1 }} onClick={onClose}>완료</button>
+          <button className="btn btn-secondary" onClick={onClose}>취소</button>
+          <button className="btn btn-primary" style={{ flex: 1 }} onClick={onSave}>v{nextId}로 저장</button>
         </div>
       </aside>
     </>

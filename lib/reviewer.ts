@@ -110,12 +110,13 @@ async function reviewWithClaude(
 /** 초안 텍스트에서 결함 마커를 읽어 "진짜" 결함을 판정 (정답에 가까운 신호). */
 function trueSignals(draft: string): Record<IssueType, boolean> {
   return {
-    missing_5whys: draft.includes("Why 분석 미완결") || !draft.includes("5) 왜"),
-    weak_root_cause: draft.includes("부주의로 판단"),
+    // RCA(5 Whys/Fishbone 공통) 미완결
+    missing_rca: draft.includes("근본원인 분석 미완결"),
+    weak_root_cause: draft.includes("작업자의 부주의로 판단"),
     missing_capa: !draft.includes("예방조치(Preventive)"),
     unsupported_claims:
-      draft.includes("영향은 없는 것으로 확인되었다") && !draft.includes("첨부 Data"),
-    logical_issues: draft.includes("조치는 불필요하며 배치를 그대로 출하"),
+      draft.includes("영향은 없는 것으로 판단된다") && !draft.includes("첨부 Data"),
+    logical_issues: draft.includes("별도 조치 없이 배치를 출하"),
   };
 }
 

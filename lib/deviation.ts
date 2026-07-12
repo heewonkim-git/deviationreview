@@ -13,12 +13,15 @@ export interface DocSection {
 
 function classify(heading: string): IssueType | null {
   const h = heading.trim();
-  if (/5\s*Whys/i.test(h) || /근본원인\s*분석/.test(h)) return "missing_5whys";
-  if (/^근본\s*원인$/.test(h)) return "weak_root_cause";
+  // 근본 원인 결론(도출된 원인의 강도) — RCA 방법 섹션보다 먼저 검사.
+  if (/근본\s*원인\s*결론/.test(h) || /Root Cause Conclusion/i.test(h)) return "weak_root_cause";
+  // RCA 방법 섹션 (5 Whys / Fishbone 공통).
+  if (/근본\s*원인\s*분석/.test(h) || /Root Cause Analysis/i.test(h) || /5\s*Whys/i.test(h) || /Fishbone/i.test(h))
+    return "missing_rca";
   if (/영향\s*평가/.test(h)) return "unsupported_claims";
   if (/CAPA/i.test(h)) return "missing_capa";
-  if (/결론/.test(h)) return "logical_issues";
-  return null; // 사건 개요 등
+  if (/결론|종합\s*판정|승인/.test(h)) return "logical_issues";
+  return null; // 개요·분류·상세·조치·조사 등
 }
 
 export function parseDeviation(draft: string): DocSection[] {

@@ -2,7 +2,7 @@
 
 /** 에이전트가 검토하는 5가지 이슈 유형 (유형 단위 매칭의 기준). */
 export const ISSUE_TYPES = [
-  "missing_5whys",
+  "missing_rca",
   "weak_root_cause",
   "missing_capa",
   "unsupported_claims",
@@ -13,7 +13,8 @@ export type IssueType = (typeof ISSUE_TYPES)[number];
 
 /** 사람이 읽는 이슈 유형 라벨. */
 export const ISSUE_LABELS: Record<IssueType, string> = {
-  missing_5whys: "Missing 5 Whys",
+  // RCA는 5 Whys 또는 Fishbone 중 선택된 방법이 부실/미완인 경우 (방법 무관, RCA 수준의 정확도).
+  missing_rca: "Root Cause Analysis",
   weak_root_cause: "Weak Root Cause",
   missing_capa: "Missing CAPA",
   unsupported_claims: "Unsupported Claims",

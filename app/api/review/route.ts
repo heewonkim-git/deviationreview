@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     difficulty: "medium",
     draft,
     gold_labels: {
-      missing_5whys: false,
+      missing_rca: false,
       weak_root_cause: false,
       missing_capa: false,
       unsupported_claims: false,

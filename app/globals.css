@@ -398,6 +398,11 @@ textarea:focus {
 .spacer {
   flex: 1;
 }
+.verlabel {
+  font-size: var(--ds-text-xs);
+  color: var(--ds-text-muted);
+  font-weight: 500;
+}
 .checkline {
   display: inline-flex;
   align-items: center;
@@ -649,12 +654,13 @@ input[type="checkbox"] {
 
 /* Deployment decision */
 .deploy {
-  border: 1px solid var(--hair);
+  border: 1px dashed var(--ds-border-strong);
   border-radius: var(--ds-radius-md);
-  padding: 12px 14px;
+  padding: 13px 15px;
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 4px;
+  background: transparent;
 }
 .deploy .h {
   font-weight: 600;
