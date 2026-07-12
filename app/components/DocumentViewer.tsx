@@ -40,7 +40,7 @@ export function buildNotes(agent: AgentOutput | null, gold?: GoldLabels): NotesM
   return notes;
 }
 
-export const COMMENT_AUTHOR = "자동화 검토 결과 (DRP AI Agent)";
+export const COMMENT_AUTHOR = "Auto Review (DRP AI Agent)";
 
 export function DocumentViewer({ draft, agent, gold, title }: DocViewerProps) {
   const notes = buildNotes(agent, gold);

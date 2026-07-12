@@ -310,8 +310,7 @@ export default function ReviewerPage() {
                   <div className="hint" style={{ marginTop: 12 }}>지적된 이슈가 없습니다.</div>
                 ) : (
                   <>
-                    <div className="section-title">수정이 필요한 항목</div>
-                    <ol className="fix-list">
+                    <ol className="fix-list" style={{ marginTop: 10 }}>
                       {issues.map((i, idx) => (
                         <li className="fix-item" key={idx}>
                           <span className="fix-num">{idx + 1}</span>
