@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AgentOutput, ISSUE_LABELS } from "@/lib/types";
-import { deviationFormHtml } from "@/lib/form";
+import { parseDeviation } from "@/lib/deviation";
 import { modelLabel } from "@/lib/models";
 import { ConfirmedPrompt, loadConfirmed } from "@/lib/confirmed";
 import { DocumentViewer, buildNotes } from "../components/DocumentViewer";
@@ -120,16 +120,67 @@ export default function ReviewerPage() {
     setErr(null);
   }
 
-  function downloadDoc() {
+  async function downloadDoc() {
     if (!result) return;
-    // 화면과 동일: 상단 리뷰 메모(판정+수정필요 항목) + 서식 본문(지적 섹션 회색 강조)
-    const body = deviationFormHtml(draft, buildNotes(result, undefined));
-    const html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:'Malgun Gothic',sans-serif;font-size:11pt;line-height:1.6}</style></head><body>${body}</body></html>`;
-    const blob = new Blob(["﻿", html], { type: "application/msword" });
+    // 진짜 Word 검토(Review) 코멘트가 달린 .docx 생성 — 지적 섹션 제목에 코멘트 부착.
+    const D = await import("docx");
+    const { Document, Packer, Paragraph, TextRun, CommentRangeStart, CommentRangeEnd, CommentReference, AlignmentType } = D;
+    const notes = buildNotes(result, undefined);
+    const sections = parseDeviation(draft);
+    let cid = 0;
+    const commentChildren: any[] = [];
+    const bodyChildren: any[] = [];
+
+    bodyChildren.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "편차 보고서 (AI 리뷰 · 검토 코멘트)", bold: true, size: 28 })] }));
+    bodyChildren.push(new Paragraph({ children: [new TextRun({ text: `판정: ${verdictLabel}`, bold: true })] }));
+    bodyChildren.push(new Paragraph({ children: [new TextRun({ text: "회색으로 표시된 제목에 검토 코멘트가 달려 있습니다. Word에서 [검토] 탭으로 확인하세요.", italics: true, size: 18, color: "666666" })] }));
+    bodyChildren.push(new Paragraph({ text: "" }));
+
+    for (const sec of sections) {
+      if (!sec.heading) {
+        sec.body.split("\n").map((s) => s.trim()).filter(Boolean).forEach((l) =>
+          bodyChildren.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: l, bold: true })] }))
+        );
+        continue;
+      }
+      const note = sec.issueType ? notes[sec.issueType] : undefined;
+      if (note) {
+        const id = cid++;
+        commentChildren.push({
+          id,
+          author: "AI 리뷰",
+          initials: "AI",
+          date: new Date(),
+          children: [
+            new Paragraph({ children: [new TextRun({ text: note.label, bold: true })] }),
+            new Paragraph({ children: [new TextRun({ text: note.text })] }),
+          ],
+        });
+        bodyChildren.push(
+          new Paragraph({
+            spacing: { before: 200 },
+            children: [
+              new CommentRangeStart(id),
+              new TextRun({ text: sec.heading, bold: true, highlight: "lightGray" }),
+              new CommentRangeEnd(id),
+              new CommentReference(id),
+            ],
+          })
+        );
+      } else {
+        bodyChildren.push(new Paragraph({ spacing: { before: 200 }, children: [new TextRun({ text: sec.heading, bold: true })] }));
+      }
+      sec.body.split("\n").filter((l) => l.trim()).forEach((l) =>
+        bodyChildren.push(new Paragraph({ children: [new TextRun({ text: l })] }))
+      );
+    }
+
+    const doc = new Document({ comments: { children: commentChildren }, sections: [{ children: bodyChildren }] });
+    const blob = await Packer.toBlob(doc);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${(fileName || "deviation_review").replace(/\.[^.]+$/, "")}_review.doc`;
+    a.download = `${(fileName || "deviation_review").replace(/\.[^.]+$/, "")}_review.docx`;
     document.body.appendChild(a);
     a.click();
     a.remove();
