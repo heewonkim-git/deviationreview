@@ -15,7 +15,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const STEPS = [
   "문서 파싱 중…",
-  "5 Whys 근본원인 분석 검토…",
+  "근본원인 분석(5 Whys / Fishbone) 검토…",
   "Root Cause 타당성 검토…",
   "CAPA(시정·예방조치) 확인…",
   "근거 없는 주장 스캔…",
