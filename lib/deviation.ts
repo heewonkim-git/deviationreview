@@ -45,7 +45,8 @@ export function parseDeviation(draft: string): DocSection[] {
     if (braced) return braced[1].trim();
     const numbered = line.match(/^\s*(\d{1,2})[.)]\s+(\S.{1,50})$/);
     if (numbered) return line.trim();
-    if (/^\s*근본\s*원인\s*결론/.test(line)) return line.trim();
+    // '근본 원인 결론' 헤더는 순수 제목일 때만 (본문의 'label: value' 라인은 제외).
+    if (/^\s*근본\s*원인\s*결론/.test(line) && !/:\s*\S/.test(line)) return line.trim();
     return null;
   }
 
