@@ -13,7 +13,7 @@ export const maxDuration = 300;
  * LLM은 확률적이라 1회 채점만으로는 안정성을 알 수 없다 → 반복 실행의 F1 분포(평균·표준편차)를 반환.
  */
 export async function POST(req: NextRequest) {
-  const { system, promptId, sample = 10, repeats = 5 } = (await req.json()) as {
+  const { system, promptId, sample = 10, repeats = 10 } = (await req.json()) as {
     system: string;
     promptId?: string;
     sample?: number;
@@ -30,7 +30,8 @@ export async function POST(req: NextRequest) {
   const perRun: CaseEvaluation[][] = Array.from({ length: repeats }, () => []);
 
   let idx = 0;
-  const concurrency = Math.min(useMock ? 24 : 10, tasks.length);
+  // 병렬 처리로 빠르게 (표본 10 × 반복 10 = 100콜을 여러 워커가 동시에)
+  const concurrency = Math.min(useMock ? 32 : 16, tasks.length);
   async function worker() {
     while (idx < tasks.length) {
       const { r, i } = tasks[idx++];

@@ -160,7 +160,7 @@ export default function OperationPage() {
       const res = await fetch("/api/consistency", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ system: sel.system, promptId: sel.id === 1 ? "v1" : "v2", sample: 10, repeats: 5 }),
+        body: JSON.stringify({ system: sel.system, promptId: sel.id === 1 ? "v1" : "v2", sample: 10, repeats: 10 }),
       });
       const data = await res.json();
       setConsistency({ loading: false, runs: data.runs || [] });
@@ -412,7 +412,7 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed, consistency, onRunCons
                 <div className="consist-top">
                   <span className="section-title" style={{ margin: 0 }}>일관성 (반복 실행)</span>
                   <button className="linkish" onClick={onRunConsistency} disabled={consistency.loading}>
-                    {consistency.loading ? "측정 중…" : "일관성 검사 (표본 10 × 5회)"}
+                    {consistency.loading ? "측정 중…" : "일관성 검사 (표본 10 × 10회)"}
                   </button>
                 </div>
                 {cRuns && cRuns.length ? (
@@ -422,16 +422,36 @@ function ResultsBlock({ metrics, cmp, cmpLabel, deployed, consistency, onRunCons
                       <span className="pm">± {(overallCons!.std * 100).toFixed(1)}%p</span>
                       {overallCons!.std < 0.0005 && <span className="hint"> · 결정적(반복해도 동일)</span>}
                     </div>
+                    <div className="consist-row consist-axis">
+                      <span />
+                      <div className="dist-scale"><span>0</span><span>50</span><span>100</span></div>
+                      <span className="hint" style={{ textAlign: "right" }}>μ ± σ</span>
+                    </div>
                     {ISSUE_TYPES.map((t) => {
-                      const s = meanStd(cRuns.map((r) => r.perType[t]));
+                      const vals = cRuns.map((r) => r.perType[t]);
+                      const s = meanStd(vals);
+                      const bc: Record<number, number> = {};
+                      const sq = vals.map((v) => {
+                        const p = Math.max(0, Math.min(100, v * 100));
+                        const bin = Math.round(p / 5) * 5;
+                        const stack = bc[bin] ?? 0;
+                        bc[bin] = stack + 1;
+                        return { left: bin, stack };
+                      });
+                      const maxStack = Math.max(1, ...Object.values(bc));
                       return (
                         <div className="consist-row" key={t}>
                           <span>{ISSUE_LABELS[t]}</span>
                           <div
-                            className="consist-box"
-                            title={`평균 ${(s.mean * 100).toFixed(1)}% · 표준편차 ${(s.std * 100).toFixed(1)}%p`}
-                            style={{ background: `color-mix(in srgb, var(--ds-brand) ${Math.round(s.mean * 100)}%, var(--ds-surface-2))` }}
-                          />
+                            className="dist"
+                            style={{ height: `${10 + maxStack * 7}px` }}
+                            title={`회차 값: ${vals.map((v) => (v * 100).toFixed(0)).join(", ")}`}
+                          >
+                            <span className="dist-mean" style={{ left: `${s.mean * 100}%` }} />
+                            {sq.map((p, i) => (
+                              <span key={i} className="dist-sq" style={{ left: `${p.left}%`, bottom: `${3 + p.stack * 7}px` }} />
+                            ))}
+                          </div>
                           <span className="consist-num">
                             {(s.mean * 100).toFixed(0)}% <span className="pm">±{(s.std * 100).toFixed(1)}</span>
                           </span>

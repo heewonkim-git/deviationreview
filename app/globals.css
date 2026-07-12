@@ -676,24 +676,23 @@ input[type="checkbox"] {
   opacity: 1;
 }
 .pill {
-  font-size: var(--ds-text-xs);
+  font-size: 10.5px;
   font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.pill::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
+  padding: 3px 0;
+  border-radius: var(--ds-radius-full);
+  text-align: center;
+  border: 1px solid transparent;
+  letter-spacing: 0.03em;
 }
 .pill.pass {
-  color: var(--ds-success);
+  color: var(--ds-text-muted);
+  background: var(--ds-brand-subtle);
+  border-color: color-mix(in srgb, var(--ds-brand) 22%, transparent);
 }
 .pill.fail {
   color: var(--ds-danger);
+  background: var(--ds-danger-bg);
+  border-color: color-mix(in srgb, var(--ds-danger) 24%, transparent);
 }
 .reason {
   color: var(--ds-text-muted);
@@ -850,17 +849,43 @@ input[type="checkbox"] {
 }
 .consist-row {
   display: grid;
-  grid-template-columns: 120px 1fr 92px;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 7px;
+  grid-template-columns: 118px 1fr 92px;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 9px;
   font-size: var(--ds-text-xs);
   color: var(--ds-text-muted);
 }
-.consist-box {
-  height: 20px;
-  border: 1px solid var(--hair);
-  border-radius: var(--ds-radius-sm);
+.consist-axis {
+  margin-bottom: 4px;
+}
+.dist-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--ds-text-subtle);
+}
+/* 반복 실행 값 분포(스트립 플롯): 각 회차 값을 네모로, 같은 5-단위는 위로 스택 */
+.dist {
+  position: relative;
+  border-bottom: 1px solid var(--ds-border-strong);
+  min-height: 22px;
+}
+.dist-sq {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 1px;
+  background: var(--ds-brand);
+  opacity: 0.9;
+}
+.dist-mean {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ds-text-subtle);
 }
 .consist-num {
   text-align: right;
