@@ -208,6 +208,9 @@ export default function OperationPage() {
 
       <div className="lab">
         <div className="lab-main">
+          <div className="summary-cap">
+            평가 지표 · 6대 <span className="hint">— 라벨에 마우스를 올리면 식·의미</span>
+          </div>
           <SummaryHero metrics={metrics} cmp={cmpMetrics} cmpLabel={cmp ? `v${cmp.id}` : ""} />
           <div className="panel">
             <div className="panel-head">
@@ -236,7 +239,7 @@ export default function OperationPage() {
           </div>
         </div>
 
-        <MetricsRail metrics={metrics} cmp={cmpMetrics} deployed={deployedId === selectedId} />
+        <MetricsRail metrics={metrics} deployed={deployedId === selectedId} />
       </div>
 
       {improveOpen && (
@@ -258,18 +261,22 @@ export default function OperationPage() {
 }
 
 const METRIC_TIPS: Record<string, string> = {
-  "F1 Score": "정밀도·재현율의 조화평균 — F1 = 2·P·R / (P+R). 둘의 균형을 나타냄.",
+  Accuracy: "전체 판정 중 맞은 비율 — (TP+TN) / 전체. 유형 단위 정오 전체 정확도.",
   Precision: "지적한 것 중 실제 이슈 비율 — P = TP / (TP+FP). 오탐이 적을수록 높음.",
   Recall: "실제 이슈 중 잡아낸 비율 — R = TP / (TP+FN). 누락이 적을수록 높음.",
+  "F1 Score": "정밀도·재현율의 조화평균 — F1 = 2·P·R / (P+R). 둘의 균형.",
   "Rule Compliance": "출력이 JSON 스키마·형식을 지킨 비율 — 형식 안정성.",
+  "Human Agreement": "사람 정답(Gold)과 유형 단위 판정이 일치한 비율.",
 };
 
 function SummaryHero({ metrics, cmp, cmpLabel }: { metrics: Metrics | null; cmp: Metrics | null; cmpLabel: string }) {
   const items: { k: string; key: keyof Metrics }[] = [
-    { k: "F1 Score", key: "f1" },
+    { k: "Accuracy", key: "accuracy" },
     { k: "Precision", key: "precision" },
     { k: "Recall", key: "recall" },
+    { k: "F1 Score", key: "f1" },
     { k: "Rule Compliance", key: "ruleCompliance" },
+    { k: "Human Agreement", key: "humanAgreement" },
   ];
   return (
     <div className="summary">
@@ -297,35 +304,13 @@ function SummaryHero({ metrics, cmp, cmpLabel }: { metrics: Metrics | null; cmp:
   );
 }
 
-function MetricsRail({ metrics, cmp, deployed }: { metrics: Metrics | null; cmp: Metrics | null; deployed: boolean }) {
+function MetricsRail({ metrics, deployed }: { metrics: Metrics | null; deployed: boolean }) {
   const ok = metrics && metrics.f1 >= 0.85 && metrics.ruleCompliance >= 0.999;
   return (
     <div className="panel">
-      <div className="panel-head">Metrics Dashboard <span className="sub">6대 지표 · 혼동행렬</span></div>
+      <div className="panel-head">진단 (Diagnostics) <span className="sub">혼동행렬 · 유형별 F1</span></div>
       <div className="panel-body">
-        {([
-          ["accuracy", "Accuracy"],
-          ["precision", "Precision"],
-          ["recall", "Recall"],
-          ["humanAgreement", "Human Agreement"],
-        ] as [keyof Metrics, string][]).map(([key, label]) => {
-          const v = metrics ? (metrics[key] as number) : undefined;
-          const ov = cmp ? (cmp[key] as number) : undefined;
-          const d = v !== undefined && ov !== undefined ? v - ov : undefined;
-          return (
-            <div className="metric-line" key={key}>
-              <span className="l">{label}</span>
-              <span className="v">
-                {pct(v)}
-                {d !== undefined && Math.abs(d) > 0.0001 && (
-                  <span className={`delta ${d > 0 ? "up" : "down"}`}>{d > 0 ? "+" : "−"}{Math.abs(d * 100).toFixed(1)}</span>
-                )}
-              </span>
-            </div>
-          );
-        })}
-
-        <div className="section-title">혼동행렬 (유형 단위 · Micro)</div>
+        <div className="section-title" style={{ marginTop: 0 }}>혼동행렬 (유형 단위 · Micro)</div>
         <div className="confusion">
           <div className="cell tp"><span className="k">TP 정탐</span><span className="v">{metrics?.confusion.tp ?? "—"}</span></div>
           <div className="cell fp"><span className="k">FP 오탐</span><span className="v">{metrics?.confusion.fp ?? "—"}</span></div>

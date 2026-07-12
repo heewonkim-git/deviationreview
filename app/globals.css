@@ -165,6 +165,23 @@ body *:not(pre):not(code) {
   opacity: 1;
   transform: translateY(0);
 }
+/* 오른쪽 끝 지표 툴팁은 오른쪽 정렬(화면 밖 방지). */
+.stat:last-child .tip::after,
+.stat:nth-child(3n) .tip::after {
+  left: auto;
+  right: 0;
+}
+
+.summary-cap {
+  font-size: var(--ds-text-sm);
+  font-weight: 600;
+  color: var(--ds-text-muted);
+  margin-bottom: 2px;
+}
+.summary-cap .hint {
+  font-weight: 400;
+  display: inline;
+}
 
 /* ============================ Nav ============================ */
 .nav {
@@ -491,18 +508,23 @@ input[type="checkbox"] {
 /* ============================ Summary (punchy but calm) ============================ */
 .summary {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   border: 1px solid var(--hair);
   border-radius: var(--ds-radius-lg);
   background: var(--ds-surface);
 }
-@media (max-width: 720px) {
+@media (max-width: 1100px) {
+  .summary {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 640px) {
   .summary {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 .stat {
-  padding: 18px 20px;
+  padding: 15px 17px;
   border-right: 1px solid var(--hair);
 }
 .stat:last-child {
@@ -514,7 +536,7 @@ input[type="checkbox"] {
   font-weight: 500;
 }
 .stat .v {
-  font-size: 2.1rem;
+  font-size: 1.7rem;
   font-weight: 600;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
