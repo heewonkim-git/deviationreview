@@ -1,5 +1,5 @@
 import { parseDeviation } from "./deviation";
-import { IssueType, ISSUE_TYPES } from "./types";
+import { IssueType } from "./types";
 
 /**
  * 편차 초안(텍스트)을 "실제 서식"(표·체크박스)처럼 렌더한다.
@@ -47,31 +47,14 @@ function fieldRows(body: string): string {
   return `<table style="width:100%;border-collapse:collapse;margin:0 0 4px">${rows}</table>`;
 }
 
-/** 문서 맨 위 리뷰 메모 콜아웃. */
-function reviewMemo(notes: FormNotes, verdict?: string): string {
-  const entries = ISSUE_TYPES.map((t) => notes[t]).filter(Boolean) as { label: string; text: string }[];
-  if (!entries.length && !verdict) return "";
-  const items = entries.length
-    ? entries
-        .map(
-          (n, i) =>
-            `<div style="margin:5px 0"><b style="color:${C.text}">${i + 1}. ${esc(n.label)}</b><br/><span style="color:${C.sub}">${esc(
-              n.text
-            )}</span></div>`
-        )
-        .join("")
-    : `<div style="color:${C.sub}">지적된 이슈 없음</div>`;
-  const verdictLine = verdict
-    ? `<div style="margin-bottom:8px;color:${C.text}"><b>판정:</b> ${esc(verdict)}</div>`
-    : "";
-  return `<div style="border:1px solid ${C.accent};border-left:4px solid ${C.memoBar};background:${C.memoBg};border-radius:6px;padding:12px 15px;margin-bottom:20px">
-    <div style="font-weight:bold;font-size:10.5pt;color:${C.text};margin-bottom:8px">📝 AI 리뷰 메모 — 수정이 필요한 항목</div>
-    ${verdictLine}${items}
-  </div>`;
+/** 지적 섹션 바로 아래 붙는 "리뷰 메모" — 서식 표와 확실히 구분되는 코멘트 스타일. */
+function memoCallout(label: string, text: string): string {
+  return `<div style="margin:3px 0 14px 12px;border-left:4px solid ${C.memoBar};background:${C.memoBg};padding:8px 13px;font-size:9.5pt;border-radius:0 5px 5px 0">💬 <b style="color:${C.text}">리뷰 메모 — ${esc(
+    label
+  )}</b><br/><span style="color:${C.sub}">${esc(text)}</span></div>`;
 }
 
-export function deviationFormHtml(draft: string, notes: FormNotes = {}, verdict?: string): string {
-  const memo = reviewMemo(notes, verdict);
+export function deviationFormHtml(draft: string, notes: FormNotes = {}): string {
   const sections = parseDeviation(draft).map((sec) => {
     if (!sec.heading) {
       const lines = sec.body.split("\n").map((l) => l.trim()).filter(Boolean);
@@ -86,13 +69,16 @@ export function deviationFormHtml(draft: string, notes: FormNotes = {}, verdict?
     const flagged = sec.issueType ? notes[sec.issueType] : undefined;
     const header = `<div style="background:${C.headBg};border:1px solid ${C.line};border-bottom:none;padding:6px 10px;font-weight:bold;font-size:10.5pt;color:${C.text}">${esc(
       sec.heading
-    )}${flagged ? `<span style="float:right;font-weight:normal;font-size:9pt;color:${C.memoBar}">● 리뷰 메모 참조</span>` : ""}</div>`;
+    )}</div>`;
     const block = header + fieldRows(sec.body);
-    // 지적된 섹션: 회색 왼쪽 바로 위치만 강조 (설명은 상단 메모에)
     if (flagged) {
-      return `<div style="border-left:4px solid ${C.memoBar};padding-left:9px;margin:14px 0 2px">${block}</div>`;
+      // 지적 섹션: 회색 왼쪽 바 강조 + 섹션 바로 아래에 리뷰 메모(표와 구분되는 코멘트)
+      return `<div style="border-left:4px solid ${C.memoBar};padding-left:9px;margin:14px 0 0">${block}</div>${memoCallout(
+        flagged.label,
+        flagged.text
+      )}`;
     }
     return `<div style="margin:14px 0 2px">${block}</div>`;
   });
-  return memo + sections.join("");
+  return sections.join("");
 }

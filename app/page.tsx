@@ -15,6 +15,7 @@ import { aggregateMetrics } from "@/lib/evaluate";
 import { saveConfirmed, loadConfirmed } from "@/lib/confirmed";
 import { DocumentViewer } from "./components/DocumentViewer";
 import { Icon } from "./components/Icon";
+import { Tip } from "./components/Tip";
 
 interface CaseRow {
   id: string;
@@ -316,19 +317,6 @@ const METRIC_INFO: Record<string, { desc: string; formula?: string }> = {
   "Rule Compliance": { desc: "출력이 JSON 스키마·형식을 지킨 비율\n형식 안정성", formula: "규칙 준수 출력 / 전체 출력" },
   "Human Agreement": { desc: "사람 정답(Gold)과 유형 단위 판정이\n일치한 비율", formula: "일치 판정 / 전체 판정" },
 };
-
-/** 조용히 뜨는 설명 툴팁 (설명 여러 줄 + 수식은 민트). */
-function Tip({ label, desc, formula }: { label: string; desc: string; formula?: string }) {
-  return (
-    <span className="tt">
-      {label}
-      <span className="tt-box" role="tooltip">
-        <span className="tt-desc">{desc}</span>
-        {formula && <span className="tt-formula">{formula}</span>}
-      </span>
-    </span>
-  );
-}
 
 function ResultsBlock({ metrics, cmp, cmpLabel, deployed, consistency, onRunConsistency }: {
   metrics: Metrics | null;

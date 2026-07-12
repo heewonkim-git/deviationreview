@@ -7,6 +7,7 @@ import { modelLabel } from "@/lib/models";
 import { ConfirmedPrompt, loadConfirmed } from "@/lib/confirmed";
 import { DocumentViewer, buildNotes } from "../components/DocumentViewer";
 import { Icon } from "../components/Icon";
+import { Tip } from "../components/Tip";
 
 const SEV_LABEL: Record<string, string> = { low: "낮음", medium: "중간", high: "높음" };
 const MINT = "var(--ds-brand)";
@@ -122,7 +123,7 @@ export default function ReviewerPage() {
   function downloadDoc() {
     if (!result) return;
     // 화면과 동일: 상단 리뷰 메모(판정+수정필요 항목) + 서식 본문(지적 섹션 회색 강조)
-    const body = deviationFormHtml(draft, buildNotes(result, undefined), verdictLabel);
+    const body = deviationFormHtml(draft, buildNotes(result, undefined));
     const html = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:'Malgun Gothic',sans-serif;font-size:11pt;line-height:1.6}</style></head><body>${body}</body></html>`;
     const blob = new Blob(["﻿", html], { type: "application/msword" });
     const url = URL.createObjectURL(blob);
@@ -235,7 +236,11 @@ export default function ReviewerPage() {
           ) : (
             <div className="panel">
               <div className="panel-head">
-                종합 결과 <span className="sub">{isMock ? "Mock" : "Claude"}</span>
+                <Tip
+                  label="종합 결과"
+                  desc={"판정은 세 가지로 나뉩니다.\n① 이상 없음 (Pass) — 지적된 이슈 없음, 그대로 진행\n② 수정 필요 (Needs revision) — 경미한 이슈, 보완 후 진행\n③ 중대 결함 (Fail) — 중대한 이슈, 재작성 필요"}
+                />
+                <span className="sub">{result.issues.length}건 지적</span>
               </div>
               <div className="panel-body">
                 <span className="result-verdict" style={{ color: verdictColor, borderColor: verdictColor }}>

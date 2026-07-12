@@ -48,7 +48,7 @@ export function verdictLabel(agent: AgentOutput | null): string | undefined {
 
 export function DocumentViewer({ draft, agent, gold, title }: DocViewerProps) {
   const notes = buildNotes(agent, gold);
-  const html = deviationFormHtml(draft, notes, verdictLabel(agent));
+  const html = deviationFormHtml(draft, notes);
   return (
     <div className="doc-page">
       {title && <div className="doc-title">{title}</div>}
